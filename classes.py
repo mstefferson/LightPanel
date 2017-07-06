@@ -13,8 +13,17 @@ class Pixel():
         self.b = int(  g %  max_val  )
         self.g = int(  b %  max_val  )
         self.array = [self.r,self.b,self.g]
+
+    # just giving Pixel prints value
+#     def __repr__(self):
+        # return str(self.array)
+
+    # allows for print( Pixel ) to just 
+    def __str__(self):
+        l = ['r','g','b']
+        return str( [ i for i in zip(l, self.array) ] )
         
-    def get_colors(self):
+    def print_colors(self):
         print( self.array )
 
 class Panel():
@@ -79,7 +88,8 @@ class Panel():
         self.pdisplay_stream = pixel_stream
 
     def set_map_stream( self ):
-        pixel_map_stream = [ self.pmap[r][c] if r % 2 == 0 else self.pmap[r][self.n -1 - c] for r in range(self.m) for c in range(self.n) ]
+        # pixel_map_stream = [ self.pmap[r][c] if r % 2 == 0 else self.pmap[r][self.n -1 - c] for r in range(self.m) for c in range(self.n) ]
+        pixel_map_stream = [ self.pmap[r][c] for r in range(self.m) for c in range(self.n) if self.pmap[r][c] != -1 ]
         # set field
         self.pmap_stream = pixel_map_stream
 
@@ -92,26 +102,51 @@ class Panel():
         self.pdisplay_stream = pixel_stream
 
     # get shapes and maps
-    def grab_pixel(self, some_object ):
-        return( (pixel.array for pixel in some_object ) )
+    def print_stream( self, gen, len_obj ):
+        # loop through and print
+        for ix,x in enumerate(gen):
+            if ix < len_obj-1: 
+                print(x,end=', ')
+            else:
+                print(x,end='\n')
+    def print_panel( self, gen_gen ):
+        # interate through generator of generators
+        for ir,gen in enumerate(gen_gen):
+            for ic,x in enumerate(gen):
+                if ic < self.n-1:
+                    print( x, end=', ' )
+                else:
+                    print( x, end='  \n' )
 
-    def get_shape( self ):
-        print( self.pshape )
+    def print_shape( self ):
+        # grab generator of generators
+        shape_gen_gen = ( (val for val in i) for i in self.pshape )
+        # print it
+        self.print_panel( shape_gen_gen );
 
-    def get_map( self ):
-        print( self.pmap )
+    def print_map( self ):
+        # grab generator of generators
+        map_gen_gen = ( (map_val for map_val in i) for i in self.pmap )
+        # print it
+        self.print_panel( map_gen_gen );
 
-    def get_display( self ):
-        # print( [pix.r for pix in self.pdisplay ])
-        temp = self.grab_pixel( self.pdisplay ) 
-        print( ii for ii in temp )
+    def print_display( self ):
+        # grab generator of generators
+        pix_gen_gen = ( (pixel.array for pixel in i) for i in self.pdisplay )
+        # print it
+        self.print_panel( pix_gen_gen );
 
-    def get_map_stream( self ):
-        print( [pix.array for pix in self.pmap_stream] )
+    def print_display_stream( self ):
+        # create generator
+        pix_gen = ( jj.array for jj in self.pdisplay_stream );
+        # print it
+        self.print_stream( pix_gen, len(self.pdisplay_stream) )
 
-    def get_display_stream( self ):
-        print( [pix.array for pix in self.pdisplay_stream] )
-
+    def print_map_stream( self ):
+        # create generator
+        map_gen = ( jj for jj in self.pmap_stream );
+        # print it
+        self.print_stream( map_gen, len(self.pmap_stream) )
 
     # constuctor
     def __init__(self, m, n, num_pixels, panel_shape):
@@ -125,5 +160,6 @@ class Panel():
         # wipe all pixels to start. sets self.pmap
         self.wipe_display()
         self.set_map_stream()
+        self.set_display_stream()
         
 
