@@ -20,17 +20,25 @@ class PanelVisualizer():
                 self.canvasPixels[i*self.numColumns + j].move((i+.5)*self.pixelDistance, (j+.5)*self.pixelDistance)
                 self.canvasPixels[i*self.numColumns + j].draw(self.win)
 
-
+    #This function sets the given pixel in the canvas to the set pixel value
+    #index from 0!
     def set_pixel(self, row, col, pixel):
-        pixel.print_colors()
-        self.canvasPixels[row * self.numColumns + col * self.numRows].setFill('red')
+        self.canvasPixels[row * self.numColumns + col * self.numRows].setFill(color_rgb(pixel.r, pixel.g, pixel.b))
+    #this keeps the panel open, which is kind of silly
     def wait_for_exit(self):
         self.win.getMouse() # Pause to view result
         self.win.close()    # Close window when done
+
+    #this is handed a Panel() object that we display
+    #for now we assume the panel is the same size as we were initialized to
+    # def display_visualizer_panel( panel_to_display)
+
+
+
 def main():
     panel = PanelVisualizer(5, 6)
     pix = Pixel(10, 40, 50)
-    panel.set_pixel(1,2, pix)
+    panel.set_pixel(0,2, pix)
     panel.wait_for_exit()
 
 main()
