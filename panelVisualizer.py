@@ -22,8 +22,8 @@ class PanelVisualizer():
 
     #This function sets the given pixel in the canvas to the set pixel value
     #index from 0!
-    def set_pixel(self, row, col, pixel):
-        pixel.print_colors()
+    def set_pixel(self, col, row, pixel):
+        print(col, " ", row)
         self.canvasPixels[row * self.numColumns + col ].setFill(color_rgb(pixel.r, pixel.g, pixel.b))
     #this keeps the panel open, which is kind of silly
     def wait_for_exit(self):
@@ -33,22 +33,23 @@ class PanelVisualizer():
     #this is handed a list of lists of pixels [r][c]
     #for now we assume the panel is the same size as we were initialized to
     def display_visualizer_panel(self, pixel_arr ):
-        #iterate over all columns
-        for i in range(len( pixel_arr[0] )):
-            #move through the column
-            for j in range( len( pixel_arr[i])) :
+        #iterate over all rows
+        for i in range(self.numRows ):
+            #move through the row
+            for j in range( self.numColumns ) :
                 self.set_pixel( j, i, pixel_arr[j][i] )
 
 def simple_pixels(panel):
-    pixel_arr = [ [0 for i in range(6) ] for j in range(6) ]
-    for i in range( 6 ):
+    pixel_arr = [ [0 for i in range( panel.numRows ) ] for j in range(panel.numColumns) ]
+    #move through each row
+    for i in range( panel.numRows):
         #move through the column
-        for j in range( 6):
-            pixel_arr[i][j] = Pixel(20*i ,40*j , 250 - 6*i*j)
+        for j in range( panel.numColumns ):
+            pixel_arr[j][i] = Pixel(20*i ,40*j , 250 - 6*i*j)
     panel.display_visualizer_panel(pixel_arr)
 
 def main():
-    panel = PanelVisualizer(6,6)
+    panel = PanelVisualizer(5,6)
     pix = Pixel(10, 40, 50)
     panel.set_pixel(0,2, pix)
     simple_pixels(panel)
