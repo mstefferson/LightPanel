@@ -1,7 +1,7 @@
 # import things you need
 import numpy as np
 
-# Pixel object. Contains pixel colors 
+# Pixel object. Contains pixel colors
 class Pixel():
 
     # constuctor sets r,g,b colors
@@ -10,32 +10,32 @@ class Pixel():
         max_val = 255
         # set values
         self.r = int(  r %  max_val  )
-        self.b = int(  g %  max_val  )
-        self.g = int(  b %  max_val  )
+        self.g = int(  g %  max_val  )
+        self.b = int(  b %  max_val  )
         self.array = [self.r,self.b,self.g]
 
     # just giving Pixel prints value
 #     def __repr__(self):
         # return str(self.array)
 
-    # allows for print( Pixel ) to just 
+    # allows for print( Pixel ) to just
     def __str__(self):
         l = ['r','g','b']
         return str( [ i for i in zip(l, self.array) ] )
-        
+
     def print_colors(self):
         print( self.array )
 
 class Panel():
     # contructor: Panel( int m, int n, int num_pixels, list panel_shape )
-    # 
+    #
     # fields:
     #   m: number of rows in panel
     #   n: number of columns in panel
     #   pshape: m x n list that gives the shape. 0 is no phys pixel. 1 is a phy pixel
     #   pmap: m x n list that maps the shapes onto a pixel value. -1 is a null pixel
-    #   pdisplay: m x n list of pixel objects to be displayed 
-    #   pdisplay_stream 
+    #   pdisplay: m x n list of pixel objects to be displayed
+    #   pdisplay_stream
     #   pmap_stream:
     #
     # methods:
@@ -50,7 +50,7 @@ class Panel():
     #   get_shape()
     #   get_map_stream():
     #   get_display_stream():
-     
+
  # make map from panel shape
     def make_map_from_shape( self ):
         # loop over indices
@@ -98,14 +98,14 @@ class Panel():
         temp_stream = [ self.pdisplay[r][c] for r in range(self.m) for c in range(self.n) ]
         # only put it in stream if it belongs (pmap != 1)
         pixel_stream = [ pix for i,pix in enumerate(temp_stream) if self.pmap_stream[i] != -1 ]
-        # set field 
+        # set field
         self.pdisplay_stream = pixel_stream
 
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
         # loop through and print
         for ix,x in enumerate(gen):
-            if ix < len_obj-1: 
+            if ix < len_obj-1:
                 print(x,end=', ')
             else:
                 print(x,end='\n')
@@ -161,5 +161,3 @@ class Panel():
         self.wipe_display()
         self.set_map_stream()
         self.set_display_stream()
-        
-
