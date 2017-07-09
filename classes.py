@@ -1,5 +1,13 @@
 # import things you need
-import numpy as np
+from __future__ import print_function
+
+# neopixel's Color
+def Color(red, green, blue, white = 0):
+	"""Convert the provided red, green, blue color to a 24-bit color value.
+	Each color component should be a value 0-255 where 0 is the lowest intensity
+	and 255 is the highest intensity.
+	"""
+	return (white << 24) | (red << 16)| (green << 8) | blue
 
 # Pixel object. Contains pixel colors 
 class Pixel():
@@ -7,18 +15,13 @@ class Pixel():
     # constuctor sets r,g,b colors
     def __init__(self, r, g, b):
         # use mod to make sure pixel val = [0,255]
-        max_val = 255
+        max_val = 256
         # set values
         self.r = int(  r %  max_val  )
         self.b = int(  b %  max_val  )
         self.g = int(  g %  max_val  )
         self.array = [self.r,self.b,self.g]
 
-    # allows for print( Pixel ) to just 
-    # def __str__(self):
-        # l = ['r','g','b']
-        # return str( [ i for i in zip(l, self.array) ] )
-        
     def print_colors(self):
         print( self.array )
 
@@ -51,7 +54,7 @@ class Panel():
     def make_map_from_shape( self ):
         # loop over indices
         counter = 0;
-        panel_map = [ [-1 for c in range(self.m) ] for r in range(self.n)]
+        panel_map = [ [-1 for c in range(self.n) ] for r in range(self.m)]
         for ii in range(self.m):
             for jj in range(self.n):
                 # if row even, count upwards
@@ -118,11 +121,17 @@ class Panel():
         # update display
         self.set_display( new_display )
 
+    def wipe_led_panel( self, strip ):
+	# wipe it
+	for i in range(self.num_pixels):
+	    strip.setPixelColor( i, Color(0,0,0) )
+        strip.show()
+
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
-        for ii in range( self.num_pixels ):
+        for i,pix in enumerate(self.pdisplay_stream):
             # check if you can just use pixel.array works!
-            strip.setPixelColor( self.pmap_stream[i], self.pdisplay_stream[i].r, self.pdisplay_stream[i].b, self.pdisplay_stream[i].r )
+            strip.setPixelColor( self.pmap_stream[i], Color( pix.r, pix.g, pix.b) )
         strip.show()
 
     # get shapes and maps
@@ -178,6 +187,7 @@ class Panel():
         self.m = m
         self.n = n
         self.num_pixels = num_pixels
+        print('rows ', self.m, 'cols ', self.n, 'num_pixs ', self.num_pixels )
         self.pshape = panel_shape
         # make the map. sets self.pmap
         self.make_map_from_shape()
