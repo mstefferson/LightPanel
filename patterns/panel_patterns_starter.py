@@ -7,10 +7,10 @@ import time
 class TestPanels():
 
     def __init__(self , panel_):
-        self.increment = 10
+        self.increment = 6
         self.lastr = 0
         self.lastg = 125
-        self.lastb = 256
+        self.lastb = 252
         self.multr = 1
         self.multb = .5
         self.multg = .75
@@ -26,29 +26,31 @@ class TestPanels():
             for i in range ( offset, len(self.pixel_arr) -offset ):
                 self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
 
+MAX_VAL = 236
+MIN_VAL = 20
     def simple_rectangles(self):
         print(self.lastr, end = "\n")
         self.lastr +=  self.increment*self.multr
         self.lastg += self.increment*self.multg
         self.lastb += self.increment*self.multb
 
-        if self.lastr > 256 :
-            self.lastr = 256
+        if self.lastr > MAX_VAL :
+            self.lastr = MAX_VAL
             self.multr *= -1
-        if self.lastr < 0:
-            self.lastr = 0
+        if self.lastr < MIN_VAL:
+            self.lastr = MIN_VAL
             self.multr *= -1
-        if self.lastb > 256 :
-            self.lastb = 256
+        if self.lastb > MAX_VAL :
+            self.lastb = MAX_VAL
             self.multb *= -1
-        if self.lastb < 0:
-            self.lastb = 0
+        if self.lastb < MIN_VAL:
+            self.lastb = MIN_VAL
             self.multb *= -1
-        if self.lastg > 256 :
-            self.lastg = 256
+        if self.lastg > MAX_VAL :
+            self.lastg = MAX_VAL
             self.multg *= -1
-        if self.lastg < 0:
-            self.lastg = 0
+        if self.lastg < MIN_VAL:
+            self.lastg = MIN_VAL
             self.multg *= -1
 
 
