@@ -17,6 +17,9 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
 
+# panel configuration
+NUM_ROWS = 5
+NUM_COLUMNS = 6
 
 def get_visualizer_panel(name, test_panel):
     if name == 'test':
@@ -40,13 +43,26 @@ if __name__ == '__main__':
     else:
         strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
     print('run_typ is: ', run_type)
-    m = 5
-    n = 6
+    m = NUM_ROWS
+    n = NUM_COLUMNS
     pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
     my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
     test_panel = TestPanels( my_panel )
+
+    print("Here is the shape:")
+    my_panel.print_shape()
+    print("Here is the map:")
+    my_panel.print_map()
+    print("Here is the pixel display:")
+    my_panel.print_display()
+    print("Here is the pixel map stream:")
+    my_panel.print_map_stream()
+    print("Here is the pixel display stream:")
+    my_panel.print_display_stream()
+    print("Updating leds:")
+    my_panel.update_led_panel(strip)
 
     if run_type == "vis":
         while True:
@@ -58,7 +74,13 @@ if __name__ == '__main__':
     else :
         while True:
             pixel_arr =  get_visualizer_panel(script, test_panel)
+            print("A")
             my_panel.update_panel(pixel_arr)
+            print("Here is the pixel map stream:")
+            my_panel.print_map_stream()
+            print("Here is the pixel display stream:")
+            my_panel.print_display_stream()
+            print("b")
             my_panel.update_led_panel(strip)
             # print("Here is the pixel display:")
             # my_panel.print_display()
