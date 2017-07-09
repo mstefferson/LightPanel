@@ -9,7 +9,7 @@ def Color(red, green, blue, white = 0):
 	"""
 	return (white << 24) | (red << 16)| (green << 8) | blue
 
-# Pixel object. Contains pixel colors 
+# Pixel object. Contains pixel colors
 class Pixel():
 
     # constuctor sets r,g,b colors
@@ -27,14 +27,14 @@ class Pixel():
 
 class Panel():
     # contructor: Panel( int m, int n, int num_pixels, list panel_shape )
-    # 
+    #
     # fields:
     #   m: number of rows in panel
     #   n: number of columns in panel
     #   pshape: m x n list that gives the shape. 0 is no phys pixel. 1 is a phy pixel
     #   pmap: m x n list that maps the shapes onto a pixel value. -1 is a null pixel
-    #   pdisplay: m x n list of pixel objects to be displayed 
-    #   pdisplay_stream 
+    #   pdisplay: m x n list of pixel objects to be displayed
+    #   pdisplay_stream
     #   pmap_stream:
     #
     # methods:
@@ -49,7 +49,7 @@ class Panel():
     #   get_shape()
     #   get_map_stream():
     #   get_display_stream():
-     
+
  # make map from panel shape
     def make_map_from_shape( self ):
         # loop over indices
@@ -97,7 +97,7 @@ class Panel():
         temp_stream = [ self.pdisplay[r][c] for r in range(self.m) for c in range(self.n) ]
         # only put it in stream if it belongs (pmap != 1)
         pixel_stream = [ pix for i,pix in enumerate(temp_stream) if self.pmap_stream[i] != -1 ]
-        # set field 
+        # set field
         self.pdisplay_stream = pixel_stream
 
     def set_new_stream( self, new_display ):
@@ -106,7 +106,7 @@ class Panel():
             # get diff
             diff_update  = [ [1 if new_display[r][c].array != self.pdisplay[r][c].array and self.pmap[r][c] != -1 else 0 for c in range(self.n)] for r in range(self.m) ]
 
-           # try to only keep the difference 
+           # try to only keep the difference
             temp_stream = [ new_display[r][c] for r in range(self.m) for c in range(self.n) if diff_update[r][c] == 1 ]
             temp_map = [ self.pmap[r][c] for r in range(self.m)  for c in range(self.n)  if diff_update[r][c] == 1 ]
             # update stream
@@ -123,9 +123,9 @@ class Panel():
 
     def wipe_led_panel( self, strip ):
 	# wipe it
-	for i in range(self.num_pixels):
-	    strip.setPixelColor( i, Color(0,0,0) )
-        strip.show()
+        for i in range(self.num_pixels):
+            strip.setPixelColor( i, Color(0,0,0) )
+            strip.show()
 
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
@@ -138,7 +138,7 @@ class Panel():
     def print_stream( self, gen, len_obj ):
         # loop through and print
         for ix,x in enumerate(gen):
-            if ix < len_obj-1: 
+            if ix < len_obj-1:
                 print(x,end=', ')
             else:
                 print(x,end='\n')
@@ -195,5 +195,3 @@ class Panel():
         self.wipe_display()
         self.set_map_stream()
         self.set_display_stream()
-        
-
