@@ -42,6 +42,7 @@ if __name__ == '__main__':
         run_type = "vis"
     else:
         strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+        strip.begin()
     print('run_typ is: ', run_type)
     m = NUM_ROWS
     n = NUM_COLUMNS
@@ -61,8 +62,6 @@ if __name__ == '__main__':
     my_panel.print_map_stream()
     print("Here is the pixel display stream:")
     my_panel.print_display_stream()
-    print("Updating leds:")
-    my_panel.update_led_panel(strip)
 
     if run_type == "vis":
         while True:
