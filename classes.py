@@ -135,7 +135,7 @@ class Panel():
         for i,pix in enumerate(self.pdisplay_stream):
             # check if you can just use pixel.array works!
             strip.setPixelColor( self.pmap_stream[i], Color( pix.r, pix.g, pix.b) )
-        strip.show
+        strip.show()
 
     #this function is the same as update_led_panel but it sets the visualizer piels
     def update_vis_panel(self, pixel_arr):
