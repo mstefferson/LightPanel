@@ -40,17 +40,27 @@ if __name__ == "__main__":
 	print("Updating leds:")
 	my_panel.update_led_panel(my_strip)
 	print ('Press Ctrl-C to quit.')
+
 	while True:
+        # set a new panel
+        new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+        my_panel.update_panel( new_panel )
+        print("Here is the new display:")
+        my_panel.print_display()
+        print("Here is the new map stream:")
+        my_panel.print_map_stream()
+        print("Here is the new display stream:")
+        my_panel.print_display_stream()
 
+		time.sleep( 1000 )
 
-    # set a new panel
-    new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
-    my_panel.update_panel( new_panel )
-    print("Here is the new display:")
-    my_panel.print_display()
-    print("Here is the new map stream:")
-    my_panel.print_map_stream()
-    print("Here is the new display stream:")
-    my_panel.print_display_stream()
+        new_panel = [ [ Pixel(0,255,0)  if j % 2 != 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+        my_panel.update_panel( new_panel )
+        print("Here is the new display:")
+        my_panel.print_display()
+        print("Here is the new map stream:")
+        my_panel.print_map_stream()
+        print("Here is the new display stream:")
+        my_panel.print_display_stream()
 
 

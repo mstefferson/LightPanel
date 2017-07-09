@@ -123,6 +123,7 @@ class Panel():
         for ii in range( self.num_pixels ):
             # check if you can just use pixel.array works!
             strip.setPixelColor( self.pmap_stream[i], self.pdisplay_stream[i].r, self.pdisplay_stream[i].b, self.pdisplay_stream[i].r )
+        strip.show()
 
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
