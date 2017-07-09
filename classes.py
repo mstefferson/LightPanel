@@ -179,6 +179,7 @@ class Panel():
         self.m = m
         self.n = n
         self.num_pixels = num_pixels
+        print('rows ', self.m, 'cols ', self.n, 'num_pixs ', self.num_pixels )
         self.pshape = panel_shape
         # make the map. sets self.pmap
         self.make_map_from_shape()

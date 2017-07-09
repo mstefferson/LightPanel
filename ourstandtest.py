@@ -26,6 +26,7 @@ if __name__ == "__main__":
     strip.begin()
     # initializing
     my_panel_shapes = [ [1 for c in range(NUM_COLUMNS)] for r in range(NUM_ROWS) ]
+    print( 'rows', NUM_ROWS, 'col', NUM_COLUMNS, 'leds', LED_COUNT )
     my_panel = Panel(NUM_ROWS, NUM_COLUMNS, LED_COUNT, my_panel_shapes)
     print("Here is the shape:")
     my_panel.print_shape()
