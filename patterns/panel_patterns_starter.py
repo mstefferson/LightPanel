@@ -4,6 +4,9 @@ from classes import *
 from pixel import *
 import time
 
+MAX_VAL = 236
+MIN_VAL = 20
+
 class TestPanels():
 
     def __init__(self , panel_):
@@ -26,8 +29,6 @@ class TestPanels():
             for i in range ( offset, len(self.pixel_arr) -offset ):
                 self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
 
-MAX_VAL = 236
-MIN_VAL = 20
     def simple_rectangles(self):
         print(self.lastr, end = "\n")
         self.lastr +=  self.increment*self.multr
