@@ -1,4 +1,5 @@
 # import things you need
+from __future__ import print_function
 import numpy as np
 
 # Pixel object. Contains pixel colors 
