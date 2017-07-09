@@ -35,19 +35,19 @@ class TestPanels():
         if self.lastr > 256 :
             self.lastr = 256
             self.multr *= -1
-        if self.lastr < 0
+        if self.lastr < 0:
             self.lastr = 0
             self.multr *= -1
         if self.lastb > 256 :
             self.lastb = 256
             self.multr *= -1
-        if self.lastb < 0
+        if self.lastb < 0:
             self.lastb = 0
             self.multr *= -1
         if self.lastg > 256 :
             self.lastg = 256
             self.multr *= -1
-        if self.lastg < 0
+        if self.lastg < 0:
             self.lastg = 0
             self.multr *= -1
 
