@@ -31,9 +31,27 @@ class TestPanels():
         self.lastr +=  self.increment*self.multr
         self.lastg += self.increment*self.multg
         self.lastb += self.increment*self.multb
-        self.lastr %= 256
-        self.lastb %= 256
-        self.lastg %= 256
+
+        if self.lastr > 256 :
+            self.lastr = 256
+            self.multr *= -1
+        if self.lastr < 0
+            self.lastr = 0
+            self.multr *= -1
+        if self.lastb > 256 :
+            self.lastb = 256
+            self.multr *= -1
+        if self.lastb < 0
+            self.lastb = 0
+            self.multr *= -1
+        if self.lastg > 256 :
+            self.lastg = 256
+            self.multr *= -1
+        if self.lastg < 0
+            self.lastg = 0
+            self.multr *= -1
+
+
         #move through each row
         for i in range( int ( self.panel.m / 2 )  ):
             self.fill_rect_edge( i)
