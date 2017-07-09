@@ -24,7 +24,7 @@ class PanelVisualizer():
     #This function sets the given pixel in the canvas to the set pixel value
     #index from 0!
     def set_pixel(self, col, row, pixel):
-        # print(col, " ", row)
+        print(col, " ", row)
         self.canvasPixels[row * self.numColumns + col ].setFill(color_rgb(pixel.r, pixel.g, pixel.b))
     #this keeps the panel open, which is kind of silly
     def wait_for_exit(self):

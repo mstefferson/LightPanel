@@ -12,7 +12,7 @@ class TestPanels():
         self.multb = .5
         self.multg = .75
         self.panel = panel_
-        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.panel.numRows ) ] for j in range(self.panel.numColumns) ]
+        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.panel.n ) ] for j in range(self.panel.m) ]
 
     #fills in a rectangle of a color into the pixel array given
     def fill_rect_edge( self, offset):
@@ -32,9 +32,10 @@ class TestPanels():
         self.lastb %= 256
         self.lastg %= 256
         #move through each row
-        for i in range( int ( self.panel.numRows / 2 )  ):
+        for i in range( int ( self.panel.m / 2 )  ):
             self.fill_rect_edge( i)
-        self.panel.display_visualizer_panel(self.pixel_arr)
+        # self.panel.display_visualizer_panel(self.pixel_arr)
+        return self.pixel_arr
 
 
     def simple_rectangles_animated(self):
@@ -49,8 +50,9 @@ class TestPanels():
         print("running simple_pixels")
         # pixel_arr = [ [0 for i in range( panel.numRows ) ] for j in range(panel.numColumns) ]
         #move through each row
-        for i in range( self.panel.numRows):
+        for i in range( self.panel.m):
             #move through the column
-            for j in range( self.panel.numColumns ):
-                self.pixel_arr[j][i] = Pixel( i*(220/self.panel.numRows) , j*(220/self.panel.numColumns) , i+j)
-        self.panel.display_visualizer_panel(self.pixel_arr)
+            for j in range( self.panel.n ):
+                self.pixel_arr[i][j] = Pixel( i*(220/self.panel.m) , j*(220/self.panel.n) , i+j)
+        # self.panel.display_visualizer_panel(self.pixel_arr)
+        return self.pixel_arr

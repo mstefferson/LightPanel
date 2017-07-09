@@ -4,14 +4,15 @@ sys.path.insert(0, './patterns')
 from panel_patterns_starter import *
 from classes import Panel
 
-def run_visualizer(name, test_panel):
+def get_visualizer_panel(name, test_panel):
     if name == 'test':
-        test_panel.simple_pixels()
+        return test_panel.simple_pixels()
     elif name == 'worm':
-        test_panel.simple_rectangles_animated()
+        return test_panel.simple_rectangles()
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
-        test_panel.simple_pixels()
+        return test_panel.simple_pixels()
+
 
 if __name__ == '__main__':
     print('running panel_master')
@@ -27,10 +28,21 @@ if __name__ == '__main__':
     n = 6
     pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
-    my_panel = Panel(m,n,pix_num,my_panel_shapes)
+    my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
+
+    test_panel = TestPanels( my_panel )
 
     if run_type == "vis":
-        panel = PanelVisualizer(10,10)
-        test_panel = TestPanels(panel)
-        run_visualizer(script, test_panel)
-        panel.wait_for_exit();
+        while True:
+            pixel_arr =  get_visualizer_panel(script, test_panel)
+
+            my_panel.update_vis_panel(pixel_arr)
+            time.sleep(.1)
+            # my_panel.visualizer.wait_for_exit();
+    else :
+        while True:
+            pixel_arr =  get_visualizer_panel(script, test_panel)
+            my_panel.update_panel(pixel_arr)
+            # print("Here is the pixel display:")
+            # my_panel.print_display()
+            time.sleep(.1)

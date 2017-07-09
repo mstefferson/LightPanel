@@ -16,7 +16,7 @@ if __name__ == "__main__":
     pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
     print( len(my_panel_shapes) )
-    my_panel = Panel(m,n,pix_num,my_panel_shapes)
+    my_panel = Panel(m,n,pix_num,my_panel_shapes, "vis")
     print("Here is the shape:")
     my_panel.print_shape()
     print("Here is the map:")
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     print("Here is the new display stream:")
     my_panel.print_display_stream()
     print("visualizing the stream:")
-    my_panel.update_vis_panel()
+    my_panel.update_vis_panel(new_panel)
     # set a green panel
     print('green')
     new_panel = [ [ Pixel(0,255,0)  if j % 2 != 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]

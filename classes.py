@@ -56,7 +56,7 @@ class Panel():
         num_rows = len( new_display )
         num_cols = len( new_display[0] )
         if ( num_rows != self.m ) or ( num_cols != self.n ):
-            print( "size not the same. not resetting" )
+            print( "size not the same. not resetting : ", num_rows, " ", num_cols)
         else:
             self.pdisplay = [ [ new_display[r][c] if self.pmap[r][c] != -1 else Pixel(0,0,0) for c in range(self.n) ] for r in range(self.m) ]
 
@@ -114,13 +114,12 @@ class Panel():
         strip.show
 
     #this function is the same as update_led_panel but it sets the visualizer piels
-    def update_vis_panel(self):
-        pix_gen_gen = ( (pixel for pixel in i) for i in self.pdisplay )
-        for ir,gen in enumerate(pix_gen_gen):
-            for ic,x in enumerate(gen):
-                print( x, end=', ' )
-                self.visualizer.set_pixel( ir, ic, x   )
-        
+    def update_vis_panel(self, pixel_arr):
+        if self.visualizer is None :
+            return
+        else:
+            self.visualizer.display_visualizer_panel(pixel_arr)
+
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
         # loop through and print
@@ -169,7 +168,7 @@ class Panel():
         self.print_stream( map_gen, len(self.pmap_stream) )
 
     # constuctor
-    def __init__(self, m, n, num_pixels, panel_shape):
+    def __init__(self, m, n, num_pixels, panel_shape, disp_type):
         # set basic internal variables
         self.m = m
         self.n = n
@@ -182,4 +181,5 @@ class Panel():
         self.wipe_display()
         self.set_map_stream()
         self.set_display_stream()
-        self.visualizer = PanelVisualizer(self.m, self.n);
+        if(disp_type == "vis"):
+            self.visualizer = PanelVisualizer(self.m, self.n)
