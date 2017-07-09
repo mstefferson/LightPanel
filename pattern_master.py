@@ -3,6 +3,8 @@ import sys
 sys.path.insert(0, './patterns')
 from panel_patterns_starter import *
 from classes import Panel
+from neopixel import *
+
 
 def get_visualizer_panel(name, test_panel):
     if name == 'test':
@@ -23,6 +25,8 @@ if __name__ == '__main__':
     run_type = sys.argv[2]
     if run_type != "pi":
         run_type = "vis"
+    else:
+        strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
     print('run_typ is: ', run_type)
     m = 5
     n = 6
@@ -43,6 +47,7 @@ if __name__ == '__main__':
         while True:
             pixel_arr =  get_visualizer_panel(script, test_panel)
             my_panel.update_panel(pixel_arr)
+            my_panel.update_led_panel(strip)
             # print("Here is the pixel display:")
             # my_panel.print_display()
             time.sleep(.1)
