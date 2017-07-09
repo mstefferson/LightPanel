@@ -8,18 +8,13 @@ class Pixel():
     # constuctor sets r,g,b colors
     def __init__(self, r, g, b):
         # use mod to make sure pixel val = [0,255]
-        max_val = 255
+        max_val = 256
         # set values
         self.r = int(  r %  max_val  )
         self.b = int(  b %  max_val  )
         self.g = int(  g %  max_val  )
         self.array = [self.r,self.b,self.g]
 
-    # allows for print( Pixel ) to just 
-    # def __str__(self):
-        # l = ['r','g','b']
-        # return str( [ i for i in zip(l, self.array) ] )
-        
     def print_colors(self):
         print( self.array )
 
@@ -52,7 +47,7 @@ class Panel():
     def make_map_from_shape( self ):
         # loop over indices
         counter = 0;
-        panel_map = [ [-1 for c in range(self.m) ] for r in range(self.n)]
+        panel_map = [ [-1 for c in range(self.n) ] for r in range(self.m)]
         for ii in range(self.m):
             for jj in range(self.n):
                 # if row even, count upwards

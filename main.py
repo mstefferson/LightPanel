@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     # Test panel
     m = 5
-    n = 5
+    n = 6
     pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ] 
     print( len(my_panel_shapes) )
@@ -28,13 +28,24 @@ if __name__ == "__main__":
     my_panel.print_map_stream()
     print("Here is the pixel display stream:")
     my_panel.print_display_stream()
-    # set a new panel
+    # set a red panel
+    print('red')
     new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+    my_panel.update_panel(new_panel)
     print("Here is the new display:")
     my_panel.print_display()
     print("Here is the new map stream:")
     my_panel.print_map_stream()
     print("Here is the new display stream:")
     my_panel.print_display_stream()
-
+    # set a green panel
+    print('green')
+    new_panel = [ [ Pixel(0,255,0)  if j % 2 != 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+    my_panel.update_panel(new_panel)
+    print("Here is the new display:")
+    my_panel.print_display()
+    print("Here is the new map stream:")
+    my_panel.print_map_stream()
+    print("Here is the new display stream:")
+    my_panel.print_display_stream()
 
