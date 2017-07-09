@@ -52,17 +52,6 @@ if __name__ == '__main__':
 
     test_panel = TestPanels( my_panel )
 
-    print("Here is the shape:")
-    my_panel.print_shape()
-    print("Here is the map:")
-    my_panel.print_map()
-    print("Here is the pixel display:")
-    my_panel.print_display()
-    print("Here is the pixel map stream:")
-    my_panel.print_map_stream()
-    print("Here is the pixel display stream:")
-    my_panel.print_display_stream()
-
     if run_type == "vis":
         while True:
             pixel_arr =  get_visualizer_panel(script, test_panel)
@@ -73,14 +62,10 @@ if __name__ == '__main__':
     else :
         while True:
             pixel_arr =  get_visualizer_panel(script, test_panel)
-            print("A")
+            # print("A")
             my_panel.update_panel(pixel_arr)
-            print("Here is the pixel map stream:")
-            my_panel.print_map_stream()
-            print("Here is the pixel display stream:")
-            my_panel.print_display_stream()
-            print("b")
+            # print("b")
             my_panel.update_led_panel(strip)
             # print("Here is the pixel display:")
             # my_panel.print_display()
-            time.sleep(.1)
+            time.sleep(.2)
