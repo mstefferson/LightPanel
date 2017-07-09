@@ -68,4 +68,4 @@ if __name__ == '__main__':
             my_panel.update_led_panel(strip)
             # print("Here is the pixel display:")
             # my_panel.print_display()
-            time.sleep(.2)
+            time.sleep(.1)
