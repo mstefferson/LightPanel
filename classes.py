@@ -115,6 +115,12 @@ class Panel():
         # update display
         self.set_display( new_display )
 
+    def wipe_led_panel( self, strip ):
+	# wipe it
+	for i in range(self.num_pixels):
+	    strip.setPixelColor( i, Color(0,0,0) )
+        strip.show()
+
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
         for i,pix in enumerate(self.pdisplay_stream):
