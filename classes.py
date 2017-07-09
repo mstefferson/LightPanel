@@ -1,7 +1,5 @@
 # import things you need
 import numpy as np
-import time
-# from neopixel import *
 
 # Pixel object. Contains pixel colors 
 class Pixel():
