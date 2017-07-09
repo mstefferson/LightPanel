@@ -43,13 +43,13 @@ class TestPanels():
             self.multr *= -1
         if self.lastb < 0:
             self.lastb = 0
-            self.multr *= -1
+            self.multb *= -1
         if self.lastg > 256 :
             self.lastg = 256
             self.multr *= -1
         if self.lastg < 0:
             self.lastg = 0
-            self.multr *= -1
+            self.multg *= -1
 
 
         #move through each row
