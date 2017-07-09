@@ -28,8 +28,6 @@ if __name__ == "__main__":
     my_panel.print_map_stream()
     print("Here is the pixel display stream:")
     my_panel.print_display_stream()
-    print("Updating leds:")
-    my_panel.update_led_panel(my_strip)
     # set a new panel
     new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
     print("Here is the new display:")
