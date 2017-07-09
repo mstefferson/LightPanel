@@ -1,3 +1,4 @@
+from __future__ import print_function
 from panel_visualizer import *
 
 class TestPanels():
