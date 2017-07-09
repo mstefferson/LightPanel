@@ -1,7 +1,7 @@
 # import things you need
 from __future__ import print_function
 from pixel import *
-from panel_visualizer import *
+# from panel_visualizer import *
 
 class Panel():
     # contructor: Panel( int m, int n, int num_pixels, list panel_shape )
@@ -183,3 +183,5 @@ class Panel():
         self.set_display_stream()
         if(disp_type == "vis"):
             self.visualizer = PanelVisualizer(self.m, self.n)
+        else :
+            self.visualizer = None

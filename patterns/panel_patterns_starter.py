@@ -1,5 +1,8 @@
 from __future__ import print_function
-from panel_visualizer import *
+# from panel_visualizer import *
+from classes import *
+from pixel import *
+import time
 
 class TestPanels():
 

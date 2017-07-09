@@ -16,7 +16,7 @@ if __name__ == "__main__":
     pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
     print( len(my_panel_shapes) )
-    my_panel = Panel(m,n,pix_num,my_panel_shapes, "vis")
+    my_panel = Panel(m,n,pix_num,my_panel_shapes, "pi")
     print("Here is the shape:")
     my_panel.print_shape()
     print("Here is the map:")
@@ -50,4 +50,5 @@ if __name__ == "__main__":
     print("Here is the new display stream:")
     my_panel.print_display_stream()
     #wait for someone to click on the visualizer to close it
-    my_panel.visualizer.wait_for_exit()
+    if not my_panel.visualizer is None:
+        my_panel.visualizer.wait_for_exit()
