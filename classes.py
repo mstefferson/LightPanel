@@ -1,29 +1,7 @@
 # import things you need
 from __future__ import print_function
-
-# neopixel's Color
-def Color(red, green, blue, white = 0):
-	"""Convert the provided red, green, blue color to a 24-bit color value.
-	Each color component should be a value 0-255 where 0 is the lowest intensity
-	and 255 is the highest intensity.
-	"""
-	return (white << 24) | (red << 16)| (green << 8) | blue
-
-# Pixel object. Contains pixel colors
-class Pixel():
-
-    # constuctor sets r,g,b colors
-    def __init__(self, r, g, b):
-        # use mod to make sure pixel val = [0,255]
-        max_val = 256
-        # set values
-        self.r = int(  r %  max_val  )
-        self.b = int(  b %  max_val  )
-        self.g = int(  g %  max_val  )
-        self.array = [self.r,self.b,self.g]
-
-    def print_colors(self):
-        print( self.array )
+from pixel import *
+from panel_visualizer import *
 
 class Panel():
     # contructor: Panel( int m, int n, int num_pixels, list panel_shape )
@@ -127,13 +105,22 @@ class Panel():
             strip.setPixelColor( i, Color(0,0,0) )
             strip.show()
 
+    #this function is the same as update_vis_panel but it sets the physical piels
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
         for i,pix in enumerate(self.pdisplay_stream):
             # check if you can just use pixel.array works!
             strip.setPixelColor( self.pmap_stream[i], Color( pix.r, pix.g, pix.b) )
-        strip.show()
+        strip.show
 
+    #this function is the same as update_led_panel but it sets the visualizer piels
+    def update_vis_panel(self):
+        pix_gen_gen = ( (pixel for pixel in i) for i in self.pdisplay )
+        for ir,gen in enumerate(pix_gen_gen):
+            for ic,x in enumerate(gen):
+                print( x, end=', ' )
+                self.visualizer.set_pixel( ir, ic, x   )
+        
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
         # loop through and print
@@ -195,3 +182,4 @@ class Panel():
         self.wipe_display()
         self.set_map_stream()
         self.set_display_stream()
+        self.visualizer = PanelVisualizer(self.m, self.n);
