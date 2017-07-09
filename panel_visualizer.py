@@ -40,14 +40,3 @@ class PanelVisualizer():
             for j in range( self.numColumns ) :
                 self.set_pixel( j, i, pixel_arr[j][i] )
         self.win.update()
-
-#this is an example application that loads some pixels
-#into the panel for display
-def simple_pixels(panel):
-    pixel_arr = [ [0 for i in range( panel.numRows ) ] for j in range(panel.numColumns) ]
-    #move through each row
-    for i in range( panel.numRows):
-        #move through the column
-        for j in range( panel.numColumns ):
-            pixel_arr[j][i] = Pixel(20*i ,40*j , 250 - 6*i*j)
-    panel.display_visualizer_panel(pixel_arr)
