@@ -1,7 +1,13 @@
 # import things you need
 from __future__ import print_function
-import numpy as np
-from neopixel import *
+
+# neopixel's Color
+def Color(red, green, blue, white = 0):
+	"""Convert the provided red, green, blue color to a 24-bit color value.
+	Each color component should be a value 0-255 where 0 is the lowest intensity
+	and 255 is the highest intensity.
+	"""
+	return (white << 24) | (red << 16)| (green << 8) | blue
 
 # Pixel object. Contains pixel colors 
 class Pixel():

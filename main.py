@@ -1,7 +1,6 @@
 from __future__ import print_function
 #!/usr/bin/python
-from classes import *
-import numpy as np
+from classes import Pixel, Panel
 
 if __name__ == "__main__":
 
