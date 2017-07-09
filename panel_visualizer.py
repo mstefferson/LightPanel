@@ -1,6 +1,7 @@
 
 from graphics import * #import the graphics
 from classes import *
+
 class PanelVisualizer():
     canvasWidth = 800
     canvasHeight = 800
@@ -50,54 +51,3 @@ def simple_pixels(panel):
         for j in range( panel.numColumns ):
             pixel_arr[j][i] = Pixel(20*i ,40*j , 250 - 6*i*j)
     panel.display_visualizer_panel(pixel_arr)
-
-class TestPanels():
-
-    def __init__(self , panel_):
-        self.increment = 10
-        self.lastr = 0
-        self.lastg = 125
-        self.lastb = 256
-        self.multr = 1
-        self.multb = .5
-        self.multg = .75
-        self.panel = panel_
-        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.panel.numRows ) ] for j in range(self.panel.numColumns) ]
-
-    #fills in a rectangle of a color into the pixel array given
-    def fill_rect_edge( self, offset):
-        tr = offset*self.increment*self.multr
-        tg = offset*self.increment *self.multg
-        tb = offset*self.increment*self.multb
-        for j in range ( offset, len(self.pixel_arr[0]) -offset):
-            for i in range ( offset, len(self.pixel_arr) -offset ):
-                self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
-
-    def simple_rectangles(self):
-        print(self.lastr, end = "\n")
-        self.lastr +=  self.increment*self.multr
-        self.lastg += self.increment*self.multg
-        self.lastb += self.increment*self.multb
-        self.lastr %= 256
-        self.lastb %= 256
-        self.lastg %= 256
-        #move through each row
-        for i in range( int ( self.panel.numRows / 2 )  ):
-            self.fill_rect_edge( i)
-        self.panel.display_visualizer_panel(self.pixel_arr)
-
-
-def main():
-    panel = PanelVisualizer(10,10)
-    pix = Pixel(10, 40, 50)
-    test_panel = TestPanels(panel)
-    panel.set_pixel(0,2, pix)
-
-    # simple_pixels(panel)
-    test_panel.simple_rectangles()
-    while True:
-        time.sleep(.1)
-        test_panel.simple_rectangles()
-        # panel.wait_for_exit()
-
-main()
