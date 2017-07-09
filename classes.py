@@ -1,6 +1,7 @@
 # import things you need
 from __future__ import print_function
 import numpy as np
+from neopixel import *
 
 # Pixel object. Contains pixel colors 
 class Pixel():
@@ -116,9 +117,9 @@ class Panel():
 
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
-        for ii in range( self.num_pixels ):
+        for i,pix in enumerate(self.pdisplay_stream):
             # check if you can just use pixel.array works!
-            strip.setPixelColor( self.pmap_stream[i], self.pdisplay_stream[i].r, self.pdisplay_stream[i].b, self.pdisplay_stream[i].r )
+            strip.setPixelColor( self.pmap_stream[i], Color( pix.r, pix.g, pix.b) )
         strip.show()
 
     # get shapes and maps

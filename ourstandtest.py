@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import time
 from classes import *
 import numpy as np
 from neopixel import *
@@ -39,12 +39,12 @@ if __name__ == "__main__":
     print("Here is the pixel display stream:")
     my_panel.print_display_stream()
     print("Updating leds:")
-    my_panel.update_led_panel(my_strip)
+    my_panel.update_led_panel(strip)
 
     print ('Press Ctrl-C to quit.')
     while True:
         # set a new panel
-        new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+        new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(NUM_COLUMNS) ] for i in range(NUM_ROWS) ]
         my_panel.update_panel( new_panel )
         print("Here is the new display:")
         my_panel.print_display()
@@ -52,10 +52,12 @@ if __name__ == "__main__":
         my_panel.print_map_stream()
         print("Here is the new display stream:")
         my_panel.print_display_stream()
+        print("Updating leds:")
+        my_panel.update_led_panel(strip)
 
-        time.sleep( 1000 )
+        time.sleep( 1 )
 
-        new_panel = [ [ Pixel(0,255,0)  if j % 2 != 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+        new_panel = [ [ Pixel(0,255,0)  if j % 2 != 0 else Pixel(0,0,0) for j in range(NUM_COLUMNS) ] for i in range(NUM_ROWS) ]
         my_panel.update_panel( new_panel )
         print("Here is the new display:")
         my_panel.print_display()
@@ -63,5 +65,7 @@ if __name__ == "__main__":
         my_panel.print_map_stream()
         print("Here is the new display stream:")
         my_panel.print_display_stream()
-
+        print("Updating leds:")
+        my_panel.update_led_panel(strip)
+        time.sleep( 1 )
 
