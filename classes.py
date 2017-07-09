@@ -1,5 +1,7 @@
 # import things you need
 import numpy as np
+import time
+# from neopixel import *
 
 # Pixel object. Contains pixel colors 
 class Pixel():
@@ -10,18 +12,14 @@ class Pixel():
         max_val = 255
         # set values
         self.r = int(  r %  max_val  )
-        self.b = int(  g %  max_val  )
-        self.g = int(  b %  max_val  )
+        self.b = int(  b %  max_val  )
+        self.g = int(  g %  max_val  )
         self.array = [self.r,self.b,self.g]
 
-    # just giving Pixel prints value
-#     def __repr__(self):
-        # return str(self.array)
-
     # allows for print( Pixel ) to just 
-    def __str__(self):
-        l = ['r','g','b']
-        return str( [ i for i in zip(l, self.array) ] )
+    # def __str__(self):
+        # l = ['r','g','b']
+        # return str( [ i for i in zip(l, self.array) ] )
         
     def print_colors(self):
         print( self.array )
@@ -88,7 +86,7 @@ class Panel():
         self.pdisplay_stream = pixel_stream
 
     def set_map_stream( self ):
-        # pixel_map_stream = [ self.pmap[r][c] if r % 2 == 0 else self.pmap[r][self.n -1 - c] for r in range(self.m) for c in range(self.n) ]
+        # only keep map if not equal to -1
         pixel_map_stream = [ self.pmap[r][c] for r in range(self.m) for c in range(self.n) if self.pmap[r][c] != -1 ]
         # set field
         self.pmap_stream = pixel_map_stream
@@ -100,6 +98,33 @@ class Panel():
         pixel_stream = [ pix for i,pix in enumerate(temp_stream) if self.pmap_stream[i] != -1 ]
         # set field 
         self.pdisplay_stream = pixel_stream
+
+    def set_new_stream( self, new_display ):
+        # make sure the size is correct
+        if len( new_display ) == self.m and len( new_display[0] ) == self.n:
+            # get diff
+            diff_update  = [ [1 if new_display[r][c].array != self.pdisplay[r][c].array and self.pmap[r][c] != -1 else 0 for c in range(self.n)] for r in range(self.m) ]
+
+           # try to only keep the difference 
+            temp_stream = [ new_display[r][c] for r in range(self.m) for c in range(self.n) if diff_update[r][c] == 1 ]
+            temp_map = [ self.pmap[r][c] for r in range(self.m)  for c in range(self.n)  if diff_update[r][c] == 1 ]
+            # update stream
+            self.pdisplay_stream = temp_stream
+            self.pmap_stream = temp_map
+        else:
+            print('Error: invalid size')
+
+    def update_panel( self, new_display ):
+        # update streams
+        self.set_new_stream( new_display )
+        # update display
+        self.set_display( new_display )
+
+    def update_led_panel( self, strip ):
+        # update led panel based on pixel stream
+        for ii in range( self.num_pixels ):
+            # check if you can just use pixel.array works!
+            strip.setPixelColor( self.pmap_stream[i], self.pdisplay_stream[i].r, self.pdisplay_stream[i].b, self.pdisplay_stream[i].r )
 
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
