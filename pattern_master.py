@@ -1,5 +1,7 @@
-from patterns.panel_patterns_starter import *
+
 import sys
+sys.path.insert(0, './patterns')
+from panel_patterns_starter import *
 
 def run_visualizer(name, test_panel):
     if name == 'test':
