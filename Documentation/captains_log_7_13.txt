@@ -1,0 +1,8 @@
+Notes From Steve To Mike Jul 13:
+Need to set things up to take in args and then make selective imports based on that.
+Key files are :
+patterns/panel_patterns_starter.py - needs to selectively import the visualizer
+pattern_master.py - needs to selectively import the NeoPixels
+
+to call my stuff you need to call pattern_master.py [visualizer name ] [pi or vis].
+The defaults are vis and "test". worm is probably the most interesting visualizer.
