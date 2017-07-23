@@ -27,8 +27,18 @@ if __name__ == "__main__":
     my_panel.print_map_stream()
     print("Here is the pixel display stream:")
     my_panel.print_display_stream()
+    # initialize with a blue panel
+    print('Initialize with a blue panel')
+    new_panel = [ [ Pixel(0,0,255)  if i % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
+    my_panel = Panel(m,n,pix_num,my_panel_shapes,new_panel)
+    print("Here is the blue pixel display:")
+    my_panel.print_display()
+    print("Here is the blue pixel map stream:")
+    my_panel.print_map_stream()
+    print("Here is the blue pixel display stream:")
+    my_panel.print_display_stream()
     # set a red panel
-    print('red')
+    print('Set a red panel')
     new_panel = [ [ Pixel(255,0,0)  if j % 2 == 0 else Pixel(0,0,0) for j in range(n) ] for i in range(m) ]
     my_panel.update_panel(new_panel)
     print("Here is the new display:")
