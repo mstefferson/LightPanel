@@ -1,0 +1,23 @@
+Notes From Steve To Mike Jul 13:
+Need to set things up to take in args and then make selective imports based on that.
+Key files are :
+patterns/panel_patterns_starter.py - needs to selectively import the visualizer
+pattern_master.py - needs to selectively import the NeoPixels
+
+to call my stuff you need to call pattern_master.py [visualizer name ] [pi or vis].
+The defaults are vis and "test". worm is probably the most interesting visualizer.
+
+This branch doesn't run: 
+%%%%
+> python pattern_master.py worm vis
+
+Traceback (most recent call last):
+    File "pattern_master.py", line 6, in <module>
+        from neopixel import *
+      File "/Users/mike/Projects/LightPanel/neopixel.py", line 5, in <module>
+        import _rpi_ws281x as ws
+    ImportError: No module named _rpi_ws281x
+
+%%%%%%
+
+I am going to comment classes in Developement branch until this can run.

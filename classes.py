@@ -99,7 +99,7 @@ class Panel():
         num_rows = len( new_display )
         num_cols = len( new_display[0] )
         if ( num_rows != self.m ) or ( num_cols != self.n ):
-            print( "size not the same. not resetting" )
+            print( "size not the same. not resetting : ", num_rows, " ", num_cols)
         else:
             self.pdisplay = [ [ new_display[r][c] if self.pmap[r][c] != -1 else Pixel(0,0,0) for c in range(self.n) ] for r in range(self.m) ]
 
