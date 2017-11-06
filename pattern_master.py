@@ -39,11 +39,11 @@ if __name__ == '__main__':
     if run_type != "pi":
         run_type = "vis"
     else:
-		#need to perform the import in here since we only do it if using the pi hardware
-		from neopixel import *
-		LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
-		strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-		strip.begin()
+        #need to perform the import in here since we only do it if using the pi hardware
+        from neopixel import *
+        LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
+        strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+        strip.begin()
     print('run_typ is: ', run_type)
     m = NUM_ROWS
     n = NUM_COLUMNS
@@ -54,10 +54,13 @@ if __name__ == '__main__':
     test_panel = TestPanels( my_panel )
 
     if run_type == "vis":
+        from panel_visualizer import PanelVisualizer
+        visualizer = PanelVisualizer(m, n)
         while True:
             pixel_arr =  get_visualizer_panel(script, test_panel)
 
-            my_panel.update_vis_panel(pixel_arr)
+            # my_panel.update_vis_panel(pixel_arr)
+            visualizer.display_visualizer_panel(pixel_arr)
             time.sleep(.1)
             # my_panel.visualizer.wait_for_exit();
     else :

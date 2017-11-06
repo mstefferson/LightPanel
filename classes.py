@@ -2,9 +2,6 @@
 from __future__ import print_function
 from pixel import *
 
-#This import needs to be on only if we're running the visualizer
-from panel_visualizer import PanelVisualizer
-
 # neopixel's Color
 def Color(red, green, blue, white = 0):
 	"""Convert the provided red, green, blue color to a 24-bit color value.
@@ -139,13 +136,6 @@ class Panel():
             strip.setPixelColor( self.pmap_stream[i], Color( pix.r, pix.g, pix.b) )
         strip.show()
 
-    #this function is the same as update_led_panel but it sets the visualizer piels
-    def update_vis_panel(self, pixel_arr):
-        if self.visualizer is None :
-            return
-        else:
-            self.visualizer.display_visualizer_panel(pixel_arr)
-
     # get shapes and maps
     def print_stream( self, gen, len_obj ):
         # loop through and print
@@ -207,7 +197,3 @@ class Panel():
         self.wipe_display()
         self.set_map_stream()
         self.set_display_stream()
-        if(disp_type == "vis"):
-            self.visualizer = PanelVisualizer(self.m, self.n)
-        else :
-            self.visualizer = None
