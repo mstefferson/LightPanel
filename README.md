@@ -20,6 +20,6 @@ Once that is working, to set up the raspi to execute a panel on startup we need 
 open bashrc file:
 nano ~/.bashrc
 add to bashrc file at the last line :
-source projects/LighPanel/panel_startup_script.sh
+source projects/LightPanel/panel_startup_script.sh
 
 Here are instructions : https://www.raspberrypi.org/forums/viewtopic.php?t=59960
