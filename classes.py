@@ -1,7 +1,9 @@
 # import things you need
 from __future__ import print_function
 from pixel import *
-# from panel_visualizer import *
+
+#This import needs to be on only if we're running the visualizer
+from panel_visualizer import *
 
 # neopixel's Color
 def Color(red, green, blue, white = 0):

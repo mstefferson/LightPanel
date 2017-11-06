@@ -10,6 +10,8 @@ a meter square octagon is 747 LEDs = $115
 
 we’re going with 2’ x 2’ octagon for the first panel. This is essentially 2 5 meter strips. I should verify standard particle board sizes.
 We will need to make 18 strips to put along the panel. the shortest strip is 7, and the longest is 18
+
+If we do a 2’x2’ square w/ ~1led/inch we need 24 2’ strips = 48’ = 15m
  
 
 OUTER PERIMETER (6.6ft)
