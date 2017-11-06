@@ -1,0 +1,4 @@
+captains_log_11_6_2017
+
+
+Next steps for this project are to make some useful visualizers. 

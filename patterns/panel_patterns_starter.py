@@ -4,6 +4,8 @@ from classes import *
 from pixel import *
 import time
 
+# for more information on making patterns check out the /Documentation folder
+
 MAX_VAL = 236
 MIN_VAL = 20
 
@@ -60,13 +62,6 @@ class TestPanels():
             self.fill_rect_edge( i)
         # self.panel.display_visualizer_panel(self.pixel_arr)
         return self.pixel_arr
-
-
-    def simple_rectangles_animated(self):
-        print("running simple_rectangles_animated")
-        while True:
-            time.sleep(.1)
-            self.simple_rectangles()
 
     #this is an example application that loads some pixels
     #into the panel for display
