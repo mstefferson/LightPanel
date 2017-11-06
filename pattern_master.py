@@ -27,7 +27,7 @@ FRAME_SLEEP_TIME = .1
 
 #this is out lookup table that checks the run time input args and calls the appropriate pattern generator
 #at the core of it, this function just calls another pattern function, which returns a pixel array object
-def get_pattern_pixel_array(name, test_pattern):
+def get_pattern_pixel_array(name):
 	if name == 'test':
 		return test_pattern.simple_pixels()
 	elif name == 'worm':
@@ -59,15 +59,15 @@ if __name__ == '__main__':
 	my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
 	my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
-	test_pattern = TestPatterns( my_panel )
-
+	#init our test patterns here
+	test_pattern = TestPatterns( my_panel)
 
 	if run_type == "vis":
 		from panel_visualizer import PanelVisualizer
 		visualizer = PanelVisualizer(m, n)
 	#run a loop forever that just gets new pixel arrays and visualizes them
 	while True:
-		pixel_arr =  get_pattern_pixel_array(script, test_pattern)
+		pixel_arr =  get_pattern_pixel_array(script)
 		if run_type == "vis":
 			#send our array over to the visualizer for the GUI
 			visualizer.display_visualizer_panel(pixel_arr)
