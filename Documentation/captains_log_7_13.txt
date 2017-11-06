@@ -7,7 +7,7 @@ pattern_master.py - needs to selectively import the NeoPixels
 to call my stuff you need to call pattern_master.py [visualizer name ] [pi or vis].
 The defaults are vis and "test". worm is probably the most interesting visualizer.
 
-This branch doesn't run: 
+This branch doesn't run:
 %%%%
 > python pattern_master.py worm vis
 
