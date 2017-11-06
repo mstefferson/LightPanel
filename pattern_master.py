@@ -56,7 +56,7 @@ if __name__ == '__main__':
 	my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
 	my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
-	test_pattern = TestPanels( my_panel )
+	test_pattern = TestPatterns( my_panel )
 
 
 	if run_type == "vis":

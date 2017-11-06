@@ -10,4 +10,4 @@ self.panel.m
 self.panel.n
 
 Your pattern generator should create a pixel array of the appropriate size based on the panel object's m and n
-If you make a new pattern py file make sure to create an intializer and call it in pattern_master. For example test_panel = TestPanels( my_panel )
+If you make a new pattern py file make sure to create an intializer and call it in pattern_master. For example test_pattern = TestPatterns( my_panel )

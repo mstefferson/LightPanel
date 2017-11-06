@@ -9,7 +9,7 @@ import time
 MAX_VAL = 236
 MIN_VAL = 20
 
-class TestPanels():
+class TestPatterns():
 
     def __init__(self , panel_):
         self.increment = 6
