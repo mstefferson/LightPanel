@@ -16,7 +16,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 # panel configuration
-NUM_ROWS = 24
+NUM_ROWS = 1
 NUM_COLUMNS = 24
 #these are the configs for the cardboard test panel
 #NUM_ROWS = 5
@@ -57,6 +57,7 @@ if __name__ == '__main__':
 	n = NUM_COLUMNS
 	pix_num = m * n
 	my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
+	print('Panel . M : ', len( my_panel_shapes ), " N: ",len( my_panel_shapes[0] ))
 	my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
 	#init our test patterns here

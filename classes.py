@@ -11,7 +11,7 @@ def Color(red, green, blue, white = 0):
 
 # Pixel object. Contains pixel colors
 class Pixel():
-    # contructor: 
+    # contructor:
     #   Pixel( int r, int g, int b )
     #
     # fields:
@@ -19,7 +19,7 @@ class Pixel():
     #   g: green pixel value
     #   b: blue pixel value
     #   array: [r,g,b]
-    # 
+    #
     # methods:
     # print_colors(): prints the pixel array
 
@@ -38,7 +38,7 @@ class Pixel():
         print( self.array )
 
 class Panel():
-    # contructor: 
+    # contructor:
     #   Panel( int m, int n, int num_pixels, list panel_shape )
     #
     # fields:
@@ -57,7 +57,7 @@ class Panel():
     #   set_display(): sets the display
     #   print_display(): print the display array
     #   print_display_stream(): print the display stream
-    #   print_map(): creates generator of generators and prints the map. 
+    #   print_map(): creates generator of generators and prints the map.
     #   print_map_stream(): creates generator and prints the map stream
     #   print_shape(): creates generator of generators and prints the panel shape.
     #   print_gen_gen(): takes generator of generator and prints values.
@@ -108,7 +108,7 @@ class Panel():
         # make sure the size is correct
         if len( new_display ) == self.m and len( new_display[0] ) == self.n:
             # get diff
-            diff_update  = [ [1 if new_display[r][c].array != self.pdisplay[r][c].array and self.pmap[r][c] != -1 else 0 for c in range(self.n)] for r in range(self.m) ]
+            diff_update  = [ [1 if new_display[r][c] != self.pdisplay[r][c] and self.pmap[r][c] != -1 else 0 for c in range(self.n)] for r in range(self.m) ]
 
            # try to only keep the difference
             temp_stream = [ new_display[r][c] for r in range(self.m) for c in range(self.n) if diff_update[r][c] == 1 ]
@@ -117,7 +117,7 @@ class Panel():
             self.pdisplay_update_stream = temp_stream
             self.pmap_update_stream = temp_map
         else:
-            print('Error: invalid size')
+            print('Error: invalid size. M : ', len( new_display ), " N: ",len( new_display[0] ))
 
     # update the panel display and streams
     def update_panel( self, new_display ):
@@ -213,5 +213,4 @@ class Panel():
             self.pdisplay_update_stream = [];
         else:
             print('Initial panel')
-            self.update_panel(panel_display)
-            
+            self.update_panel(panel_shape)
