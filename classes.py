@@ -34,8 +34,17 @@ class Pixel():
         self.array = [self.r,self.g,self.b]
 
     # methods
+
+    def is_off(self):
+        return self.r == self.g == self.b == 0
+
+    def to_white(self):
+        self.r = self.g = self.b = 255
+
     def print_colors(self):
         print( self.array )
+
+
 
 class Panel():
     # contructor:

@@ -1,6 +1,6 @@
 from __future__ import print_function
 from graphics import * #import the graphics
-from  pixel import *
+from  classes import Pixel as pixel2
 
 class PanelVisualizer():
     canvasWidth = 1200
@@ -30,6 +30,8 @@ class PanelVisualizer():
     #index from 0!
     def set_pixel(self, col, row, pixel):
         # print(col, " ", row)
+        if( pixel.is_off() == True ):
+            pixel.to_white()
         self.canvasPixels[row * self.numColumns + col ].setFill(color_rgb(pixel.r, pixel.g, pixel.b))
     #this keeps the panel open, which is kind of silly
     def wait_for_exit(self):
