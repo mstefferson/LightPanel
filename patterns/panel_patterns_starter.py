@@ -1,7 +1,7 @@
 from __future__ import print_function
 # from panel_visualizer import *
-from classes import *
-from pixel import *
+from classes import Panel
+from classes import Pixel
 import time
 
 # for more information on making patterns check out the /Documentation folder
