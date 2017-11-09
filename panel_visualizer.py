@@ -3,7 +3,7 @@ from graphics import * #import the graphics
 from  pixel import *
 
 class PanelVisualizer():
-    canvasWidth = 800
+    canvasWidth = 1200
     canvasHeight = 800
     pixelDistance = 10 #this is how much distance we put between pixels
     # canvasPixels
@@ -14,9 +14,13 @@ class PanelVisualizer():
         self.numColumns = number_of_columns
         self.numRows = number_of_rows
         self.pixelDistance = self.canvasWidth / (self.numColumns+1)
-        print("Init of PanelVisualizer. numColumns: ", self.numColumns, " canvas width: ", self.canvasWidth, "pixelDistance: " , self.pixelDistance);
         self.canvasHeight = self.pixelDistance*(self.numRows+1)
-        self.canvasPixels = [Circle(Point(0,0),10) for n in range(self.numRows*self.numColumns) ]
+        self.circle_size = 10;
+        if(self.pixelDistance < self.circle_size) :
+            self.circle_size = self.pixelDistance/2
+        print("Init of PanelVisualizer. pixel size: ", self.circle_size, " canvas width: ", self.canvasWidth, "pixelDistance: " , self.pixelDistance);
+
+        self.canvasPixels = [Circle(Point(0,0),self.circle_size) for n in range(self.numRows*self.numColumns) ]
         for i in range(self.numRows):
             for j in range(self.numColumns):
                 self.canvasPixels[i*self.numColumns + j].move((j+.5)*self.pixelDistance, (i+.5)*self.pixelDistance)
