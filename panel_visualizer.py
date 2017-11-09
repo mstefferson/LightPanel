@@ -10,16 +10,16 @@ class PanelVisualizer():
     numColumns = 0
     numRows = 0
     win = GraphWin("My Circle", canvasWidth, canvasHeight,autoflush=False)
-    def __init__(self, number_of_columns, number_of_rows):
+    def __init__(self, number_of_rows, number_of_columns ):
         self.numColumns = number_of_columns
         self.numRows = number_of_rows
         self.pixelDistance = self.canvasWidth / (self.numColumns+1)
-        print("numColumns: ", self.numColumns, "pixelDistance: " , self.pixelDistance);
+        print("Init of PanelVisualizer. numColumns: ", self.numColumns, " canvas width: ", self.canvasWidth, "pixelDistance: " , self.pixelDistance);
         self.canvasHeight = self.pixelDistance*(self.numRows+1)
         self.canvasPixels = [Circle(Point(0,0),10) for n in range(self.numRows*self.numColumns) ]
         for i in range(self.numRows):
             for j in range(self.numColumns):
-                self.canvasPixels[i*self.numColumns + j].move((i+.5)*self.pixelDistance, (j+.5)*self.pixelDistance)
+                self.canvasPixels[i*self.numColumns + j].move((j+.5)*self.pixelDistance, (i+.5)*self.pixelDistance)
                 self.canvasPixels[i*self.numColumns + j].draw(self.win)
 
     #This function sets the given pixel in the canvas to the set pixel value
@@ -39,5 +39,5 @@ class PanelVisualizer():
         for i in range(self.numRows ):
             #move through the row
             for j in range( self.numColumns ) :
-                self.set_pixel( j, i, pixel_arr[j][i] )
+                self.set_pixel( j, i, pixel_arr[i][j] )
         self.win.update()

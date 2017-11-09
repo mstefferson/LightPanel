@@ -16,7 +16,7 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 # panel configuration
-NUM_ROWS = 1
+NUM_ROWS = 24
 NUM_COLUMNS = 24
 #these are the configs for the cardboard test panel
 #NUM_ROWS = 5
