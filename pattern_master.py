@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 sys.path.insert(0, './patterns')
-from panel_patterns_starter import *
+from working_patterns import *
 from classes import Panel
 
 
@@ -27,14 +27,15 @@ FRAME_SLEEP_TIME = .1
 
 #this is out lookup table that checks the run time input args and calls the appropriate pattern generator
 #at the core of it, this function just calls another pattern function, which returns a pixel array object
-def get_pattern_pixel_array(name):
+def get_active_pattern( name):
 	if name == 'test':
-		return test_pattern.simple_pixels()
+		active_pattern = TestPattern( my_panel.m , my_panel.n )
 	elif name == 'worm':
-		return test_pattern.simple_rectangles()
+		active_pattern = WormPattern( my_panel.m , my_panel.n )
 	else :
 		print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
-		return test_pattern.simple_pixels()
+		active_pattern = TestPattern( my_panel.m , my_panel.n )
+	return active_pattern
 
 
 if __name__ == '__main__':
@@ -61,14 +62,14 @@ if __name__ == '__main__':
 	my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
 	#init our test patterns here
-	test_pattern = TestPatterns( my_panel)
+	active_pattern = get_active_pattern( script )
 
 	if run_type == "vis":
 		from panel_visualizer import PanelVisualizer
 		visualizer = PanelVisualizer(m, n)
 	#run a loop forever that just gets new pixel arrays and visualizes them
 	while True:
-		pixel_arr =  get_pattern_pixel_array(script)
+		pixel_arr = active_pattern.get_pixel_arr()
 		if run_type == "vis":
 			#send our array over to the visualizer for the GUI
 			visualizer.display_visualizer_panel(pixel_arr)
