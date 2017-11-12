@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, './patterns')
 from working_patterns import *
 from classes import Panel
+import time
 
 
 # LED strip configuration:
