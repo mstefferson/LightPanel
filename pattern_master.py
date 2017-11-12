@@ -1,6 +1,7 @@
 from __future__ import print_function
 import sys
-sys.path.insert(0, './patterns')
+sys.path.insert(0, './src')
+sys.path.insert(0, './src/patterns')
 from functioning_patterns import *
 from classes import Panel
 import time
@@ -82,7 +83,5 @@ if __name__ == '__main__':
             my_panel.update_panel(pixel_arr)
             #update the actual LEDs
             my_panel.update_led_panel(strip)
-        # print("Here is the pixel display:")
-        # my_panel.print_display()
         #this is the refresh speed of our panel. We should be able to make this pretty fast for the raspi
         time.sleep(FRAME_SLEEP_TIME)

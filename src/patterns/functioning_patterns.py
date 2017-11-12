@@ -53,7 +53,6 @@ class WormPattern(PanelPattern):
                 self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
 
     def get_pixel_arr(self):
-        # print(self.lastr, end = "\n")
         self.lastr +=  self.increment*self.multr
         self.lastg += self.increment*self.multg
         self.lastb += self.increment*self.multb
@@ -99,7 +98,6 @@ class TestPattern(PanelPattern):
     #this is an example application that loads some pixels
     #into the panel for display
     def get_pixel_arr(self):
-        print("running simple_pixels")
         #move through each row
         for i in range( self.m):
             #move through the column
