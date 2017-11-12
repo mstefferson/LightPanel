@@ -2,17 +2,16 @@
 #
 from classes import Pixel
 
-# this is a template pattern
+# this is a template pattern all patterns are inherit
 class PanelPattern():
     def __init__(self , m, n):
         self.call_name = 'panel';
+        # row and columns
         self.m = m
         self.n = n
         self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ] for j in range(self.m) ]
 
-    #this function
     def get_pixel_arr(self):
-        #do some mutation on the pixel array
         #then return the pixel_array
         return self.pixel_arr
 
@@ -22,8 +21,18 @@ class ExamplePattern(PanelPattern):
         PanelPattern.__init__( self, m, n )
         self.call_name = 'example';
 
-class WormPattern():
+# randwalk pattern
+class RandwalkPattern(PanelPattern):
+    def __init__(self, m, n, numwalkers):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'randwalk';
+
+
+# worm pattern
+class WormPattern(PanelPattern):
     def __init__(self , m, n):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'worm';
         self.increment = 6
         self.lastr = 0
         self.lastg = 125
@@ -31,11 +40,8 @@ class WormPattern():
         self.multr = 1
         self.multb = .5
         self.multg = .75
-        self.m = m
-        self.n = n
         self.MAX_VAL = 236
         self.MIN_VAL = 20
-        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ] for j in range(self.m) ]
 
     #fills in a rectangle of a color into the pixel array given
     def fill_rect_edge( self, offset):
@@ -76,10 +82,12 @@ class WormPattern():
         # self.panel.display_visualizer_panel(self.pixel_arr)
         return self.pixel_arr
 
-class TestPattern():
+class TestPattern(PanelPattern):
     MAX_VAL = 236
     MIN_VAL = 20
     def __init__(self , m , n):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'test';
         self.increment = 6
         self.lastr = 0
         self.lastg = 125
@@ -87,15 +95,11 @@ class TestPattern():
         self.multr = 1
         self.multb = .5
         self.multg = .75
-        self.m = m
-        self.n = n
-        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ] for j in range(self.m) ]
 
     #this is an example application that loads some pixels
     #into the panel for display
     def get_pixel_arr(self):
         print("running simple_pixels")
-        # pixel_arr = [ [0 for i in range( panel.numRows ) ] for j in range(panel.numColumns) ]
         #move through each row
         for i in range( self.m):
             #move through the column
