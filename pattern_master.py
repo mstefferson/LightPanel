@@ -29,58 +29,58 @@ FRAME_SLEEP_TIME = .1
 #this is out lookup table that checks the run time input args and calls the appropriate pattern generator
 #at the core of it, this function just calls another pattern function, which returns a pixel array object
 def get_active_pattern( name):
-	if name == 'test':
-		active_pattern = TestPattern( my_panel.m , my_panel.n )
-	elif name == 'worm':
-		active_pattern = WormPattern( my_panel.m , my_panel.n )
-	else :
-		print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
-		active_pattern = TestPattern( my_panel.m , my_panel.n )
-	return active_pattern
+    if name == 'test':
+        active_pattern = TestPattern( my_panel.m , my_panel.n )
+    elif name == 'worm':
+        active_pattern = WormPattern( my_panel.m , my_panel.n )
+    else :
+        print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
+        active_pattern = TestPattern( my_panel.m , my_panel.n )
+    return active_pattern
 
 
 if __name__ == '__main__':
-	print('running panel_master')
+    print('running panel_master')
 
-	script = sys.argv[1]
-	print('running script: ', script)
+    script = sys.argv[1]
+    print('running script: ', script)
 
-	run_type = sys.argv[2]
-	if run_type != "pi":
-		run_type = "vis"
-	else:
-		#need to perform the import in here since we only do it if using the pi hardware
-		from neopixel import *
-		LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
-		strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
-		strip.begin()
-	print('run_typ is: ', run_type)
-	m = NUM_ROWS
-	n = NUM_COLUMNS
-	pix_num = m * n
-	my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
-	print('Panel . M : ', len( my_panel_shapes ), " N: ",len( my_panel_shapes[0] ))
-	my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
+    run_type = sys.argv[2]
+    if run_type != "pi":
+        run_type = "vis"
+    else:
+        #need to perform the import in here since we only do it if using the pi hardware
+        from neopixel import *
+        LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
+        strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
+        strip.begin()
+    print('run_typ is: ', run_type)
+    m = NUM_ROWS
+    n = NUM_COLUMNS
+    pix_num = m * n
+    my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
+    print('Panel . M : ', len( my_panel_shapes ), " N: ",len( my_panel_shapes[0] ))
+    my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
 
-	#init our test patterns here
-	active_pattern = get_active_pattern( script )
+    #init our test patterns here
+    active_pattern = get_active_pattern( script )
 
-	if run_type == "vis":
-		from panel_visualizer import PanelVisualizer
-		visualizer = PanelVisualizer(m, n)
-	#run a loop forever that just gets new pixel arrays and visualizes them
-	while True:
-		pixel_arr = active_pattern.get_pixel_arr()
-		if run_type == "vis":
-			#send our array over to the visualizer for the GUI
-			visualizer.display_visualizer_panel(pixel_arr)
-			#this is the refresh speed of our panel.
-		else:
-			#update the panel object's state
-			my_panel.update_panel(pixel_arr)
-			#update the actual LEDs
-			my_panel.update_led_panel(strip)
-		# print("Here is the pixel display:")
-		# my_panel.print_display()
-		#this is the refresh speed of our panel. We should be able to make this pretty fast for the raspi
-		time.sleep(FRAME_SLEEP_TIME)
+    if run_type == "vis":
+        from panel_visualizer import PanelVisualizer
+        visualizer = PanelVisualizer(m, n)
+    #run a loop forever that just gets new pixel arrays and visualizes them
+    while True:
+        pixel_arr = active_pattern.get_pixel_arr()
+        if run_type == "vis":
+            #send our array over to the visualizer for the GUI
+            visualizer.display_visualizer_panel(pixel_arr)
+            #this is the refresh speed of our panel.
+        else:
+            #update the panel object's state
+            my_panel.update_panel(pixel_arr)
+            #update the actual LEDs
+            my_panel.update_led_panel(strip)
+        # print("Here is the pixel display:")
+        # my_panel.print_display()
+        #this is the refresh speed of our panel. We should be able to make this pretty fast for the raspi
+        time.sleep(FRAME_SLEEP_TIME)

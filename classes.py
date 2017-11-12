@@ -3,11 +3,11 @@ from __future__ import print_function
 
 # neopixel's Color
 def Color(red, green, blue, white = 0):
-	"""Convert the provided red, green, blue color to a 24-bit color value.
-	Each color component should be a value 0-255 where 0 is the lowest intensity
-	and 255 is the highest intensity.
-	"""
-	return (white << 24) | (red << 16)| (green << 8) | blue
+    """Convert the provided red, green, blue color to a 24-bit color value.
+    Each color component should be a value 0-255 where 0 is the lowest intensity
+    and 255 is the highest intensity.
+    """
+    return (white << 24) | (red << 16)| (green << 8) | blue
 
 # Pixel object. Contains pixel colors
 class Pixel():
@@ -137,7 +137,7 @@ class Panel():
 
     # wipe the panel
     def wipe_led_panel( self, strip ):
-	# wipe it
+    # wipe it
         for i in range(self.num_pixels):
             strip.setPixelColor( i, Color(0,0,0) )
             strip.show()

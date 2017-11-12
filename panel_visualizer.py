@@ -1,6 +1,6 @@
 from __future__ import print_function
 from graphics import * #import the graphics
-from classes import Pixel 
+from classes import Pixel
 
 class PanelVisualizer():
     canvasWidth = 1200
