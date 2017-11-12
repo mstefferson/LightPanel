@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 sys.path.insert(0, './patterns')
-from working_patterns import *
+from functioning_patterns import *
 from classes import Panel
 import time
 
@@ -31,6 +31,8 @@ FRAME_SLEEP_TIME = .1
 def get_active_pattern( name):
     if name == 'test':
         active_pattern = TestPattern( my_panel.m , my_panel.n )
+    elif name == 'example':
+        active_pattern = ExamplePattern( my_panel.m , my_panel.n )
     elif name == 'worm':
         active_pattern = WormPattern( my_panel.m , my_panel.n )
     else :

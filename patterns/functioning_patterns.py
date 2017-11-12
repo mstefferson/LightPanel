@@ -1,8 +1,11 @@
+# functioning_patterns
+#
 from classes import Pixel
 
-#this is a template pattern
-class ExamplePattern():
+# this is a template pattern
+class PanelPattern():
     def __init__(self , m, n):
+        self.call_name = 'panel';
         self.m = m
         self.n = n
         self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ] for j in range(self.m) ]
@@ -13,8 +16,13 @@ class ExamplePattern():
         #then return the pixel_array
         return self.pixel_arr
 
-class WormPattern():
+# example pattern
+class ExamplePattern(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'example';
 
+class WormPattern():
     def __init__(self , m, n):
         self.increment = 6
         self.lastr = 0
