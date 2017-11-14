@@ -3,6 +3,7 @@ import sys
 sys.path.insert(0, './src')
 sys.path.insert(0, './src/patterns')
 from functioning_patterns import *
+from inprogress_patterns import *
 from classes import Panel
 import time
 
