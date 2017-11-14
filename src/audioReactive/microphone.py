@@ -49,7 +49,7 @@ def getFreqsToMelMatrix(freqs, dMel=1):
 # Stream class
 ###############################################################################
 '''
-Creates a stream object according to the parameters in audioConfig.  
+Creates a stream object.  
 Some functions here take a non-trivial amount of computing time, make sure
 those are being called only once per loop.
 Typical usage will be:
