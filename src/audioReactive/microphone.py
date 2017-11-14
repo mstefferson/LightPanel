@@ -2,7 +2,9 @@
 import time
 import numpy as np
 import pyaudio
-import audioConfig
+
+MIC_RATE = 44100
+FPS = 30
 
 ###############################################################################
 # convert frequencies to notes 
@@ -62,7 +64,7 @@ within loop:
 class Stream():
     def __init__(self, nBuffers=4):
         '''
-        The mic samples at MIC_RATE, defined in audioConfig.  Usually 44100hz.
+        The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then 
         MIC_RATE / FPS.  In order to sample frequencies of order FPS and lower,
         we need to take the spectrum of multiple buffers (hence nBuffers).
@@ -76,10 +78,10 @@ class Stream():
         self.nSamples = len(self.micData)
         # set up audio stream
         self.p = pyaudio.PyAudio()
-        self.framesPerBuffer = int(audioConfig.MIC_RATE / audioConfig.FPS)
+        self.framesPerBuffer = int(MIC_RATE / FPS)
         self.stream = self.p.open(format=pyaudio.paInt16,
                         channels=1,
-                        rate=audioConfig.MIC_RATE,
+                        rate=MIC_RATE,
                         input=True,
                         frames_per_buffer=self.framesPerBuffer)
         # set parameters for taking spectra later
@@ -88,7 +90,7 @@ class Stream():
         self.nSamplesPadded = self.nSamples + self.nZeros
         micData_padded = np.pad(self.micData, (0, nZeros), mode='constant')
         # Get the frequencies corresponding to the FFT we will take later.
-        self.freqs = np.fft.fftfreq(self.nSamplesPadded, d=1./audioConfig.MIC_RATE)[0:self.nSamplesPadded//2]
+        self.freqs = np.fft.fftfreq(self.nSamplesPadded, d=1./MIC_RATE)[0:self.nSamplesPadded//2]
         # Define an array to hold the current spectrum in freq space
         self.freqSpectrum = np.zeros_like(self.freqs)
         # Define matrix to convert freq spectrum to note spectrum. 
