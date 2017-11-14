@@ -4,7 +4,6 @@ import numpy as np
 import pyaudio
 
 MIC_RATE = 44100
-FPS = 30
 
 ###############################################################################
 # convert frequencies to notes 
@@ -62,11 +61,11 @@ within loop:
     -- update leds
 '''
 class Stream():
-    def __init__(self, nBuffers=4):
+    def __init__(self, fps=60, nBuffers=4):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then 
-        MIC_RATE / FPS.  In order to sample frequencies of order FPS and lower,
+        MIC_RATE / fps.  In order to sample frequencies of order fps and lower,
         we need to take the spectrum of multiple buffers (hence nBuffers).
         '''
         print('initiating stream object')
@@ -78,7 +77,7 @@ class Stream():
         self.nSamples = len(self.micData)
         # set up audio stream
         self.p = pyaudio.PyAudio()
-        self.framesPerBuffer = int(MIC_RATE / FPS)
+        self.framesPerBuffer = int(MIC_RATE / fps)
         self.stream = self.p.open(format=pyaudio.paInt16,
                         channels=1,
                         rate=MIC_RATE,
@@ -125,7 +124,7 @@ class Stream():
         except IOError:
             self.overflows += 1
             print('Audio buffer overflowed. This has happened '+str(self.overflow)+' times')
-            print('Either decrease the defined FPS value or speed up the code in your loop')
+            print('Either decrease the defined fps value or speed up the code in your loop')
             return False
         
     def calcFreqSpectrum(self):
