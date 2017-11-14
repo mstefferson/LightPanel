@@ -109,8 +109,10 @@ class Stream():
         '''
         Updates micData by rolling the current array to the left and inserting
         the new sample at the right.  Or just overwriting completely in the case
-        of nBuffers=1.  Returns True if reading the stream suceeded, False if 
-        it failed.
+        of nBuffers=1.  
+        The stream.read() command blocks until the buffer has the requested
+        number of frames.
+        Returns True if reading the stream suceeded, False if the buffer overflowed.
         '''
         try:
             self.newMicData = np.fromstring(self.stream.read(self.framesPerBuffer), dtype=np.int16)
@@ -121,8 +123,9 @@ class Stream():
             self.frameCount += 1
             return True
         except IOError:
-            print('failed to get data from audio stream')
             self.overflows += 1
+            print('Audio buffer overflowed. This has happened '+str(self.overflow)+' times')
+            print('Either decrease the defined FPS value or speed up the code in your loop')
             return False
         
     def calcFreqSpectrum(self):
@@ -145,9 +148,10 @@ class Stream():
         Most visualizers will probably just call this once per loop.  It reads
         new data from the mic and calculates the specta.
         '''
-        self.readNewData()
-        self.calcFreqSpectrum()
-        self.calcNoteSpectrum()
+        success = self.readNewData()
+        if success:
+            self.calcFreqSpectrum()
+            self.calcNoteSpectrum()
     
     
     
