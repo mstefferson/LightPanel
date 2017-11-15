@@ -54,10 +54,10 @@ those are being called only once per loop.
 Typical usage will be:
 -- stream = microphone.Stream()
 within loop:
-    -- stream.readAndCalculate()
-    -- use stream.micData, stream.freqSpectrum, and/or stream.noteSpectrum to 
-       calculate pixel values
-    -- update leds
+-- stream.readAndCalculate()
+-- use stream.micData, stream.freqSpectrum, and/or stream.noteSpectrum to 
+calculate pixel values
+-- update leds
 '''
 class Stream():
     def __init__(self, fps=24, nBuffers=2):
@@ -79,10 +79,10 @@ class Stream():
         # set up audio stream
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16,
-                        channels=1,
-                        rate=MIC_RATE,
-                        input=True,
-                        frames_per_buffer=self.framesPerBuffer)
+                                  channels=1,
+                                  rate=MIC_RATE,
+                                  input=True,
+                                  frames_per_buffer=self.framesPerBuffer)
         # set parameters for taking spectra later
         # Pad the sample with zeros until n = 2^i where i is an integer
         self.nZeros = 2**int(np.ceil(np.log2(self.nSamples))) - self.nSamples
@@ -97,13 +97,11 @@ class Stream():
         # Define an array to hold the current spectrum in note space
         self.noteSpectrum = np.zeros(self.freqsToMelMatrix.shape[0])
         print('stream object initiated')
-        
     def stopStream(self):
         # Not sure this needs to exist but it was in the previous repo
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        
     def readNewData(self):
         '''
         Updates micData by rolling the current array to the left and inserting
@@ -125,8 +123,7 @@ class Stream():
             self.overflows += 1
             print('Audio buffer overflowed. This has happened '+str(self.overflows)+' times')
             print('Either decrease the defined fps value or speed up the code in your loop')
-            return False
-        
+        return False
     def calcFreqSpectrum(self):
         '''
         Calculates a spectrum in frequency space from the current micData.
@@ -134,14 +131,12 @@ class Stream():
         '''
         micData_padded = np.pad(self.micData, (0, self.nZeros), mode='constant')
         self.freqSpectrum = np.square(np.abs(np.fft.rfft(micData_padded)[0:self.nSamplesPadded//2])) * 1.e-10    
-  
     def calcNoteSpectrum(self):
         '''
         Converts the current frequency-space specturm to note-space.
         Returns nothing, just saves the spectrum to the object.
         '''
         self.noteSpectrum = np.dot(self.freqsToMelMatrix, self.freqSpectrum)
-        
     def readAndCalc(self):
         '''
         Most visualizers will probably just call this once per loop.  It reads
@@ -152,13 +147,6 @@ class Stream():
             self.calcFreqSpectrum()
             self.calcNoteSpectrum()
         return success
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+#stream = Stream()
+#print(dir(stream))
