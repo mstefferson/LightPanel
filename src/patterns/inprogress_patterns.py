@@ -8,6 +8,12 @@ sys.path.insert(0, '../audioReactive/')
 import micStream
 #import music
 
+# randwalk pattern
+class RandwalkPattern(PanelPattern):
+    def __init__(self, m, n, numwalkers):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'randwalk';
+
 # audioReactive test pattern
 class AudioReactiveTestPattern(PanelPattern):
     def __init__(self, m, n):
