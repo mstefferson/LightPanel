@@ -19,7 +19,7 @@ class AudioReactiveTestPattern(PanelPattern):
         print(dir(self.stream1))
     def update_pixel_arr(self):
         # update and change the pixel array
-        print(dir(self.self.stream1))
+        print(dir(self.stream1))
         success = self.stream1.readAndCalc()
         if success:
             print(np.mean(self.stream1.noteSpectrum))
