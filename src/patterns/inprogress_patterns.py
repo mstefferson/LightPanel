@@ -19,7 +19,7 @@ class AudioReactiveTestPattern(PanelPattern):
         PanelPattern.__init__(self, m, n)
         self.call_name = 'arTest';
         self.frame_sleep_time = 0.0
-        self.stream = microphone.Stream(fps=20)
+        self.stream = microphone.Stream()
         self.pix_np = np.zeros([3,m,n])
     def update_pixel_arr(self):
         # update and change the pixel array
