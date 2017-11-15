@@ -5,7 +5,7 @@ from classes import Pixel
 import numpy as np
 from functioning_patterns  import PanelPattern
 sys.path.insert(0, '../audioReactive/')
-#import microphone
+import microphone
 #import music
 
 # audioReactive test pattern
