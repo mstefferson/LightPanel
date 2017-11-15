@@ -1,7 +1,11 @@
 # functioning_patterns
 #
+import sys
 from classes import Pixel
 from functioning_patterns  import PanelPattern
+sys.path.insert(0, '../src/audioReactive/')
+import microphone
+#import music
 
 # randwalk pattern
 class RandwalkPattern(PanelPattern):
