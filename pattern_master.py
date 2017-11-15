@@ -2,8 +2,10 @@ from __future__ import print_function
 import sys
 sys.path.insert(0, './src')
 sys.path.insert(0, './src/patterns')
+sys.path.insert(0, './src/audioReactive')
 from functioning_patterns import *
 from inprogress_patterns import *
+import microphone
 from classes import Panel
 import time
 
@@ -46,7 +48,8 @@ def get_active_pattern( name):
 
 if __name__ == '__main__':
     print('running panel_master')
-
+    stream = microphone.Stream()
+    print(dir(stream))
     script = sys.argv[1]
     print('running script: ', script)
 
