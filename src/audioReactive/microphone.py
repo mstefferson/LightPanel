@@ -59,7 +59,8 @@ within loop:
 calculate pixel values
 -- update leds
 '''
-class Stream():
+
+class Stream:
     def __init__(self, fps=24, nBuffers=2):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
@@ -103,8 +104,7 @@ class Stream():
         self.stream.close()
         self.p.terminate()
     def readNewData(self):
-        '''
-        Updates micData by rolling the current array to the left and inserting
+        ''' Updates micData by rolling the current array to the left and inserting
         the new sample at the right.  Or just overwriting completely in the case
         of nBuffers=1.  
         The stream.read() command blocks until the buffer has the requested
@@ -118,28 +118,26 @@ class Stream():
             self.micData[(self.nBuffers-1)*self.framesPerBuffer:(self.nBuffers)*self.framesPerBuffer] = self.newMicData
             print('successfully got data from audio stream')
             self.frameCount += 1
-            return True
+            returnVal=True
         except IOError:
             self.overflows += 1
             print('Audio buffer overflowed. This has happened '+str(self.overflows)+' times')
             print('Either decrease the defined fps value or speed up the code in your loop')
-        return False
+            returnVal=False
+        return returnVal
     def calcFreqSpectrum(self):
-        '''
-        Calculates a spectrum in frequency space from the current micData.
+        ''' Calculates a spectrum in frequency space from the current micData.
         Returns nothing, just saves ths spectrum to the object.
         '''
         micData_padded = np.pad(self.micData, (0, self.nZeros), mode='constant')
         self.freqSpectrum = np.square(np.abs(np.fft.rfft(micData_padded)[0:self.nSamplesPadded//2])) * 1.e-10    
     def calcNoteSpectrum(self):
-        '''
-        Converts the current frequency-space specturm to note-space.
+        ''' Converts the current frequency-space specturm to note-space.
         Returns nothing, just saves the spectrum to the object.
         '''
         self.noteSpectrum = np.dot(self.freqsToMelMatrix, self.freqSpectrum)
     def readAndCalc(self):
-        '''
-        Most visualizers will probably just call this once per loop.  It reads
+        ''' Most visualizers will probably just call this once per loop.  It reads
         new data from the mic and calculates the specta.
         '''
         success = self.readNewData()
@@ -147,6 +145,3 @@ class Stream():
             self.calcFreqSpectrum()
             self.calcNoteSpectrum()
         return success
-
-#stream = Stream()
-#print(dir(stream))
