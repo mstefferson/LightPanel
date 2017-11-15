@@ -48,8 +48,7 @@ def get_active_pattern( name):
 
 if __name__ == '__main__':
     print('running panel_master')
-    stream = microphone.Stream()
-    print(dir(stream))
+
     script = sys.argv[1]
     print('running script: ', script)
 
