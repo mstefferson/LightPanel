@@ -181,4 +181,4 @@ class AudioReactiveTestPattern(PanelPattern):
         if success:
             print(np.mean(self.stream1.noteSpectrum))
             self.pix_np[0,0,:] = self.stream1.noteSpectrum
-            self.pixel_arr = [ [Pixel(self.pix_np[0,i,j],self.pix_np[1,i,j],self.pix_np[2,i,j]) for i in range(self.n) ] for j in range(self.m) ]
+            self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
