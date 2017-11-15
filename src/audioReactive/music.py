@@ -25,18 +25,16 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-            
 def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11]):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
             scaleDegree = ((note-i%12)%12)-1
             if scaleDegree in keyPattern:
-                matrix[i,j] = 1.0
+                matrix[i,note-noteList[0]] = 1.0
             else:
-                matrix[i,j] = 0.0
+                matrix[i,note-noteList[0]] = 0.0
     return matrix    
-    
     
     
 class Key:
@@ -53,8 +51,7 @@ class Key:
         print("most likely key is " + self.keyStringList[self.currentKeyNum])
         print(self.keySums.value)
         
-        
-        
+         
 class Chord:
     def __init__(self, noteList, alpha=0.1):
         # define the 7 x notes matrix for each of 12 possible keys.  
@@ -66,9 +63,9 @@ class Chord:
             for chordNum in range(7):
                 for note in noteList:
                     if (note-keyNum%12)%12 -1 in chordRefMatrix[chordNum]:
-                        self.chordMatrixList[keyNum][chordNum, pixelNum] = 1.0
+                        self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 1.0
                     else:
-                        self.chordMatrixList[keyNum][chordNum, pixelNum] = 0.0
+                        self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 0.0
             self.chordSums = ExpFilter(np.zeros(7), alpha_rise=alpha, alpha_decay=alpha)
             self.chordStringList = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii']
             self.currentChordNum = 0
@@ -79,5 +76,28 @@ class Chord:
     def printChord(self):
         print("most likely chord is " + self.chordStringList[self.currentChordNum])
         #print(self.chordSums)
+        
+
+class Beat:
+    def __init__(self, freqs, freqMin=20, freqMax=100, alpha):
+        self.alpha = alpha
+        self.matrix = np.zeros(freqs)
+        for i in range(len(freqs)):
+            if freqMin < freqs[i] < freqMax:
+                self.matrix[i] = 1.0
+            else:
+                self.matrix[i] = 0.0                   
+        self.sum = 0.0
+        self.oldSum = 0.0
+    def update(self, newValues):
+        self.oldSum = self.sum
+        newSum = np.dot(self.matrix, newValues)
+        self.sum = self.alpha * newSum + (1.0 - self.alpha) * self.sum
+    def beatRightNow(self):
+        if self.sum > 2.0*self.oldSum:
+            return True 
+            print(self.sum, self.oldSum)
+        else:
+            return False
         
         
