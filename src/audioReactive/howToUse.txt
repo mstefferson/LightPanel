@@ -10,10 +10,20 @@ import micStream
 stream = micStream.Stream()
 loop:
     stream.readAndCalculate()
-    use stream.micData, stream.freqSpectrum, and/or stream.noteSpectrum to calculate pixel values
+    use stream.freqSpectrum, and/or stream.noteSpectrum to calculate pixel values
     update leds
     
+
+
+Useful fields of the Stream class:
+
+stream.freqs contains a list of frequencies for which we have the fft data for
+stream.freqSpectrum is the power spectrum corresponding to the list of frequencies (gets updated every loop)
+stream.notes is a list of the 'notes' for which we get a power spectrum.  starts at 37=c3 and ends at b9=96
+stream.noteSpectrum is the power spectrum corresponding to this list of notes (gets updated every loop)
     
+
+
 Important note about framerate:
 
 The stream is set up in blocking mode, meaning that When stream.read() is called it blocks until the requested number of
