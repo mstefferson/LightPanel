@@ -49,8 +49,9 @@ def update():
     strip.show()
 
 
-stream = microphone.Stream(fps=20)
-print(stream.freqs[10:20])
+stream = microphone.Stream(fps=24, nBuffers=4)
+print(dir(stream))
+print(stream.freqsToMelMatrix)
 while True:
     # reads new data from mic and saves it in object.  returns true on success or false on failure
     success = stream.readAndCalc()
