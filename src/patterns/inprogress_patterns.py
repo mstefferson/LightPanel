@@ -33,6 +33,6 @@ class AudioReactiveTestPattern(PanelPattern):
             #print(np.mean(self.stream.noteSpectrum))
             self.pix_np[0,0,:] = self.stream.noteSpectrum
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-	dt = time.time() - t0
-	t0 = time.time
+	dt = time.time() - self.t0
+	self.t0 = time.time
 	print(1./dt)
