@@ -40,7 +40,7 @@ def getFreqsToMelMatrix(freqs, dMel=1, melMin=37, melMax=96):
     # normalize
     for i in range(nMels):
         freqsToMelMatrix[i] /= np.sum(freqsToMelMatrix[i])  
-    return freqsToMelMatrix
+    return mels, freqsToMelMatrix
 
 
 ###############################################################################
@@ -93,7 +93,7 @@ class Stream:
         # Define an array to hold the current spectrum in freq space
         self.freqSpectrum = np.zeros_like(self.freqs)
         # Define matrix to convert freq spectrum to note spectrum. 
-        self.freqsToMelMatrix = getFreqsToMelMatrix(self.freqs)
+        self.notes, self.freqsToMelMatrix = getFreqsToMelMatrix(self.freqs)
         # Define an array to hold the current spectrum in note space
         self.noteSpectrum = np.zeros(self.freqsToMelMatrix.shape[0])
         print('stream object initiated')
