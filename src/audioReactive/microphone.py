@@ -25,11 +25,7 @@ noteSpectrum = thisMatrix dot frequencySpectrum
 The function to define this matrix was not coded with speed in mind and should
 not be called every frame.  Define it once at the beginning. 
 '''
-def getFreqsToMelMatrix(freqs, dMel=1):
-    # lowest note we have data for
-    melMin = np.ceil(hertzToMel(freqs[10]))
-    # highest note we have data for
-    melMax = np.floor(hertzToMel(freqs[-10]))
+def getFreqsToMelMatrix(freqs, dMel=1, melMin=37, melMax=96):
     nFreqs = len(freqs)
     nMels = int((melMax-melMin+1)/dMel)
     mels = np.arange(melMin, melMax+1, dMel)
@@ -41,7 +37,10 @@ def getFreqsToMelMatrix(freqs, dMel=1):
     for i in range(nMels):
         for j in range(nFreqs):
             if lowerEdgeFreqs[i] < freqs[j] < upperEdgeFreqs[i]:
-                freqsToMelMatrix[i,j] = 1.0  
+                freqsToMelMatrix[i,j] = 1.0
+    # normalize
+    for i in range(nMels):
+        freqsToMelMatrix[i] /= np.sum(freqsToMelMatrix[i])  
     return freqsToMelMatrix
 
 
@@ -61,7 +60,7 @@ within loop:
     -- update leds
 '''
 class Stream():
-    def __init__(self, fps=30, nBuffers=4):
+    def __init__(self, fps=24, nBuffers=2):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then 
@@ -134,7 +133,7 @@ class Stream():
         Returns nothing, just saves ths spectrum to the object.
         '''
         micData_padded = np.pad(self.micData, (0, self.nZeros), mode='constant')
-        self.freqSpectrum = np.abs(np.fft.rfft(micData_padded)[0:self.nSamplesPadded//2])    
+        self.freqSpectrum = np.square(np.abs(np.fft.rfft(micData_padded)[0:self.nSamplesPadded//2])) * 1.e-10    
   
     def calcNoteSpectrum(self):
         '''

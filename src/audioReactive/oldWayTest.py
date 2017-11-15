@@ -48,21 +48,15 @@ def update():
         strip._led_data[i] = rgb[i]
     strip.show()
 
-stream = microphone.Stream()
-print('frequencies')
-print(stream.freqs)
-print('shape of freqsToMelMatrix')
-print(stream.freqsToMelMatrix.shape)
-print('first few lines of freqsToMelMatrix')
-print(stream.freqsToMelMatrix[0,0:20])
-print(stream.freqsToMelMatrix[1,0:20])
-print(stream.freqsToMelMatrix[2,0:20])
+
+stream = microphone.Stream(fps=20)
+print(stream.freqs[10:20])
 while True:
     # reads new data from mic and saves it in object.  returns true on success or false on failure
     success = stream.readAndCalc()
     if success:
-        print(stream.noteSpectrum[10])
-        pixels[0,:] = stream.noteSpectrum[10] / 1.e4
+        print(np.mean(stream.noteSpectrum))
+        pixels[0,:] = stream.noteSpectrum
         update()
            
 
