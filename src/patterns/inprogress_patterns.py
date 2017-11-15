@@ -172,11 +172,11 @@ class AudioReactiveTestPattern(PanelPattern):
         self.call_name = 'arTest';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        self.stream1 = Stream()
+        self.stream1 = Stream(fps=20,nBuffers=4)
         print(dir(self.stream1))
     def update_pixel_arr(self):
         # update and change the pixel array
-        print(dir(self.stream1))
+        #print(dir(self.stream1))
         success = self.stream1.readAndCalc()
         if success:
             print(np.mean(self.stream1.noteSpectrum))
