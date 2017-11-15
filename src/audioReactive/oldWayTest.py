@@ -1,6 +1,7 @@
 from __future__ import print_function
 from __future__ import division
 
+import sys
 sys.path.insert(0, '../src')
 import platform
 import numpy as np
@@ -48,17 +49,20 @@ def update():
     strip.show()
 
 stream = microphone.Stream()
+print('frequencies')
+print(stream.freqs)
+print('shape of freqsToMelMatrix')
+print(stream.freqsToMelMatrix.shape)
+print('first few lines of freqsToMelMatrix')
+print(stream.freqsToMelMatrix[0,0:20])
+print(stream.freqsToMelMatrix[1,0:20])
+print(stream.freqsToMelMatrix[2,0:20])
 while True:
     # reads new data from mic and saves it in object.  returns true on success or false on failure
-    success = stream.readNewData()
+    success = stream.readAndCalc()
     if success:
-        freqs, spectrum = stream.getSpectrum()
-        #print(freqs[0:10])
-        #print(freqs[-10:])
-        pixels[0,:] = spectrum[10] / 1.e4
-        if stream.frameCount == 10:
-          for i in range(len(freqs)):
-            print(microphone.hertzToMel(freqs[i]))
+        print(stream.noteSpectrum[10])
+        pixels[0,:] = stream.noteSpectrum[10] / 1.e4
         update()
-    
+           
 

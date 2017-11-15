@@ -27,11 +27,11 @@ not be called every frame.  Define it once at the beginning.
 '''
 def getFreqsToMelMatrix(freqs, dMel=1):
     # lowest note we have data for
-    melMin = np.ceil(hertzToMel(freqs[1]))
+    melMin = np.ceil(hertzToMel(freqs[10]))
     # highest note we have data for
-    melMax = np.floor(hertzToMel(freqs[-1]))
+    melMax = np.floor(hertzToMel(freqs[-10]))
     nFreqs = len(freqs)
-    nMels = (melMax-melMin+1)/dMel
+    nMels = int((melMax-melMin+1)/dMel)
     mels = np.arange(melMin, melMax+1, dMel)
     centerFreqs    = [melToHertz(mel)          for mel in mels]
     lowerEdgeFreqs = [melToHertz(mel-dMel/2.0) for mel in mels]
@@ -61,7 +61,7 @@ within loop:
     -- update leds
 '''
 class Stream():
-    def __init__(self, fps=60, nBuffers=4):
+    def __init__(self, fps=30, nBuffers=4):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then 
@@ -72,12 +72,13 @@ class Stream():
         self.frameCount = 0
         self.nBuffers = nBuffers
         self.overflows = 0
+        self.fps = fps
+        self.framesPerBuffer = int(MIC_RATE / self.fps)
         # array of zeros that will hold the rolling buffers
         self.micData = np.zeros(self.framesPerBuffer*self.nBuffers, dtype=np.float32)
         self.nSamples = len(self.micData)
         # set up audio stream
         self.p = pyaudio.PyAudio()
-        self.framesPerBuffer = int(MIC_RATE / fps)
         self.stream = self.p.open(format=pyaudio.paInt16,
                         channels=1,
                         rate=MIC_RATE,
@@ -87,7 +88,7 @@ class Stream():
         # Pad the sample with zeros until n = 2^i where i is an integer
         self.nZeros = 2**int(np.ceil(np.log2(self.nSamples))) - self.nSamples
         self.nSamplesPadded = self.nSamples + self.nZeros
-        micData_padded = np.pad(self.micData, (0, nZeros), mode='constant')
+        micData_padded = np.pad(self.micData, (0, self.nZeros), mode='constant')
         # Get the frequencies corresponding to the FFT we will take later.
         self.freqs = np.fft.fftfreq(self.nSamplesPadded, d=1./MIC_RATE)[0:self.nSamplesPadded//2]
         # Define an array to hold the current spectrum in freq space
@@ -123,7 +124,7 @@ class Stream():
             return True
         except IOError:
             self.overflows += 1
-            print('Audio buffer overflowed. This has happened '+str(self.overflow)+' times')
+            print('Audio buffer overflowed. This has happened '+str(self.overflows)+' times')
             print('Either decrease the defined fps value or speed up the code in your loop')
             return False
         
@@ -151,6 +152,7 @@ class Stream():
         if success:
             self.calcFreqSpectrum()
             self.calcNoteSpectrum()
+        return success
     
     
     
