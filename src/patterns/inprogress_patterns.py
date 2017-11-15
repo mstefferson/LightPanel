@@ -61,7 +61,12 @@ class AudioReactiveChordPattern(PanelPattern):
 	        self.volume.update(np.mean(self.stream.noteSpectrum))
 	        self.keyObj.update(self.stream.noteSpectrum)
 	        self.chordObj.update(self.stream.noteSpectrum, keyObj.currentKeyNum)
-            self.pix_np[0,0,:] = 100.0 * (self.stream.noteSpectrum / self.volume.value)
+            self.pix_np[0, 0, 0 :6 ] = 30
+            self.pix_np[0, 0, 18:24] = 30
+            self.pix_np[0, 0, 36:42] = 30
+            self.pix_np[0, 0, 54:60] = 30
+            self.pix_np[0, 0, 6+keyObj.currentKeyNum] = 255
+            self.pix_np[0, 0, 24+chordObj.currentChordNum] = 255
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
  
