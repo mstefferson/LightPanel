@@ -98,11 +98,6 @@ class Stream:
         # Define an array to hold the current spectrum in note space
         self.noteSpectrum = np.zeros(self.freqsToMelMatrix.shape[0])
         print('stream object initiated')
-    def stopStream(self):
-        # Not sure this needs to exist but it was in the previous repo
-        self.stream.stop_stream()
-        self.stream.close()
-        self.p.terminate()
     def readNewData(self):
         ''' Updates micData by rolling the current array to the left and inserting
         the new sample at the right.  Or just overwriting completely in the case
@@ -125,6 +120,11 @@ class Stream:
             print('Either decrease the defined fps value or speed up the code in your loop')
             returnVal=False
         return returnVal
+    def stopStream(self):
+        # Not sure this needs to exist but it was in the previous repo
+        self.stream.stop_stream()
+        self.stream.close()
+        self.p.terminate()
     def calcFreqSpectrum(self):
         ''' Calculates a spectrum in frequency space from the current micData.
         Returns nothing, just saves ths spectrum to the object.
