@@ -1,6 +1,7 @@
 from __future__ import print_function
 from __future__ import division
 
+sys.path.insert(0, '../src')
 import platform
 import numpy as np
 import time
