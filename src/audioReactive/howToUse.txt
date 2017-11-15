@@ -6,15 +6,15 @@ to more convienient units.
 music.py has some more advanced stuff to help analyze the spectrum and calculate patterns based on it.
 
 Typical usage will be:
-import microphone
-stream = microphone.Stream()
+import micStream
+stream = micStream.Stream()
 loop:
     stream.readAndCalculate()
     use stream.micData, stream.freqSpectrum, and/or stream.noteSpectrum to calculate pixel values
     update leds
     
     
-Important note:
+Important note about framerate:
 
 The stream is set up in blocking mode, meaning that When stream.read() is called it blocks until the requested number of
 audio frames are avaliable, and then reads them and moves on.  We tell the stream the number of samples from the mic we
