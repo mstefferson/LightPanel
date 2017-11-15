@@ -3,7 +3,7 @@
 import sys
 from classes import Pixel
 from functioning_patterns  import PanelPattern
-sys.path.insert(0, '../src/audioReactive/')
+sys.path.insert(0, '../audioReactive/')
 import microphone
 #import music
 
