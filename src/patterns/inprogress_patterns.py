@@ -72,6 +72,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
             self.pix_np[0, 0, 54:60] = 30
             self.pix_np[2, 0, 6+self.keyObj.currentKeyNum] = 100
             self.pix_np[2, 0, 24+self.chordObj.currentChordNum] = 100
+            self.pix_np[2, 0, 42:min(42+int(1*self.volume.value**0.5),54)] = 100
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
  
