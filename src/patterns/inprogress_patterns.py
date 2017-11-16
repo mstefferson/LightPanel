@@ -42,7 +42,6 @@ class AudioReactiveTestPattern(PanelPattern):
             self.t0 = self.t1
 		
 		
-# audioReactive test pattern
 class AudioReactiveTheoryDemo(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
@@ -76,3 +75,54 @@ class AudioReactiveTheoryDemo(PanelPattern):
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
  
+
+class AudioReactiveBeat(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__(self, m, n)
+        self.call_name = 'arBeat';
+        self.frameCount = 0
+        self.frame_sleep_time = 0.0
+        self.pix_np = np.zeros([3,self.m,self.n])
+        self.stream = micStream.Stream(fps=60,nBuffers=6)
+    def update_pixel_arr(self):
+        # update and change the pixel array
+        success = self.stream.readAndCalc()
+        if success:
+            self.pix_np[2, 0, :] = 100
+            self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+            self.frameCount+=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
