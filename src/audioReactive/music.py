@@ -55,7 +55,7 @@ class Key:
         sortedValues = np.sort(self.keySums.value)
         sortedNames = list(self.keyStringList[i] for i in np.argsort(self.keySums.value))
         surety = np.round(100 * (sortedValues[-1]/sortedValues[-2] - 1.),1)
-        sys.stdout.write("most likely key: %s%%  , %d%% surety \r" % (self.keyStringList[self.currentKeyNum]), surety)
+        sys.stdout.write("most likely key: %s%%  , %d%% surety \r" % (self.keyStringList[self.currentKeyNum], surety))
         #print("most likely key is: " + self.keyStringList[self.currentKeyNum] + " " + str(surety) + "%")
         #print(np.fliplr([sortedNames])[0][0:8])
         #print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
