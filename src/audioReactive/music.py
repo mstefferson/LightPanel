@@ -58,6 +58,23 @@ class Key:
         print(np.fliplr([sortedNames])[0][0:8])
         print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
         
+class NoteSums:
+    def __init__(self, matrix, alpha=0.0005):
+        self.noteSums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
+        self.matrix = matrix
+        self.noteStringList = ['c  ', 'cs ', 'd  ', 'ef ',
+                              'e  ', 'f  ', 'fs ', 'g  ',
+                              'af ', 'a  ', 'bf ', 'b  ' ]
+    def update(self, newNoteSpectrum):
+        newNoteSums = np.dot(self.matrix, newNoteSpectrum)
+        self.noteSums.update(newNoteSums)
+    def printKey(self):
+        print("most used notes are: ")
+        sortedValues = np.sort(self.noteSums.value)
+        sortedNames = list(self.noteStringList[i] for i in np.argsort(self.noteSums.value))
+        print(np.fliplr([sortedNames])[0][0:8])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
+        
          
 class Chord:
     def __init__(self, noteList, alpha=0.02):
