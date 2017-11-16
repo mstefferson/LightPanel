@@ -51,7 +51,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
         self.frameCount = 0
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        self.stream = micStream.Stream(fps=60,nBuffers=6)
+        self.stream = micStream.Stream()
         self.volume = music.ExpFilter(0.0, alpha_rise=0.8, alpha_decay=0.3)
         self.keyObj = music.Key(music.getNotesToKeyMatrix(self.stream.notes))
         self.chordObj = music.Chord(self.stream.notes)

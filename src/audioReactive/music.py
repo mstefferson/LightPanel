@@ -25,13 +25,14 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11]):
+def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1,1,1,1,100,1,1]):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
             scaleDegree = ((note-i%12)%12)-1
             if scaleDegree in keyPattern:
-                matrix[i,note-noteList[0]] = 1.0
+                arg = np.argmin(keyPattern-scaleDegree)
+                matrix[i,note-noteList[0]] = weights[arg]
             else:
                 matrix[i,note-noteList[0]] = 0.0
     return matrix    
@@ -41,7 +42,9 @@ class Key:
     def __init__(self, matrix, alpha=0.0005):
         self.keySums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
         self.matrix = matrix
-        self.keyStringList = ['c', 'cs', 'd', 'ef', 'e', 'f', 'fs', 'g', 'af', 'a', 'bf', 'b' ]
+        self.keyStringList = ['c  ', 'cs ', 'd  ', 'ef ',
+                              'e  ', 'f  ', 'fs ', 'g  ',
+                              'af ', 'a  ', 'bf ', 'b  ' ]
         self.currentKeyNum = 0
     def update(self, newNoteSpectrum):
         newKeySums = np.dot(self.matrix, newNoteSpectrum)
@@ -49,7 +52,10 @@ class Key:
         self.currentKeyNum = np.argmax(self.keySums.value)
     def printKey(self):
         print("most likely key is " + self.keyStringList[self.currentKeyNum])
-        print(self.keySums.value)
+        sortedValues = np.sort(self.keySums.value)
+        sortedNames = list(self.keyStringList[i] for i in np.argsort(self.keySums.value))
+        print(np.fliplr([sortedNames])[0][0:8])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
         
          
 class Chord:
@@ -76,7 +82,7 @@ class Chord:
         self.currentChordNum = np.argmax(self.chordSums.value)
     def printChord(self):
         print("most likely chord is " + self.chordStringList[self.currentChordNum])
-        print(self.chordSums.value)
+        print(np.round(self.chordSums.value,0))
         
 
 class Beat:

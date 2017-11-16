@@ -34,9 +34,14 @@ def getFreqsToMelMatrix(freqs, dMel=1, melMin=37, melMax=96):
     freqsToMelMatrix = np.zeros([nMels, nFreqs])
     # matrix for a "square" filter for each note
     for i in range(nMels):
+        leftSlope  = 1.0/(centerFreqs[i]    - lowerEdgeFreqs[i]) 
+        rightSlope = 1.0/(upperEdgeFreqs[i] - centerFreqs[i]   )
         for j in range(nFreqs):
-            if lowerEdgeFreqs[i] < freqs[j] < upperEdgeFreqs[i]:
-                freqsToMelMatrix[i,j] = 1.0
+            dist = np.abs(centerFreqs[i]-freqs[j])
+            if lowerEdgeFreqs[i] < freqs[j] < centerFreqs[i]:
+                freqsToMelMatrix[i,j] = 1.0 - dist*leftSlope
+            elif centerFreqs[i] < freqs[j] < upperEdgeFreqs[i]:
+                freqsToMelMatrix[i,j] = 1.0 - dist*rightSlope
     # normalize
     for i in range(nMels):
         freqsToMelMatrix[i] /= np.sum(freqsToMelMatrix[i])  
@@ -60,7 +65,7 @@ calculate pixel values
 '''
 
 class Stream:
-    def __init__(self, fps=24, nBuffers=2):
+    def __init__(self, fps=40, nBuffers=4):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then 
