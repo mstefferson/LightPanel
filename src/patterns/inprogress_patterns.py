@@ -54,7 +54,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
         self.stream = micStream.Stream()
         self.volume = music.ExpFilter(0.0, alpha_rise=0.8, alpha_decay=0.3)
         self.keyObj = music.Key(music.getNotesToKeyMatrix(self.stream.notes))
-        self.keyObj2 = music.Key(music.getNotesToKeyMatrix(self.stream.notes), keyPattern=[0], weights=[1.0], alpha=0.0001)
+        self.keyObj2 = music.Key(music.getNotesToKeyMatrix(self.stream.notes, keyPattern=[0], weights=[1.0]))
         self.chordObj = music.Chord(self.stream.notes)
     def update_pixel_arr(self):
         # update and change the pixel array
@@ -62,7 +62,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
         if success:
 	    self.volume.update(np.mean(self.stream.noteSpectrum))
 	    self.keyObj.update(self.stream.noteSpectrum)
-        self.keyObj2.update(self.stream.noteSpectrum)
+            self.keyObj2.update(self.stream.noteSpectrum)
 	    self.chordObj.update(self.stream.noteSpectrum, self.keyObj.currentKeyNum)
             if self.frameCount%10==0:
                 print(self.volume.value)

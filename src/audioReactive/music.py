@@ -25,16 +25,17 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1.,1.,1.,1.,1.,1.,1.]):
+def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[2.,1.,1.,1.,3.,1.,1.]):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
             scaleDegree = ((note-i%12)%12)-1
             if scaleDegree in keyPattern:
-                arg = np.argmin(keyPattern-scaleDegree)
+                arg = np.argmin(np.abs(keyPattern-scaleDegree))
                 matrix[i,note-noteList[0]] = weights[arg]
             else:
                 matrix[i,note-noteList[0]] = 0.0
+    print(matrix)
     return matrix    
     
     
