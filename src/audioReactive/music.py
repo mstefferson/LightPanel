@@ -25,7 +25,7 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1,1,1,1,100,1,1]):
+def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1.,1.,1.,1.,1.,1.,1.]):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
