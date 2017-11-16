@@ -68,7 +68,7 @@ class NoteSums:
     def update(self, newNoteSpectrum):
         newNoteSums = np.dot(self.matrix, newNoteSpectrum)
         self.noteSums.update(newNoteSums)
-    def printKey(self):
+    def printNoteSums(self):
         print("most used notes are: ")
         sortedValues = np.sort(self.noteSums.value)
         sortedNames = list(self.noteStringList[i] for i in np.argsort(self.noteSums.value))
