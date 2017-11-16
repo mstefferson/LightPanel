@@ -80,24 +80,21 @@ class Chord:
         
 
 class Beat:
-    def __init__(self, freqs, alpha, freqMin=20, freqMax=100):
-        self.alpha = alpha
+    def __init__(self, freqs, freqMin=10, freqMax=80):
         self.matrix = np.zeros(freqs)
         for i in range(len(freqs)):
             if freqMin < freqs[i] < freqMax:
                 self.matrix[i] = 1.0
             else:
                 self.matrix[i] = 0.0                   
-        self.sum = 0.0
-        self.oldSum = 0.0
-    def update(self, newValues):
-        self.oldSum = self.sum
-        newSum = np.dot(self.matrix, newValues)
-        self.sum = self.alpha * newSum + (1.0 - self.alpha) * self.sum
+        self.bassPower = np.zeros(5)
+    def update(self, freqSpectrum):
+        self.bassPower = np.roll(self.bassPower, -1)
+        self.bassPower[4] = np.dot(self.matrix, freqSpectrum)
     def beatRightNow(self):
-        if self.sum > 2.0*self.oldSum:
+        if (self.bassPower[2]*1.2 < self.bassPower[3] and
+            self.bassPower[3]*1.2 < self.bassPower[4]):
             return True 
-            print(self.sum, self.oldSum)
         else:
             return False
         
