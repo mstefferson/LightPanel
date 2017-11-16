@@ -25,7 +25,7 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[2.,1.,1.,1.,3.,1.,1.]):
+def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1.,1.,1.,1.,1.,1.,1.]):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
@@ -40,7 +40,7 @@ def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[2.,1.,1.
     
     
 class Key:
-    def __init__(self, matrix, alpha=0.0005):
+    def __init__(self, matrix, alpha=0.00025):
         self.keySums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
         self.matrix = matrix
         self.keyStringList = ['c  ', 'cs ', 'd  ', 'ef ',
@@ -61,7 +61,7 @@ class Key:
         
         
 class NoteSums:
-    def __init__(self, matrix, alpha=0.0005):
+    def __init__(self, matrix, alpha=0.00025):
         self.noteSums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
         self.matrix = matrix
         self.noteStringList = ['c  ', 'cs ', 'd  ', 'ef ',
@@ -79,11 +79,11 @@ class NoteSums:
         
          
 class Chord:
-    def __init__(self, noteList, alpha=0.05):
+    def __init__(self, noteList, alpha=0.025):
         # define the 7 x notes matrix for each of 12 possible keys.
         # 0 2 4 5 7 9 11   
         chordRefMatrix = np.array([[0,4,7], [2,5,9], [4,7,11], [5,9,0], [7,11,2], [9,0,4], [11,2,5]])
-        weights        = np.array([[1,1,1], [1,1,1], [1,1,1], [1,1,1], [1,1,1], [1,1,1], [1,1,1]])
+        weights        = np.array([[2,2,2], [0,0,0], [0,0,0 ], [3,1,2], [2,2 ,2], [2,2,2], [0,0,0]])
         self.chordMatrixList = []
         for i in range(12):
             self.chordMatrixList.append(np.zeros([7,len(noteList)]))
@@ -93,7 +93,6 @@ class Chord:
                     scaleDegree = (note-keyNum%12)%12 -1 
                     if scaleDegree in chordRefMatrix[chordNum]:
                         arg = np.argmin(np.abs(chordRefMatrix[chordNum]-scaleDegree))
-                        matrix[i,note-noteList[0]] = weights[arg]
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = weights[chordNum, arg]
                     else:
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 0.0
