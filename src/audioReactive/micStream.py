@@ -116,7 +116,7 @@ class Stream:
         except IOError:
             self.overflows += 1
             print('Audio buffer overflowed. This has happened '+str(self.overflows)+' times')
-            print('Either decrease the defined fps value or speed up the code in your loop')
+            print('If this is happening a lot, decrease the defined fps value or speed up the code in your loop')
             returnVal=False
         return returnVal
     def stopStream(self):

@@ -84,11 +84,17 @@ class AudioReactiveBeat(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=60,nBuffers=6)
+        self.bassPower = np.zeros(5)
     def update_pixel_arr(self):
-        # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
-            self.pix_np[2, 0, :] = 100
+            self.bassPower = np.roll(self.bassPower, -1)
+            self.bassPower[4] = np.mean(self.stream.freqSpectrum[2:15])
+            self.pix_np[2, 0, :] = 0
+            print(self.bassPower)
+            if (self.bassPower[2]*1.2 < self.bassPower[3] and 
+                self.bassPower[3]*1.2 < self.bassPower[4]):
+                self.pix_np[2, 0, :] = 100
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
 
