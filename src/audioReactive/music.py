@@ -55,11 +55,10 @@ class Key:
         sortedValues = np.sort(self.keySums.value)
         sortedNames = list(self.keyStringList[i] for i in np.argsort(self.keySums.value))
         surety = np.round(100 * (sortedValues[-1]/sortedValues[-2] - 1.),1)
-        sys.stdout.write("most likely key: %s%%  , %d%% surety \r" % (self.keyStringList[self.currentKeyNum], surety))
-        #print("most likely key is: " + self.keyStringList[self.currentKeyNum] + " " + str(surety) + "%")
-        #print(np.fliplr([sortedNames])[0][0:8])
-        #print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
-        sys.stdout.flush()
+        print("most likely key is: " + self.keyStringList[self.currentKeyNum] + " " + str(surety) + "%")
+        print(np.fliplr([sortedNames])[0][0:8])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
+        
         
 class NoteSums:
     def __init__(self, matrix, alpha=0.0005):
@@ -72,11 +71,11 @@ class NoteSums:
         newNoteSums = np.dot(self.matrix, newNoteSpectrum)
         self.noteSums.update(newNoteSums)
     def printNoteSums(self):
-        #print("most used notes are: ")
+        print("most used notes are: ")
         sortedValues = np.sort(self.noteSums.value)
         sortedNames = list(self.noteStringList[i] for i in np.argsort(self.noteSums.value))
-        #print(np.fliplr([sortedNames])[0][0:8])
-        #print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
+        print(np.fliplr([sortedNames])[0][0:8])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
         
          
 class Chord:
@@ -102,9 +101,9 @@ class Chord:
         self.chordSums.update(newChordSums)
         self.currentChordNum = np.argmax(self.chordSums.value)
     def printChord(self):
-        #print("most likely chord is " + self.chordStringList[self.currentChordNum])
-        #print(np.round(self.chordSums.value,0))
-        a = 1    
+        print("most likely chord is " + self.chordStringList[self.currentChordNum])
+        print(np.round(self.chordSums.value,0))
+            
 
 class Beat:
     def __init__(self, freqs, freqMin=2, freqMax=60):
