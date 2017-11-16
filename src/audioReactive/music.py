@@ -80,8 +80,8 @@ class Chord:
         
 
 class Beat:
-    def __init__(self, freqs, freqMin=10, freqMax=80):
-        self.matrix = np.zeros(freqs)
+    def __init__(self, freqs, freqMin=2, freqMax=60):
+        self.matrix = np.zeros_like(freqs)
         for i in range(len(freqs)):
             if freqMin < freqs[i] < freqMax:
                 self.matrix[i] = 1.0

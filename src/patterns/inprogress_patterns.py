@@ -26,14 +26,16 @@ class AudioReactiveTestPattern(PanelPattern):
         self.stream = micStream.Stream(fps=60,nBuffers=6)
         self.t0 = time.time() 
         self.t1 = time.time()
+        self.volume = music.ExpFilter(0.01, alpha_rise=0.4, alpha_decay=0.2)
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.4, alpha_decay=0.2)
         #print(self.stream.freqs[0:10])
         #print(self.stream.freqs[-10:])
     def update_pixel_arr(self):
         # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
-            #print(np.mean(self.stream.noteSpectrum))
-            self.pix_np[0,0,:] = self.stream.noteSpectrum
+            self.spectrumFilter.update(np.square(self.stream.noteSpectrum/self.volume.value/100.0))
+            self.pix_np[0,0,:] = self.spectrumFilter.value
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
             if self.frameCount%100==0:
@@ -84,17 +86,15 @@ class AudioReactiveBeat(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=60,nBuffers=6)
-        self.bassPower = np.zeros(5)
+        self.beat = music.Beat(self.stream.freqs)
     def update_pixel_arr(self):
         success = self.stream.readAndCalc()
         if success:
-            self.bassPower = np.roll(self.bassPower, -1)
-            self.bassPower[4] = np.mean(self.stream.freqSpectrum[2:15])
-            self.pix_np[2, 0, :] = 0
-            print(self.bassPower)
-            if (self.bassPower[2]*1.2 < self.bassPower[3] and 
-                self.bassPower[3]*1.2 < self.bassPower[4]):
-                self.pix_np[2, 0, :] = 100
+            self.beat.update(self.stream.freqSpectrum)
+            if self.beat.beatRightNow():
+                self.pix_np[2, 0, :] = 50
+            else:
+                self.pix_np[2, 0, :] = 0
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
 
