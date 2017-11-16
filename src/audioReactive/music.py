@@ -38,7 +38,7 @@ def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11]):
     
     
 class Key:
-    def __init__(self, matrix, alpha=0.01):
+    def __init__(self, matrix, alpha=0.0005):
         self.keySums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
         self.matrix = matrix
         self.keyStringList = ['c', 'cs', 'd', 'ef', 'e', 'f', 'fs', 'g', 'af', 'a', 'bf', 'b' ]
@@ -53,9 +53,10 @@ class Key:
         
          
 class Chord:
-    def __init__(self, noteList, alpha=0.1):
-        # define the 7 x notes matrix for each of 12 possible keys.  
-        chordRefMatrix = np.array([[0,4,7], [2,5,9], [4,7,11], [5,9,11], [7,11,2], [9,0,4], [11,2,5]])
+    def __init__(self, noteList, alpha=0.02):
+        # define the 7 x notes matrix for each of 12 possible keys.
+        # 0 2 4 5 7 9 11   
+        chordRefMatrix = np.array([[0,4,7], [2,5,9], [4,7,11], [5,9,0], [7,11,2], [9,0,4], [11,2,5]])
         self.chordMatrixList = []
         for i in range(12):
             self.chordMatrixList.append(np.zeros([7,len(noteList)]))
@@ -66,20 +67,20 @@ class Chord:
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 1.0
                     else:
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 0.0
-            self.chordSums = ExpFilter(np.zeros(7), alpha_rise=alpha, alpha_decay=alpha)
-            self.chordStringList = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii']
-            self.currentChordNum = 0
+        self.chordSums = ExpFilter(np.zeros(7), alpha_rise=alpha, alpha_decay=alpha)
+        self.chordStringList = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii']
+        self.currentChordNum = 0
     def update(self, newNoteSpectrum, currentKeyNum):
         newChordSums = np.dot(self.chordMatrixList[currentKeyNum], newNoteSpectrum)
         self.chordSums.update(newChordSums)
-        self.currendChordNum = self.chordSums.argmax()
+        self.currentChordNum = np.argmax(self.chordSums.value)
     def printChord(self):
         print("most likely chord is " + self.chordStringList[self.currentChordNum])
-        #print(self.chordSums)
+        print(self.chordSums.value)
         
 
 class Beat:
-    def __init__(self, freqs, freqMin=20, freqMax=100, alpha):
+    def __init__(self, freqs, alpha, freqMin=20, freqMax=100):
         self.alpha = alpha
         self.matrix = np.zeros(freqs)
         for i in range(len(freqs)):

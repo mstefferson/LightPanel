@@ -40,6 +40,8 @@ def get_active_pattern( name):
         active_pattern = WormPattern( my_panel.m , my_panel.n )
     elif name == 'arTest':
         active_pattern = AudioReactiveTestPattern( my_panel.m , my_panel.n )
+    elif name == 'arTheoryDemo':
+        active_pattern = AudioReactiveTheoryDemo(my_panel.m, my_panel.n)
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
         active_pattern = TestPattern( my_panel.m , my_panel.n )
