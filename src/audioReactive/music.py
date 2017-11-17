@@ -80,15 +80,14 @@ class NoteSums:
 class Chord:
     def __init__(self, noteList):
         # define the 7 x notes matrix for each of 12 possible keys.
-        # 0 2 4 5 7 9 11   
-        chordRefMatrix = np.array([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for i in range(7)])
-        weights        = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0], 
-                                   [0, 0, 0], 
-                                   [0,0,0], 
-                                   [3,1,2], 
-                                   [2,2,2], 
-                                   [2,2,2],
-                                   [0,0,0]])
+        #                           c     d     e  f     g     a       b   
+        chordRefMatrix = np.array([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] for i in range(6)])
+        weights        = np.array([[1 ,0 ,0 ,0 ,1 ,0 ,0, 1 ,0 ,0 ,0 , 0 ], 
+                                   [0 ,0 ,1 ,0 ,0 ,1 ,0, 0 ,0 ,1 ,0 , 0 ], 
+                                   [0 ,0 ,0 ,0 ,1 ,0 ,0, 1 ,0 ,0 ,0 , 1 ], 
+                                   [1 ,0 ,0 ,0 ,0 ,1 ,0, 0 ,0 ,1 ,0 , 0 ], 
+                                   [0 ,0 ,1 ,0 ,0 ,0 ,0, 1 ,0 ,0 ,0 , 1 ], 
+                                   [1 ,0 ,0 ,0 ,1 ,0 ,0, 0 ,0 ,1 ,0 , 0 ]])
         self.chordMatrixList = []
         for i in range(12):
             self.chordMatrixList.append(np.zeros([7,len(noteList)]))
