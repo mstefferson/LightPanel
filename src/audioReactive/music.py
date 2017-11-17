@@ -54,8 +54,8 @@ class Key:
         sortedNames = list(self.keyStringList[i] for i in np.argsort(self.keySums.value))
         surety = np.round(100 * (sortedValues[-1]/sortedValues[-2] - 1.),1)
         print("most likely key is: " + self.keyStringList[self.currentKeyNum] + " " + str(surety) + "%")
-        print(np.fliplr([sortedNames])[0][0:8])
-        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
+        print(np.fliplr([sortedNames])[0][0:7])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:7])
         
         
 class NoteSums:
@@ -92,7 +92,7 @@ class Chord:
         for i in range(12):
             self.chordMatrixList.append(np.zeros([7,len(noteList)]))
         for keyNum in range(12):
-            for chordNum in range(7):
+            for chordNum in range(6):
                 for note in noteList:
                     scaleDegree = (note-keyNum%12)%12 -1 
                     if scaleDegree in chordRefMatrix[chordNum]:
