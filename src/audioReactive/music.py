@@ -25,24 +25,22 @@ class ExpFilter:
         self.value = alpha * value + (1.0 - alpha) * self.value
             
             
-def getNotesToKeyMatrix(noteList, keyPattern=[0,2,4,5,7,9,11], weights=[1.,1.,1.,1.,1.,1.,1.]):
+def getNotesToKeyMatrix(noteList, weights):
     matrix = np.zeros([12, len(noteList)])
     for i in range(12):
         for note in noteList:
             scaleDegree = ((note-i%12)%12)-1
-            if scaleDegree in keyPattern:
-                arg = np.argmin(np.abs(keyPattern-scaleDegree))
-                matrix[i,note-noteList[0]] = weights[arg]
-            else:
-                matrix[i,note-noteList[0]] = 0.0
-    print(matrix)
+            matrix[i,note-noteList[0]] = weights[scaleDegree]
     return matrix    
     
     
 class Key:
-    def __init__(self, matrix, alpha=0.00025):
+    def __init__(self, noteList,
+                 #        1      2      3  4      5      6      7 
+                 weights=[3.,-1.,1.,-1.,1.,2.,-5.,3.,-1.,2.,-5.,1.],
+                 alpha=0.00025):
         self.keySums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
-        self.matrix = matrix
+        self.matrix = getNotesToKeyMatrix(noteList, weights)
         self.keyStringList = ['c  ', 'cs ', 'd  ', 'ef ',
                               'e  ', 'f  ', 'fs ', 'g  ',
                               'af ', 'a  ', 'bf ', 'b  ' ]
@@ -61,29 +59,36 @@ class Key:
         
         
 class NoteSums:
-    def __init__(self, matrix, alpha=0.00025):
+    def __init__(self, noteList, alpha=0.00025):
         self.noteSums = ExpFilter(np.ones(12), alpha_rise=alpha, alpha_decay=alpha)
-        self.matrix = matrix
+        self.matrix = getNotesToKeyMatrix(noteList, [1.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.,0.])
+        self.newNoteSums = np.zeros(12)
         self.noteStringList = ['c  ', 'cs ', 'd  ', 'ef ',
                               'e  ', 'f  ', 'fs ', 'g  ',
                               'af ', 'a  ', 'bf ', 'b  ' ]
     def update(self, newNoteSpectrum):
-        newNoteSums = np.dot(self.matrix, newNoteSpectrum)
-        self.noteSums.update(newNoteSums)
+        self.newNoteSums = np.dot(self.matrix, newNoteSpectrum)
+        self.noteSums.update(self.newNoteSums)
     def printNoteSums(self):
         print("most used notes are: ")
         sortedValues = np.sort(self.noteSums.value)
         sortedNames = list(self.noteStringList[i] for i in np.argsort(self.noteSums.value))
-        print(np.fliplr([sortedNames])[0][0:8])
-        print(np.round(np.fliplr([sortedValues])[0],0)[0:8])
+        print(np.fliplr([sortedNames])[0][0:7])
+        print(np.round(np.fliplr([sortedValues])[0],0)[0:7])
         
          
 class Chord:
-    def __init__(self, noteList, alpha=0.025):
+    def __init__(self, noteList):
         # define the 7 x notes matrix for each of 12 possible keys.
         # 0 2 4 5 7 9 11   
-        chordRefMatrix = np.array([[0,4,7], [2,5,9], [4,7,11], [5,9,0], [7,11,2], [9,0,4], [11,2,5]])
-        weights        = np.array([[2,2,2], [0,0,0], [0,0,0 ], [3,1,2], [2,2 ,2], [2,2,2], [0,0,0]])
+        chordRefMatrix = np.array([[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] for i in range(7)])
+        weights        = np.array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  0,  0], 
+                                   [0, 0, 0], 
+                                   [0,0,0], 
+                                   [3,1,2], 
+                                   [2,2,2], 
+                                   [2,2,2],
+                                   [0,0,0]])
         self.chordMatrixList = []
         for i in range(12):
             self.chordMatrixList.append(np.zeros([7,len(noteList)]))
@@ -96,7 +101,7 @@ class Chord:
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = weights[chordNum, arg]
                     else:
                         self.chordMatrixList[keyNum][chordNum, note-noteList[0]] = 0.0
-        self.chordSums = ExpFilter(np.zeros(7), alpha_rise=alpha, alpha_decay=alpha)
+        self.chordSums = ExpFilter(np.zeros(7), alpha_rise=0.01, alpha_decay=0.01)
         self.chordStringList = ['I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii']
         self.currentChordNum = 0
     def update(self, newNoteSpectrum, currentKeyNum):

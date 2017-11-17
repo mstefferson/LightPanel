@@ -53,8 +53,8 @@ class AudioReactiveTheoryDemo(PanelPattern):
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream()
         self.volume = music.ExpFilter(0.0, alpha_rise=0.8, alpha_decay=0.3)
-        self.keyObj = music.Key(music.getNotesToKeyMatrix(self.stream.notes))
-        self.noteSumsObj = music.NoteSums(music.getNotesToKeyMatrix(self.stream.notes, keyPattern=[0], weights=[1.0]))
+        self.keyObj = music.Key(self.stream.notes)
+        self.noteSumsObj = music.NoteSums(self.stream.notes)
         self.chordObj = music.Chord(self.stream.notes)
     def update_pixel_arr(self):
         # update and change the pixel array
@@ -76,7 +76,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
             self.pix_np[0, 0, 54:60] = 30
             self.pix_np[2, 0, 6+self.keyObj.currentKeyNum] = 100
             self.pix_np[2, 0, 24+self.chordObj.currentChordNum] = 100
-            self.pix_np[2, 0, 42:min(42+int(1*self.volume.value**0.5),54)] = 100
+            self.pix_np[2, 0, 42+np.argmax(self.noteSumsObj.newNoteSums)] = 100
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
  
