@@ -15,33 +15,36 @@ class RandwalkPattern(PanelPattern):
         PanelPattern.__init__( self, m, n )
         self.call_name = 'randwalk';
 
-# audioReactive test pattern
-class AudioReactiveTestPattern(PanelPattern):
+# audioReactive spectrum
+class AudioReactiveSpectrumPattern(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
-        self.call_name = 'arTest';
+        self.call_name = 'arSpectrum';
         self.frameCount = 0
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        self.stream = micStream.Stream(fps=60,nBuffers=6)
-        self.t0 = time.time() 
-        self.t1 = time.time()
-        self.volume = music.ExpFilter(0.01, alpha_rise=0.4, alpha_decay=0.2)
-        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.4, alpha_decay=0.2)
+        self.volThresh = 0.1
+        self.stream = micStream.Stream(fps=40,nBuffers=8)
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.3, alpha_decay=0.3)
         #print(self.stream.freqs[0:10])
         #print(self.stream.freqs[-10:])
     def update_pixel_arr(self):
         # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
-            self.spectrumFilter.update(np.square(self.stream.noteSpectrum/self.volume.value/100.0))
-            self.pix_np[0,0,:] = self.spectrumFilter.value
+            self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
+            self.spectrumFilter.update(self.stream.noteSpectrum)
+            if self.volumeFilter.value > self.volThresh:
+                self.pix_np[0,0,:] = 1.0 * self.spectrumFilter.value / self.volumeFilter.value
+            else:
+                self.pix_np[0,0,:] = 0.0 
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
-            if self.frameCount%100==0:
-	        self.t1 = time.time()
-	        print('fps last 100 frames: ' + str(100 / (self.t1 - self.t0)))
-            self.t0 = self.t1
+        if self.frameCount%10==0:
+            print(self.volumeFilter.value)
+            print(np.amax(5.0 * self.spectrumFilter.value / self.volumeFilter.value ))
+            print(' ')
 		
 		
 class AudioReactiveTheoryDemo(PanelPattern):
