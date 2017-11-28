@@ -46,6 +46,29 @@ class AudioReactiveSpectrumPattern(PanelPattern):
             print(np.amax(5.0 * self.spectrumFilter.value / self.volumeFilter.value ))
             print(' ')
 		
+# audioReactive spectrum
+class AudioReactiveScrollingPattern(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__(self, m, n)
+        self.call_name = 'arScroll';
+        self.frameCount = 0
+        self.frame_sleep_time = 0.0
+        self.pix_np = np.zeros([3,self.m,self.n])
+        self.stream = micStream.Stream(fps=40,nBuffers=8)
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
+    def update_pixel_arr(self):
+        # update and change the pixel array
+        success = self.stream.readAndCalc()
+        if success:
+            self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
+            self.spectrumFilter.update(self.stream.noteSpectrum)
+            bassPower = np.mean(self.spectrumFilter.value[0:10])
+            print(bassPower)
+            self.pix_np[0,0,:] = np.roll(self.pix_np[0,0,:], 1)
+            self.pix_np[0,0,0] = bassPower 
+            self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+            self.frameCount+=1
 		
 class AudioReactiveTheoryDemo(PanelPattern):
     def __init__(self, m, n):
