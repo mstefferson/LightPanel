@@ -26,7 +26,7 @@ class Runner:
         if int(self.locFloat) != self.locInt:
             self.locInt = int(self.locFloat)
             self.outArray = np.roll(self.outArray, int(np.sign(self.speed)))
-        if self.locInt == self.n or self.locInt == local_N_PIXELS-1-self.n:
+        if self.locInt == self.n or self.locInt == nPixels-1-self.n:
             self.speed = -self.speed            
     def getFullOutArray(self):
         if self.color=='r':
