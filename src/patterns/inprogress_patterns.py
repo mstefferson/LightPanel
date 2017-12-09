@@ -169,7 +169,7 @@ class HoodFlash(PanelPattern):
         self.head   [0,:] = 255.0 * self.colorWheel[0, frameNumEff - 200]
         self.head   [1,:] = 255.0 * self.colorWheel[1, frameNumEff - 200]
         self.head   [2,:] = 255.0 * self.colorWheel[2, frameNumEff - 200]
-	self.frameNum+=1
+        self.frameNum+=1
         self.pix_np[:, 0, 0 :40 ] = self.sleeveL
         self.pix_np[:, 0, 40:70 ] = self.head
         self.pix_np[:, 0, 70:110] = self.sleeveR
