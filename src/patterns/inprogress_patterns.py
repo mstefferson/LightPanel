@@ -134,18 +134,20 @@ class HoodBounce(PanelPattern):
         self.call_name = 'hoodBounce';
         self.frame_sleep_time = 0.01
         self.pix_np = np.zeros([3,self.m,self.n])
-        center = 30
-        width  = 5
-        for i in range(center-width, center+width+1):
-	        distance = np.absolute(i-center)
-	        distanceNorm = float(distance)/float(width)
-	        self.pix_np[0,0,i] = 1.0 - distanceNorm + 0.2
+        self.center = 30
+        self.width  = 5
+        self.plusOrMinus = 1
+        for i in range(self.center-self.width, self.center+self.width+1):
+            distance = np.absolute(i-self.center)
+            distanceNorm = float(distance)/float(self.width)
+            self.pix_np[0,0,i] = 1.0 - distanceNorm + 0.2
+        self.pix_np = 255.0 * self.pix_np/(np.amax(self.pix_np)) 
     def update_pixel_arr(self):
-    	if center == self.n-1-width or center == 0+width: plusOrMinus*=-1
-	    self.pix_np = np.roll(self.pix_np, plusOrMinus, axis=2)
-	    center+=plusOrMinus	
-    	self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-        
+        if self.center == self.n-1-self.width or self.center == 0+self.width: self.plusOrMinus*=-1
+        self.pix_np = np.roll(self.pix_np, self.plusOrMinus, axis=2)
+        self.center+=self.plusOrMinus	
+        self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+
 
 
 
