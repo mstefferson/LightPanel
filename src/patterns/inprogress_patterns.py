@@ -159,7 +159,7 @@ class HoodFlash(PanelPattern):
 	self.colorWheel = patternHelpers.getColorWheel(300)
 	self.frameNum=0
     def update_pixel_arr(self):
-        frameNumEff = frameNum%300
+        frameNumEff = self.frameNum%300
         self.sleeveL = 255.0 * self.colorWheel[frameNumEff - 0  ]
         self.sleeveR = 255.0 * self.colorWheel[frameNumEff - 100]
         self.head    = 255.0 * self.colorWheel[frameNumEff - 200]
