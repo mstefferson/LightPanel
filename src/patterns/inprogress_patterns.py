@@ -156,13 +156,19 @@ class HoodFlash(PanelPattern):
         self.sleeveL = np.zeros([3, 40])
         self.sleeveR = np.zeros([3, 40])
         self.head    = np.zeros([3, 30])
-	self.colorWheel = patternHelpers.getColorWheel(300)
-	self.frameNum=0
+        self.colorWheel = patternHelpers.getColorWheel(300)
+	    self.frameNum=0
     def update_pixel_arr(self):
         frameNumEff = self.frameNum%300
-        self.sleeveL[:,:] = 255.0 * self.colorWheel[:, frameNumEff - 0  ]
-        self.sleeveR[:,:] = 255.0 * self.colorWheel[:, frameNumEff - 100]
-        self.head   [:,:] = 255.0 * self.colorWheel[:, frameNumEff - 200]
+        self.sleeveL[0,:] = 255.0 * self.colorWheel[0, frameNumEff - 0  ]
+	    self.sleeveL[1,:] = 255.0 * self.colorWheel[1, frameNumEff - 0  ]
+        self.sleeveL[2,:] = 255.0 * self.colorWheel[2, frameNumEff - 0  ]
+        self.sleeveR[0,:] = 255.0 * self.colorWheel[0, frameNumEff - 100]
+        self.sleeveR[1,:] = 255.0 * self.colorWheel[1, frameNumEff - 100]
+        self.sleeveR[2,:] = 255.0 * self.colorWheel[2, frameNumEff - 100]
+        self.head   [0,:] = 255.0 * self.colorWheel[0, frameNumEff - 200]
+        self.head   [1,:] = 255.0 * self.colorWheel[1, frameNumEff - 200]
+        self.head   [2,:] = 255.0 * self.colorWheel[2, frameNumEff - 200]
 	self.frameNum+=1
         self.pix_np[:, 0, 0 :40 ] = self.sleeveL
         self.pix_np[:, 0, 40:70 ] = self.head
