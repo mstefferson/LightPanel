@@ -89,7 +89,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
         if success:
 	    self.volume.update(np.mean(self.stream.noteSpectrum))
 	    self.keyObj.update(self.stream.noteSpectrum)
-            self.noteSumsObj.update(self.stream.noteSpectrum)
+        self.noteSumsObj.update(self.stream.noteSpectrum)
 	    self.chordObj.update(self.stream.noteSpectrum, self.keyObj.currentKeyNum)
             if self.frameCount%10==0:
                 print(self.volume.value)
@@ -157,7 +157,7 @@ class HoodFlash(PanelPattern):
         self.sleeveR = np.zeros([3, 40])
         self.head    = np.zeros([3, 30])
         self.colorWheel = patternHelpers.getColorWheel(300)
-	    self.frameNum=0
+        self.frameNum=0
     def update_pixel_arr(self):
         frameNumEff = self.frameNum%300
         self.sleeveL[0,:] = 255.0 * self.colorWheel[0, frameNumEff - 0  ]
