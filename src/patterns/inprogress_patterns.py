@@ -8,6 +8,7 @@ from functioning_patterns  import PanelPattern
 sys.path.insert(0, '../audioReactive/')
 import micStream
 import music
+import patternHelpers
 
 # randwalk pattern
 class RandwalkPattern(PanelPattern):
@@ -132,20 +133,13 @@ class HoodBounce(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
         self.call_name = 'hoodBounce';
-        self.frame_sleep_time = 0.01
+        self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        self.center = 30
-        self.width  = 5
-        self.plusOrMinus = 1
-        for i in range(self.center-self.width, self.center+self.width+1):
-            distance = np.absolute(i-self.center)
-            distanceNorm = float(distance)/float(self.width)
-            self.pix_np[0,0,i] = 1.0 - distanceNorm + 0.2
-        self.pix_np = 255.0 * self.pix_np/(np.amax(self.pix_np)) 
+        self.runnerList = []
+        self.runnerList.append(patternHelpers.Runner(5, 1.0, 'r', 30, self.n)) 
     def update_pixel_arr(self):
-        if self.center == self.n-1-self.width or self.center == 0+self.width: self.plusOrMinus*=-1
-        self.pix_np = np.roll(self.pix_np, self.plusOrMinus, axis=2)
-        self.center+=self.plusOrMinus	
+        self.runnerList[0].update()
+        self.pix_np[:,0,:] = self.runnerList[0].getFullOutArray()
         self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
 
 
