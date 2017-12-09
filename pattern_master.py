@@ -44,6 +44,8 @@ def get_active_pattern( name):
         active_pattern = AudioReactiveTheoryDemo(my_panel.m, my_panel.n)
     elif name == 'arBeat':
         active_pattern = AudioReactiveBeat(my_panel.m, my_panel.n)
+    elif name == 'arScroll':
+        active_pattern = AudioReactiveScrollingPattern(my_panel.m, my_panel.n)
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
         active_pattern = TestPattern( my_panel.m , my_panel.n )
