@@ -87,7 +87,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
         # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
-	        self.volume.update(np.mean(self.stream.noteSpectrum))
+            self.volume.update(np.mean(self.stream.noteSpectrum))
             self.keyObj.update(self.stream.noteSpectrum)
             self.noteSumsObj.update(self.stream.noteSpectrum)
             self.chordObj.update(self.stream.noteSpectrum, self.keyObj.currentKeyNum)
