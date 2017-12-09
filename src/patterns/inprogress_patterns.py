@@ -128,8 +128,24 @@ class AudioReactiveBeat(PanelPattern):
             self.frameCount+=1
 
 
-
-
+class HoodBounce(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__(self, m, n)
+        self.call_name = 'hoodBounce';
+        self.frame_sleep_time = 0.01
+        self.pix_np = np.zeros([3,self.m,self.n])
+        center = 30
+        width  = 5
+        for i in range(center-width, center+width+1):
+	        distance = np.absolute(i-center)
+	        distanceNorm = float(distance)/float(width)
+	        self.pix_np[0,0,i] = 1.0 - distanceNorm + 0.2
+    def update_pixel_arr(self):
+    	if center == self.n-1-width or center == 0+width: plusOrMinus*=-1
+	    self.pix_np = np.roll(self.pix_np, plusOrMinus, axis=2)
+	    center+=plusOrMinus	
+    	self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+        
 
 
 
