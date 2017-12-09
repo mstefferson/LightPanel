@@ -136,9 +136,9 @@ class HoodBounce(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.runnerList = []
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=10), np.random.rand(), 'r', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=10), np.random.rand(), 'g', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=10), np.random.rand(), 'b', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'r', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'g', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'b', 30, self.n)) 
     def update_pixel_arr(self):
         for runner in self.runnerList: runner.update()
         self.pix_np[:,0,:] = 0
