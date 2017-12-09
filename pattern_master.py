@@ -48,6 +48,8 @@ def get_active_pattern( name):
         active_pattern = AudioReactiveScrollingPattern(my_panel.m, my_panel.n)
     elif name == 'hoodBounce':
         active_pattern = HoodBounce(my_panel.m, my_panel.n)
+    elif name == 'hoodFlash':
+        active_pattern = HoodFlash(my_panel.m, my_panel.n)
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
         active_pattern = TestPattern( my_panel.m , my_panel.n )

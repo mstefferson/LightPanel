@@ -153,16 +153,16 @@ class HoodFlash(PanelPattern):
         self.call_name = 'hoodFlash';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        sleeveL = np.zeros([3, 40])
-        sleeveR = np.zeros([3, 30])
-        head    = np.zeros([3, 40]  
+        self.sleeveL = np.zeros([3, 40])
+        self.sleeveR = np.zeros([3, 40])
+        self.head    = np.zeros([3, 30])  
     def update_pixel_arr(self):
-        sleeveL[0,:]=255
-        sleeveR[1,:]=255
-        head   [2,:]=255
-        self.pix_np[:, 0, 0 :40 ] = sleeveL
-        self.pix_np[:, 0, 40:70 ] = head
-        self.pix_np[:, 0, 70:110] = sleeveR
+        self.sleeveL[0,:]=255
+        self.sleeveR[1,:]=255
+        self.head   [2,:]=255
+        self.pix_np[:, 0, 0 :40 ] = self.sleeveL
+        self.pix_np[:, 0, 40:70 ] = self.head
+        self.pix_np[:, 0, 70:110] = self.sleeveR
         self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
 
 
