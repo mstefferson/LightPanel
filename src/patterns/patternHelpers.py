@@ -8,13 +8,13 @@ from numpy import *
 
 
 class Runner:
-    def __init__(self, n, speed, color, startLoc):
+    def __init__(self, n, speed, color, startLoc, nPixels):
         self.n = n
         self.speed = speed
         self.color = color
         self.locInt = startLoc
         self.locFloat = float(self.locInt)
-        self.outArray = np.zeros(local_N_PIXELS)
+        self.outArray = np.zeros(nPixels)
         self.outZeros = np.zeros_like(self.outArray)
         for i in range(self.locInt-self.n, self.locInt+self.n+1):
             if i == self.locInt:
@@ -26,7 +26,7 @@ class Runner:
         if int(self.locFloat) != self.locInt:
             self.locInt = int(self.locFloat)
             self.outArray = np.roll(self.outArray, int(np.sign(self.speed)))
-        if self.locInt == 0 or self.locInt == local_N_PIXELS-1:
+        if self.locInt == self.n or self.locInt == local_N_PIXELS-1-self.n:
             self.speed = -self.speed            
     def getFullOutArray(self):
         if self.color=='r':
