@@ -13,6 +13,7 @@
 *.jpg
 *.mat
 *.out
+*.json
 
 # temp python
 *.pyc
