@@ -3,7 +3,6 @@
     "NUM_ROWS": 24,
     "NUM_COLUMNS": 24,
     "RUN_TYPE": "vis",
-    "LED_COUNT": 30,
     "LED_PIN": 18,
     "LED_PIN": 10,
     "LED_FREQ_HZ": 800000,
