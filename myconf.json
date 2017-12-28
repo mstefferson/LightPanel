@@ -2,17 +2,10 @@
   "panel_config":{
     "NUM_ROWS": 24,
     "NUM_COLUMNS": 24,
-    "RUN_TYPE": "vis",
-    "LED_PIN": 18,
-    "LED_PIN": 10,
-    "LED_FREQ_HZ": 800000,
-    "LED_DMA": 5,
-    "LED_BRIGHTNESS": 255,
-    "LED_INVERT": false,
-    "LED_CHANNEL": 0
+    "RUN_TYPE": "vis"
   },
   "pattern":{
-      "TYPE":"worm",
+      "TYPE":"example",
       "FRAME_SLEEP_TIME":0.1
   }
 }

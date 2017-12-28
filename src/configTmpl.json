@@ -1,0 +1,17 @@
+{
+  "panel_config":
+    "NUM_ROWS": 5,
+    "NUM_COLUMNS": 6,
+    "RUN_TYPE": "pi",
+    "LED_PIN": 18,
+    "LED_FREQ_HZ": 800000,
+    "LED_DMA": 5,
+    "LED_BRIGHTNESS": 255,
+    "LED_INVERT": false,
+    "LED_CHANNEL": 0
+  },
+  "pattern":{
+      "TYPE":"worm",
+      "FRAME_SLEEP_TIME":0.1
+  }
+}

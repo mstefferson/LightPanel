@@ -49,7 +49,7 @@ if __name__ == '__main__':
     n = mypanel_input["NUM_COLUMNS"]
     pix_num = m * n
     if run_type == "vis":
-        print("Nothing to set-up, using visualizer") 
+        print("Nothing to set-up, using visualizer")
         from panel_visualizer import PanelVisualizer
         visualizer = PanelVisualizer(m, n)
     else:
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         LED_STRIP = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
         LED_COUNT = mypanel_input["NUM_COLUMNS"] * mypanel_input["NUM_ROWS"]
         strip = Adafruit_NeoPixel(LED_COUNT, mypanel_input["LED_PIN"],
-                mypanel_input["LED_FREQ_HZ"], mypanel_input["LED_DMA"], 
+                mypanel_input["LED_FREQ_HZ"], mypanel_input["LED_DMA"],
                 mypanel_input["LED_INVERT"], mypanel_input["LED_BRIGHTNESS"],
                 mypanel_input["LED_CHANNEL"], mypanel_input["LED_STRIP"])
         strip.begin()
