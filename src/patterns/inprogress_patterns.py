@@ -81,7 +81,7 @@ class AudioReactiveBassPattern(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=40,nBuffers=8)
-        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.5, alpha_decay=0.5)
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
         self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
     def update_pixel_arr(self):
         # update and change the pixel array
