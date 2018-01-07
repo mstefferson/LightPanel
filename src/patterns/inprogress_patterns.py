@@ -97,9 +97,9 @@ class AudioReactiveBassPattern(PanelPattern):
             self.pix_np[2,:] = bassPower * self.colorWheel[2, frameNumEff]
             temp = np.sqrt(bassPower)
             midIndex = self.n//2
-            self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
-            self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
-            self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-500]            
+            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
+            #self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
+            #self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-500]            
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
             
