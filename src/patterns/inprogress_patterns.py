@@ -93,6 +93,7 @@ class AudioReactiveBassPattern(PanelPattern):
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             frameNumEff = self.frameCount%3000
             bassPower /= self.volumeFilter.value
+            bassPower*=2.0
             print(bassPower)
             midIndex = self.n//2
             if 0 <= frameNumEff < 1000 :
