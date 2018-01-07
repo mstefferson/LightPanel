@@ -92,22 +92,26 @@ class AudioReactiveBassPattern(PanelPattern):
             self.spectrumFilter.update(self.stream.noteSpectrum)
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             frameNumEff = self.frameCount%3000
-            bassPower /= self.volumeFilter.value)
+            bassPower /= self.volumeFilter.value
+            print(bassPower)
+            midIndex = self.n//2
             if 0 <= frameNumEff < 1000 :
-                self.pix_np[0,0,:] = max(bassPower*10.0, 10.0)
+                self.pix_np[0,0,:] = max(bassPower, 1.0)
                 self.pix_np[1,0,:] = 0
                 self.pix_np[2,0,:] = 0
+                self.pix_np[0,0,midIndex-15:midIndex+15] = 255
             elif 1000 <= frameNumEff < 2000 :
                 self.pix_np[0,0,:] = 0
-                self.pix_np[1,0,:] = max(bassPower*10.0, 10.0)
+                self.pix_np[1,0,:] = max(bassPower, 1.0)
                 self.pix_np[2,0,:] = 0
+                self.pix_np[1,0,midIndex-15:midIndex+15] = 255
             elif 2000 <= frameNumEff < 3000 :
                 self.pix_np[0,0,:] = 0
                 self.pix_np[1,0,:] = 0
-                self.pix_np[2,0,:] = max(bassPower*10.0, 10.0)
+                self.pix_np[2,0,:] = max(bassPower, 1.0)
+                self.pix_np[2,0,midIndex-15:midIndex+15] = 255
             temp = np.sqrt(bassPower)
             midIndex = self.n//2
-            self.pix_np /= 10.0
             #self.pix_np = np.clip(self.pix_np, 20, 255)
             #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
             #self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
