@@ -81,7 +81,7 @@ class AudioReactiveBassPattern(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=40,nBuffers=8)
-        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.01, alpha_decay=0.01)
         self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
         self.colorWheel = patternHelpers.getColorWheel(1000)
     def update_pixel_arr(self):
@@ -92,6 +92,7 @@ class AudioReactiveBassPattern(PanelPattern):
             self.spectrumFilter.update(self.stream.noteSpectrum)
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             frameNumEff = self.frameCount%3000
+            print(bassPower/volumeFilter.value)
             if 0 <= frameNumEff < 1000 :
                 self.pix_np[0,0,:] = max(bassPower, 10.0)
                 self.pix_np[1,0,:] = 0
