@@ -135,7 +135,7 @@ class HoodBounce(PanelPattern):
         self.call_name = 'hoodBounce';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.1, alpha_decay=0.1)
+	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.01, alpha_decay=0.01)
         self.runnerList = []
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=5), np.random.rand()*0.1+0.05, 'r', 30, self.n)) 
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=5), np.random.rand()*0.1+0.05, 'p', 30, self.n)) 
