@@ -11,7 +11,7 @@ import time
 
 
 # LED strip configuration:
-LED_COUNT      = 60      # Number of LED pixels.
+LED_COUNT      = 150      # Number of LED pixels.
 #LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_PIN        = 12      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -22,7 +22,7 @@ LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 # panel configuration
 NUM_ROWS = 1
-NUM_COLUMNS = 60
+NUM_COLUMNS = 150
 #these are the configs for the cardboard test panel
 #NUM_ROWS = 5
 #NUM_COLUMNS = 6
@@ -44,6 +44,8 @@ def get_active_pattern( name):
         active_pattern = AudioReactiveTheoryDemo(my_panel.m, my_panel.n)
     elif name == 'arBeat':
         active_pattern = AudioReactiveBeat(my_panel.m, my_panel.n)
+    elif name == 'arBass':
+        active_pattern = AudioReactiveBassPattern(my_panel.m, my_panel.n)
     elif name == 'arScroll':
         active_pattern = AudioReactiveScrollingPattern(my_panel.m, my_panel.n)
     elif name == 'hoodBounce':
