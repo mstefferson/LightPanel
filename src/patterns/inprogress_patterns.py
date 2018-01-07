@@ -135,11 +135,13 @@ class HoodBounce(PanelPattern):
         self.call_name = 'hoodBounce';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.05, alpha_decay=0.05)
+	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.02, alpha_decay=0.02)
         self.runnerList = []
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=10), np.random.rand()*0.2+0.05, 'r', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=10), np.random.rand()*0.2+0.05, 'p', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=10), np.random.rand()*0.2+0.05, 'b', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=6), np.random.rand()*0.2+0.05, 'r', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=6), np.random.rand()*0.2+0.05, 'p', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=6), np.random.rand()*0.2+0.05, 'b', 30, self.n))
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=6), np.random.rand()*0.2+0.05, 'g', 30, self.n))
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(2,high=6), np.random.rand()*0.2+0.05, 'r', 30, self.n))
     def update_pixel_arr(self):
         for runner in self.runnerList: runner.update()
         self.pix_np[:,0,:] = 0
