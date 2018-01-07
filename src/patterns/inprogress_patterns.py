@@ -136,16 +136,15 @@ class HoodBounce(PanelPattern):
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
         self.runnerList = []
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'r', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'g', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=30), np.random.rand(), 'b', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=5), np.random.rand()*0.1+0.05, 'r', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=5), np.random.rand()*0.1+0.05, 'p', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=5), np.random.rand()*0.1+0.05, 'b', 30, self.n)) 
     def update_pixel_arr(self):
         for runner in self.runnerList: runner.update()
         self.pix_np[:,0,:] = 0
         for runner in self.runnerList: self.pix_np[:,0,:] += runner.getFullOutArray()
         self.pix_np /= len(self.runnerList)
         self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-
 
 class HoodFlash(PanelPattern):
     def __init__(self, m, n):
