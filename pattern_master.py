@@ -38,6 +38,7 @@ if __name__ == '__main__':
     print('running panel_master')
     # get json config file
     myconfig_file = sys.argv[1]
+    print('using config file', myconfig_file)
     with open(myconfig_file) as json_data_file:
         pattern_input = json.load(json_data_file)
     # print some things

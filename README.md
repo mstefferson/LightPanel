@@ -64,7 +64,7 @@ Here are instructions : https://www.raspberrypi.org/forums/viewtopic.php?t=59960
 
 ## example using Mike and Stephen's pi and strip
 {
-  "panel_config":
+  "panel_config":{
     "NUM_ROWS": 5,
     "NUM_COLUMNS": 6,
     "RUN_TYPE": "pi",
@@ -83,10 +83,10 @@ Here are instructions : https://www.raspberrypi.org/forums/viewtopic.php?t=59960
 
 ## example using visualizer
 {
-  "panel_config":
+  "panel_config":{
     "NUM_ROWS": 24,
     "NUM_COLUMNS": 24,
-    "RUN_TYPE": "vis",
+    "RUN_TYPE": "vis"
   },
   "pattern":{
       "TYPE":"test",

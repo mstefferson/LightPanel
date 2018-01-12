@@ -1,5 +1,5 @@
 {
-  "panel_config":
+  "panel_config":{
     "NUM_ROWS": 5,
     "NUM_COLUMNS": 6,
     "RUN_TYPE": "pi",
