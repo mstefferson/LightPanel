@@ -16,21 +16,21 @@ import json
 # python3 pattern_master.py myconf.json
 # 
 # Additional functions:
-# get_active_pattern( pattern )
+# get_active_pattern( pattern_dict )
 # this is out lookup table that checks the run time input args 
 # and calls the appropriate pattern generator at the core of it, 
 # this function just calls another pattern function, which 
 # returns a pixel array object
-def get_active_pattern( pattern ):
-    if pattern["TYPE"] == 'test':
-        active_pattern = TestPattern( my_panel.m , my_panel.n )
-    elif pattern["TYPE"] == 'example':
-        active_pattern = ExamplePattern( my_panel.m , my_panel.n )
-    elif pattern["TYPE"] == 'worm':
-        active_pattern = WormPattern( my_panel.m , my_panel.n )
+def get_active_pattern( pattern_dict ):
+    if pattern_dict["TYPE"] == 'test':
+        active_pattern = TestPattern( pattern_dict )
+    elif pattern_dict["TYPE"] == 'example':
+        active_pattern = ExamplePattern( pattern_dict)
+    elif pattern_dict["TYPE"] == 'worm':
+        active_pattern = WormPattern( pattern_dict )
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
-        active_pattern = TestPattern( my_panel.m , my_panel.n )
+        active_pattern = TestPattern( my_panel.m , my_panel.n, pattern_dict )
     return active_pattern
 
 # Main
@@ -40,9 +40,10 @@ if __name__ == '__main__':
     myconfig_file = sys.argv[1]
     print('using config file', myconfig_file)
     with open(myconfig_file) as json_data_file:
-        pattern_input = json.load(json_data_file)
+        config_input = json.load(json_data_file)
     # print some things
-    mypanel_input = pattern_input["panel_config"]
+    mypanel_input = config_input["panel_config"]
+    mypattern_input = config_input["pattern"]
     print('running config:', myconfig_file)
     run_type = mypanel_input["RUN_TYPE"]
     print('run_typ is:', run_type)
@@ -67,8 +68,11 @@ if __name__ == '__main__':
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
     print('Panel . M : ', len( my_panel_shapes ), " N: ",len( my_panel_shapes[0] ))
     my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
+    # set panel attributes to pattern input dictionary
+    mypattern_input["M"] = my_panel.m
+    mypattern_input["N"] = my_panel.m
     # initialize pattern
-    active_pattern = get_active_pattern( pattern_input["pattern"] )
+    active_pattern = get_active_pattern( mypattern_input )
     #run a loop forever that just gets new pixel arrays and visualizes them
     while True:
         # update and get pixel array
