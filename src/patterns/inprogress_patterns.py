@@ -26,8 +26,8 @@ class AudioReactiveBassPattern(PanelPattern):
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=40,nBuffers=8)
         self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.05, alpha_decay=0.05)
-        self.spectrumFilter = music.ExpFilter(1.0+np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
-        self.colorWheel = patternHelpers.getColorWheel(3001)
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
+        self.colorWheel = patternHelpers.getColorWheel(3000)
         print(self.colorWheel)
     def update_pixel_arr(self):
         # update and change the pixel array
@@ -45,6 +45,7 @@ class AudioReactiveBassPattern(PanelPattern):
             self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
             midIndex = self.n//2
             temp = np.sqrt(bassPower)
+            temp = 20
             self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-1000]
             self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-1000]
             self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-1000]            
