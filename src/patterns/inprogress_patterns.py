@@ -27,7 +27,7 @@ class AudioReactiveBassPattern(PanelPattern):
         self.stream = micStream.Stream(fps=40,nBuffers=8)
         self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.05, alpha_decay=0.05)
         self.spectrumFilter = music.ExpFilter(1.0+np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
-        self.colorWheel = patternHelpers.getColorWheel(3000)
+        self.colorWheel = patternHelpers.getColorWheel(3001)
         print(self.colorWheel)
     def update_pixel_arr(self):
         # update and change the pixel array
@@ -40,6 +40,7 @@ class AudioReactiveBassPattern(PanelPattern):
             bassPower /= self.volumeFilter.value
             bassPower*=4.0
             print(bassPower)
+            print(self.colorWheel[:, frameNumEff])
             #midIndex = self.n//2
             #if 0 <= frameNumEff < 1000 :
             self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
