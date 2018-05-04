@@ -90,16 +90,16 @@ class AudioReactiveBassPattern(PanelPattern):
         if success:
             self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
             self.spectrumFilter.update(self.stream.noteSpectrum)
-            bassPower = np.mean(self.spectrumFilter.value[0:20])
+            bassPower = np.mean(self.spectrumFilter.value[0:0])
             frameNumEff = self.frameCount%3000
             bassPower /= self.volumeFilter.value
             bassPower*=4.0
             print(bassPower)
             #midIndex = self.n//2
             #if 0 <= frameNumEff < 1000 :
-            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
-            self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
-            self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
+            self.pix_np[:,0,:] = bassPower*self.colorWheel[:, frameNumEff]
+            #self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
+            #self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
             #elif 1000 <= frameNumEff < 2000 :
             #    self.pix_np[0,0,:] = 0
             #    self.pix_np[1,0,:] = max(bassPower, 0.5)
