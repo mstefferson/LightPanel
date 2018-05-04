@@ -40,27 +40,15 @@ class AudioReactiveBassPattern(PanelPattern):
             bassPower /= self.volumeFilter.value
             bassPower*=4.0
             print(bassPower)
-            print(self.colorWheel[:, frameNumEff])
-            #midIndex = self.n//2
-            #if 0 <= frameNumEff < 1000 :
             self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
             self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
             self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
-            #elif 1000 <= frameNumEff < 2000 :
-            #    self.pix_np[0,0,:] = 0
-            #    self.pix_np[1,0,:] = max(bassPower, 0.5)
-            #    self.pix_np[2,0,:] = 0
-            #elif 2000 <= frameNumEff < 3000 :
-            #    self.pix_np[0,0,:] = 0
-            #    self.pix_np[1,0,:] = 0
-            #    self.pix_np[2,0,:] = max(bassPower, 0.5)
-            #midIndex = self.n//2
-            #temp = np.sqrt(bassPower)
-            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
-            #self.pix_np = np.clip(self.pix_np, 20, 255)
-            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
-            #self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
-            #self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-500]            
+            midIndex = self.n//2
+            temp = np.sqrt(bassPower)
+            self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-1000]
+            self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-1000]
+            self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-1000]            
+            self.pix_np = np.clip(self.pix_np, 20, 255)
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
         
