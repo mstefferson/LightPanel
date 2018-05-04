@@ -28,7 +28,7 @@ class AudioReactiveBassPattern(PanelPattern):
         self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.05, alpha_decay=0.05)
         self.spectrumFilter = music.ExpFilter(1.0+np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
         self.colorWheel = patternHelpers.getColorWheel(3000)
-        print(self.colorwheel)
+        print(self.colorWheel)
     def update_pixel_arr(self):
         # update and change the pixel array
         success = self.stream.readAndCalc()
