@@ -17,6 +17,54 @@ class RandwalkPattern(PanelPattern):
         self.call_name = 'randwalk';
 
 # audioReactive spectrum
+class AudioReactiveBassPattern(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__(self, m, n)
+        self.call_name = 'arBass';
+        self.frameCount = 0
+        self.frame_sleep_time = 0.0
+        self.pix_np = np.zeros([3,self.m,self.n])
+        self.stream = micStream.Stream(fps=40,nBuffers=8)
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.05, alpha_decay=0.05)
+        self.spectrumFilter = music.ExpFilter(1.0+np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
+        self.colorWheel = patternHelpers.getColorWheel(3000)
+    def update_pixel_arr(self):
+        # update and change the pixel array
+        success = self.stream.readAndCalc()
+        if success:
+            self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
+            self.spectrumFilter.update(self.stream.noteSpectrum)
+            bassPower = np.mean(self.spectrumFilter.value[0:0])
+            frameNumEff = self.frameCount%3000
+            bassPower /= self.volumeFilter.value
+            bassPower*=4.0
+            print(bassPower)
+            #midIndex = self.n//2
+            #if 0 <= frameNumEff < 1000 :
+            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
+            self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
+            self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
+            #elif 1000 <= frameNumEff < 2000 :
+            #    self.pix_np[0,0,:] = 0
+            #    self.pix_np[1,0,:] = max(bassPower, 0.5)
+            #    self.pix_np[2,0,:] = 0
+            #elif 2000 <= frameNumEff < 3000 :
+            #    self.pix_np[0,0,:] = 0
+            #    self.pix_np[1,0,:] = 0
+            #    self.pix_np[2,0,:] = max(bassPower, 0.5)
+            #midIndex = self.n//2
+            #temp = np.sqrt(bassPower)
+            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
+            #self.pix_np = np.clip(self.pix_np, 20, 255)
+            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
+            #self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
+            #self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-500]            
+            self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+            self.frameCount+=1
+        
+        
+    
+# audioReactive spectrum
 class AudioReactiveSpectrumPattern(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
@@ -72,51 +120,6 @@ class AudioReactiveScrollingPattern(PanelPattern):
             self.frameCount+=1
 		
         
-# audioReactive spectrum
-class AudioReactiveBassPattern(PanelPattern):
-    def __init__(self, m, n):
-        PanelPattern.__init__(self, m, n)
-        self.call_name = 'arBass';
-        self.frameCount = 0
-        self.frame_sleep_time = 0.0
-        self.pix_np = np.zeros([3,self.m,self.n])
-        self.stream = micStream.Stream(fps=40,nBuffers=8)
-        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.05, alpha_decay=0.05)
-        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
-        self.colorWheel = patternHelpers.getColorWheel(3000)
-    def update_pixel_arr(self):
-        # update and change the pixel array
-        success = self.stream.readAndCalc()
-        if success:
-            self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
-            self.spectrumFilter.update(self.stream.noteSpectrum)
-            bassPower = np.mean(self.spectrumFilter.value[0:0])
-            frameNumEff = self.frameCount%3000
-            bassPower /= self.volumeFilter.value
-            bassPower*=4.0
-            print(bassPower)
-            #midIndex = self.n//2
-            #if 0 <= frameNumEff < 1000 :
-            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
-            self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
-            self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
-            #elif 1000 <= frameNumEff < 2000 :
-            #    self.pix_np[0,0,:] = 0
-            #    self.pix_np[1,0,:] = max(bassPower, 0.5)
-            #    self.pix_np[2,0,:] = 0
-            #elif 2000 <= frameNumEff < 3000 :
-            #    self.pix_np[0,0,:] = 0
-            #    self.pix_np[1,0,:] = 0
-            #    self.pix_np[2,0,:] = max(bassPower, 0.5)
-            #midIndex = self.n//2
-            #temp = np.sqrt(bassPower)
-            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
-            #self.pix_np = np.clip(self.pix_np, 20, 255)
-            #self.pix_np[0,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[0, frameNumEff-500]
-            #self.pix_np[1,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[1, frameNumEff-500]
-            #self.pix_np[2,midIndex-temp:midIndex+temp] = 255.0 * self.colorWheel[2, frameNumEff-500]            
-            self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-            self.frameCount+=1
             
             
             
