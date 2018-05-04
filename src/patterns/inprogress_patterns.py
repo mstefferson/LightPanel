@@ -97,7 +97,7 @@ class AudioReactiveBassPattern(PanelPattern):
             print(bassPower)
             #midIndex = self.n//2
             #if 0 <= frameNumEff < 1000 :
-            self.pix_np[0,0,:] = bassPower*self.colorWheel[:, frameNumEff]
+            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
             self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
             self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
             #elif 1000 <= frameNumEff < 2000 :
