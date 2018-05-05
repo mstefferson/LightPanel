@@ -102,6 +102,7 @@ class AudioReactiveScrollingPattern(PanelPattern):
         # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
+            frameNumEff = self.frameCount%3000
             self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
             self.spectrumFilter.update(self.stream.noteSpectrum)
             bassPower = np.mean(self.spectrumFilter.value[0:10])
