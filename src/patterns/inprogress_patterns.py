@@ -96,8 +96,9 @@ class AudioReactiveScrollingPattern(PanelPattern):
         self.pix_np = np.zeros([3,self.m,self.n])
         self.stream = micStream.Stream(fps=40,nBuffers=8)
         self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
-        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.5, alpha_decay=0.5)
-    def update_pixel_arr(self):
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.9, alpha_decay=0.5)
+        self.colorWheel = patternHelpers.getColorWheel(3000)
+        def update_pixel_arr(self):
         # update and change the pixel array
         success = self.stream.readAndCalc()
         if success:
@@ -106,6 +107,9 @@ class AudioReactiveScrollingPattern(PanelPattern):
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             bassPower /= self.volumeFilter.value
             bassPower *=10
+            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
+            self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
+            self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
             #print(self.volumeFilter.value)
             self.pix_np[0,0,:] = np.roll(self.pix_np[0,0,:], 1)
             self.pix_np[0,0,0] = bassPower 
