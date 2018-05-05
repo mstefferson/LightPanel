@@ -108,12 +108,13 @@ class AudioReactiveScrollingPattern(PanelPattern):
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             bassPower /= self.volumeFilter.value
             bassPower *=10
-            self.pix_np[0,0,:] = bassPower*self.colorWheel[0, frameNumEff]
-            self.pix_np[1,0,:] = bassPower*self.colorWheel[1, frameNumEff]
-            self.pix_np[2,0,:] = bassPower*self.colorWheel[2, frameNumEff]
             #print(self.volumeFilter.value)
             self.pix_np[0,0,:] = np.roll(self.pix_np[0,0,:], 1)
-            self.pix_np[0,0,0] = bassPower 
+            self.pix_np[1,0,:] = np.roll(self.pix_np[1,0,:], 1)
+            self.pix_np[2,0,:] = np.roll(self.pix_np[2,0,:], 1)
+            self.pix_np[0,0,0] = bassPower*self.colorWheel[0, frameNumEff]
+            self.pix_np[1,0,0] = bassPower*self.colorWheel[1, frameNumEff]
+            self.pix_np[2,0,0] = bassPower*self.colorWheel[2, frameNumEff]
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
 		
