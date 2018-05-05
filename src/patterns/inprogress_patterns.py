@@ -38,7 +38,7 @@ class AudioReactiveBassPattern(PanelPattern):
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             frameNumEff = self.frameCount%3000
             bassPower /= self.volumeFilter.value
-            bassPower*=1
+            bassPower*=10
             print(bassPower)
             self.pix_np[0,0,:] = np.max([bassPower,10])*self.colorWheel[0, frameNumEff]
             self.pix_np[1,0,:] = np.max([bassPower,10])*self.colorWheel[1, frameNumEff]
