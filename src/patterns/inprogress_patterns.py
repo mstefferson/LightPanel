@@ -107,7 +107,8 @@ class AudioReactiveScrollingPattern(PanelPattern):
             self.spectrumFilter.update(self.stream.noteSpectrum)
             bassPower = np.mean(self.spectrumFilter.value[0:10])
             bassPower /= self.volumeFilter.value
-            bassPower *=10
+            bassPower = bassPower*bassPower
+            print(bassPower)
             #print(self.volumeFilter.value)
             self.pix_np[0,0,:] = np.roll(self.pix_np[0,0,:], 1)
             self.pix_np[1,0,:] = np.roll(self.pix_np[1,0,:], 1)
