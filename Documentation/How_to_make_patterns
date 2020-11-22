@@ -1,14 +1,14 @@
 How to make patterns:
 
-All patterns should be stored as py files in /patterns
-When you make a pattern, in order for it to be called by the pattern_master.py file, it needs to be registered int he get_visualizer_panel function in pattern_master.py
+All patterns should be classes in ./src/patterns/functioning_patterns.
+When you make a pattern, in order for it to be called by the pattern_master.py file, it needs to be called by its call_name in pattern_master.py
 The way animation works is that the pattern_master.py will just loop over and over calling your pattern function, and then pushing that pixel array object to the appropriate output
 It may be handy to keep track of the real time since start if your pattern needs that. Don't assume the refresh rate
 
 Your pattern generator should return a pixel array of the appropriate size based on the panel object's m and n
 If you make a new pattern py file make sure to create an intializer and call it in pattern_master.
-For example test_pattern = TestPatterns( my_panel ) takes in our panel object so that we know sizing and such
+For example active_pattern = TestPatterns( my_panel.m, my_panel.n ) build the pattern size from the panel
 
 When generating the pixel array objects the following variables are handy :
-self.panel.m
-self.panel.n
+panel.m: number of rows
+panel.n: number of columns

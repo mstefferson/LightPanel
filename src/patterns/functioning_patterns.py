@@ -9,10 +9,32 @@ class PanelPattern():
         # row and columns
         self.m = m
         self.n = n
-        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ] for j in range(self.m) ]
-
+        # # of seconds to pause between fame updates.
+        # this is the refresh speed of our panel.
+        # Much faster than 0. 1 seems to piss off my computer
+        self.frame_sleep_time = 0.1
+        # pattern array
+        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ]
+            for j in range(self.m) ]
+    # method that should be overridden
+    ## update_pixel_arr: change the pixel array when called
+    def update_pixel_arr(self):
+        # update and change the pixel array
+        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ]
+            for j in range(self.m) ]
+    # these methods should be be changed
+    ## get_pixel_arr: returns current pixel array
     def get_pixel_arr(self):
         #then return the pixel_array
+        return self.pixel_arr
+    ## wipe_pixel_arr: sets all pixels to zero
+    def wipe_pixel_arr(self):
+        #set all pixels in array to zero
+        self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ]
+            for j in range(self.m) ]
+    ## update_and_get_pixel_arr: returns current pixel array
+    def update_and_get_pixel_arr(self):
+        self.update_pixel_arr()
         return self.pixel_arr
 
 # example pattern
@@ -20,13 +42,6 @@ class ExamplePattern(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__( self, m, n )
         self.call_name = 'example';
-
-# randwalk pattern
-class RandwalkPattern(PanelPattern):
-    def __init__(self, m, n, numwalkers):
-        PanelPattern.__init__( self, m, n )
-        self.call_name = 'randwalk';
-
 
 # worm pattern
 class WormPattern(PanelPattern):
@@ -52,7 +67,7 @@ class WormPattern(PanelPattern):
             for i in range ( offset, len(self.pixel_arr) -offset ):
                 self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
 
-    def get_pixel_arr(self):
+    def update_pixel_arr(self):
         self.lastr +=  self.increment*self.multr
         self.lastg += self.increment*self.multg
         self.lastb += self.increment*self.multb
@@ -78,8 +93,6 @@ class WormPattern(PanelPattern):
         #move through each row
         for i in range( int ( self.m / 2 )  ):
             self.fill_rect_edge( i)
-        # self.panel.display_visualizer_panel(self.pixel_arr)
-        return self.pixel_arr
 
 class TestPattern(PanelPattern):
     MAX_VAL = 236
@@ -97,11 +110,9 @@ class TestPattern(PanelPattern):
 
     #this is an example application that loads some pixels
     #into the panel for display
-    def get_pixel_arr(self):
+    def update_pixel_arr(self):
         #move through each row
         for i in range( self.m):
             #move through the column
             for j in range( self.n ):
                 self.pixel_arr[i][j] = Pixel( i*(220/self.m) , j*(220/self.n) , i+j)
-        # self.panel.display_visualizer_panel(self.pixel_arr)
-        return self.pixel_arr

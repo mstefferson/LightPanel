@@ -7,8 +7,12 @@ Pattern options as of now are :
 test
 worm
 
-If you want to add patterns, create a new .py file that creates your pattern
-put it in the patterns folder, and add them to pattern_master.py's lookup scheme
+If you want to add patterns, feel free to call a test your pattern in
+./src/patterns/inprogress_patterns. Patterns should be inherited PanelPattern().
+Currently, the call to get the pattern is self.get_pixel_array. For now, this
+is function contained in the base class, but it need to be overwritten to update
+and return the pixel pattern. Finished patterns go in 
+./src/patterns/functioning_patterns.
 
 
 
