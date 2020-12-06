@@ -19,8 +19,8 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 # panel configuration
-NUM_ROWS = 24
-NUM_COLUMNS = 24
+NUM_ROWS = 13
+NUM_COLUMNS = 34
 #these are the configs for the cardboard test panel
 #NUM_ROWS = 5
 #NUM_COLUMNS = 6
@@ -52,7 +52,8 @@ if __name__ == '__main__':
 
     run_type = sys.argv[2]
     if run_type != "pi":
-        run_type = "vis"
+        if run_type != "vis2":
+            run_type = "vis"
     else:
         #need to perform the import in here since we only do it if using the pi hardware
         from neopixel import *
@@ -60,7 +61,7 @@ if __name__ == '__main__':
         strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ,
             LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         strip.begin()
-    print('run_typ is: ', run_type)
+    print('run_type is: ', run_type)
     m = NUM_ROWS
     n = NUM_COLUMNS
     pix_num = m * n
@@ -72,12 +73,15 @@ if __name__ == '__main__':
 
     if run_type == "vis":
         from panel_visualizer import PanelVisualizer
-        visualizer = PanelVisualizer(m, n)
+        visualizer = PanelVisualizer(m, n, False)
+    if run_type == "vis2":
+        from panel_visualizer import PanelVisualizer
+        visualizer = PanelVisualizer(m, n, True)
     #run a loop forever that just gets new pixel arrays and visualizes them
     while True:
         # update and get pixel array
         pixel_arr = active_pattern.update_and_get_pixel_arr()
-        if run_type == "vis":
+        if run_type == "vis" or run_type=="vis2":
             #send our array over to the visualizer for the GUI
             visualizer.display_visualizer_panel(pixel_arr)
             #this is the refresh speed of our panel.

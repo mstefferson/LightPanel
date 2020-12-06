@@ -1,7 +1,7 @@
 # functioning_patterns
 #
 from classes import Pixel
-
+import random
 # this is a template pattern all patterns are inherit
 class PanelPattern():
     def __init__(self , m, n):
@@ -55,7 +55,7 @@ class WormPattern(PanelPattern):
         self.multr = 1
         self.multb = .5
         self.multg = .75
-        self.MAX_VAL = 236
+        self.MAX_VAL = 150
         self.MIN_VAL = 20
 
     #fills in a rectangle of a color into the pixel array given
@@ -116,3 +116,34 @@ class TestPattern(PanelPattern):
             #move through the column
             for j in range( self.n ):
                 self.pixel_arr[i][j] = Pixel( i*(220/self.m) , j*(220/self.n) , i+j)
+
+# randwalk pattern starts with partially lit white pixels, and randomly permutes pixels from there
+class RandwalkPattern(PanelPattern):
+    def __init__(self, m, n, numwalkers):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'randwalk';
+        #move through each row
+        for i in range( self.m):
+            #move through the column
+            for j in range( self.n ):
+                self.pixel_arr[i][j] = Pixel( 50,50,50)
+
+    #This takes a value, alters it by a random amt and then returns taht alterd value
+    def permute_val(self, value):
+        MAX_VAL = 150
+        value = value + random.randint(-5,5)
+        if(value < 0):
+            value =0
+        elif value>MAX_VAL:
+            value = MAX_VAL
+        return value
+
+    #this is an example application that loads some pixels
+    #into the panel for display
+    def update_pixel_arr(self):
+        #move through each row
+        for i in range( self.m):
+            #move through the column
+            for j in range( self.n ):
+                curr_pixel = self.pixel_arr[i][j]
+                self.pixel_arr[i][j] = Pixel( self.permute_val(curr_pixel.r) , self.permute_val(curr_pixel.g) , self.permute_val(curr_pixel.b))

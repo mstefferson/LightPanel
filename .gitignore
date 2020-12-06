@@ -16,3 +16,6 @@
 
 # temp python
 *.pyc
+
+#custom
+max_level.txt
