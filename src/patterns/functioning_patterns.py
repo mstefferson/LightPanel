@@ -2,6 +2,7 @@
 #
 from classes import Pixel
 import random
+
 # this is a template pattern all patterns are inherit
 class PanelPattern():
     def __init__(self , m, n):

@@ -18,7 +18,7 @@ LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
-# panel configuration
+# panel configuration for the wooden panel I've made
 NUM_ROWS = 13
 NUM_COLUMNS = 34
 #these are the configs for the cardboard test panel
@@ -26,6 +26,8 @@ NUM_COLUMNS = 34
 #NUM_COLUMNS = 6
 
 # note: frame rate set in pattern classes
+
+#run example: python3 pattern_master.py randwalk vis2
 
 #this is out lookup table that checks the run time input args and calls the appropriate pattern generator
 #at the core of it, this function just calls another pattern function, which returns a pixel array object
