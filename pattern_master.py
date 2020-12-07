@@ -9,12 +9,12 @@ import time
 
 
 # LED strip configuration:
-LED_COUNT      = 30      # Number of LED pixels.
+# LED_COUNT      = 30      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 #LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
-LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 50     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -53,6 +53,9 @@ if __name__ == '__main__':
     print('running script: ', script)
 
     run_type = sys.argv[2]
+    m = NUM_ROWS
+    n = NUM_COLUMNS
+    pix_num = m * n
     if run_type != "pi":
         if run_type != "vis2":
             run_type = "vis"
@@ -60,13 +63,10 @@ if __name__ == '__main__':
         #need to perform the import in here since we only do it if using the pi hardware
         from neopixel import *
         LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
-        strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ,
+        strip = Adafruit_NeoPixel(pix_num, LED_PIN, LED_FREQ_HZ,
             LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         strip.begin()
     print('run_type is: ', run_type)
-    m = NUM_ROWS
-    n = NUM_COLUMNS
-    pix_num = m * n
     my_panel_shapes = [ [1 for c in range(n)] for r in range(m) ]
     print('Panel . M : ', len( my_panel_shapes ), " N: ",len( my_panel_shapes[0] ))
     my_panel = Panel(m,n,pix_num,my_panel_shapes, run_type)
