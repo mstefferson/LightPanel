@@ -145,7 +145,7 @@ class Panel():
     # update the neo_pixel object
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
-        self.print_shape()
+        #self.print_shape()
         for i,pix in enumerate(self.pdisplay_update_stream):
             # check if you can just use pixel.array works!
             strip.setPixelColor( self.pmap_update_stream[i], Color( pix.r, pix.g, pix.b) )
