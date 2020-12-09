@@ -3,7 +3,7 @@ from graphics import * #import the graphics
 from classes import Pixel
 
 class PanelVisualizer():
-    canvasWidth = 2000
+    canvasWidth = 1000
     canvasHeight = 800
     pixelDistance = 10 #this is how much distance we put between pixels
     offsetRows = False #This is how we track if the every other row has an offset

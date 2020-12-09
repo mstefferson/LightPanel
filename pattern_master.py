@@ -40,6 +40,8 @@ def get_active_pattern( name):
         active_pattern = WormPattern( my_panel.m , my_panel.n )
     elif name == 'randwalk':
         active_pattern = RandwalkPattern( my_panel.m , my_panel.n, 8 )
+    elif name == 'spreadingcolumn':
+        active_pattern = SpreadingColumn( my_panel.m , my_panel.n )
     else :
         print('NO VALID VISUALIZER GIVEN, USING DEFAULT')
         active_pattern = TestPattern( my_panel.m , my_panel.n )

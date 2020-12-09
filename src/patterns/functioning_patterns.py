@@ -148,3 +148,59 @@ class RandwalkPattern(PanelPattern):
             for j in range( self.n ):
                 curr_pixel = self.pixel_arr[i][j]
                 self.pixel_arr[i][j] = Pixel( self.permute_val(curr_pixel.r) , self.permute_val(curr_pixel.g) , self.permute_val(curr_pixel.b))
+
+# Column updates in the center and spreads from there
+class SpreadingColumn(PanelPattern):
+    def __init__(self , m, n):
+        PanelPattern.__init__( self, m, n )
+        self.call_name = 'worm';
+        self.increment = 6
+        self.MAX_VAL = 255
+        self.MIN_VAL = 20
+        self.tr = 50
+        self.tg = self.MAX_VAL
+        self.tb = self.MIN_VAL
+
+    #This takes a value, alters it by a random amt and then returns taht alterd value
+    def permute_val(self, value):
+        value = value + random.randint(-5,5)
+        if(value < self.MIN_VAL):
+            value =self.MIN_VAL
+        elif value>self.MAX_VAL:
+            value = self.MAX_VAL
+        return value
+
+    #fills in a rectangle of a color into the pixel array given
+    def fill_center_col( self):
+        offset = 2
+        self.tr = self.permute_val(self.tr)
+        self.tg = self.permute_val(self.tg)
+        self.tb = self.permute_val(self.tb)
+        # print("writing to col: "+str(int ( self.n / 2 )))
+        for i in range ( int(self.m)  ):#fill in center column(s) with new colors
+            self.pixel_arr[i][int ( self.n / 2 )] = Pixel( self.tr , self.tb, self.tg)
+            if int ( self.n)%2 == 1:#For odd # of columns we need to fill 2 center columns
+                # print("and to col: "+str(int ( self.n / 2 )+1))
+                self.pixel_arr[i][int ( self.n / 2 )+1] = self.pixel_arr[i][int ( self.n / 2 )]
+        #
+        # for j in range ( offset, len(self.pixel_arr[0]) -offset):
+        #     for i in range ( offset, len(self.pixel_arr) -offset ):
+        #         self.pixel_arr[i][j] = Pixel( self.lastr+tr , self.lastb+tb, self.lastg+tg)
+
+    # m is num of rows, n is numb of columns
+    def slide_column_out(self, col_num, direction):
+        if(col_num <=0 or col_num >= int(self.n)-1):
+            return None #if we're out fo bounds, just return
+        dir = -1#default to left move
+        if(direction == "right"):
+            dir = 1
+        for i in range (self.m):#iterate through every row in the column
+            self.pixel_arr[i][col_num+dir] = self.pixel_arr[i][col_num] #move into the adjacent value
+
+    def update_pixel_arr(self):
+        #move through each column and push the values out, then draw in a new center
+        for j in range( int ( self.n / 2 )+1  ):
+            # print("sliding col"+ str(j))
+            self.slide_column_out(self.n-j, "right")
+            self.slide_column_out(j, "left")
+        self.fill_center_col()

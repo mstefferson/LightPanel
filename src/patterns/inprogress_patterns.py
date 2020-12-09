@@ -2,3 +2,4 @@
 #
 from classes import Pixel
 from functioning_patterns  import PanelPattern
+import random
