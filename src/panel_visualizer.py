@@ -11,6 +11,7 @@ class PanelVisualizer():
     numColumns = 0
     numRows = 0
     win = GraphWin("My Circle", canvasWidth, canvasHeight,autoflush=False)
+    win.setBackground("tan")
     def __init__(self, number_of_rows, number_of_columns, offset_rows ):
         self.numColumns = number_of_columns
         self.numRows = number_of_rows

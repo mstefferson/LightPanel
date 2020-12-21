@@ -142,10 +142,19 @@ class Panel():
             strip.setPixelColor( i, Color(0,0,0) )
             strip.show()
 
+    # Define functions which animate LEDs in various ways.
+    def colorWipe(strip, color, wait_ms=1):
+    	"""Wipe color across display a pixel at a time."""
+    	for i in range(strip.numPixels()):
+    		strip.setPixelColor(i, color)
+    		strip.show()
+    		time.sleep(wait_ms/1000.0)
+
     # update the neo_pixel object
     def update_led_panel( self, strip ):
         # update led panel based on pixel stream
         #self.print_shape()
+        #colorWipe(strip, Color(255, 0, 0))  # Red wipe
         for i,pix in enumerate(self.pdisplay_update_stream):
             # check if you can just use pixel.array works!
             strip.setPixelColor( self.pmap_update_stream[i], Color( pix.r, pix.g, pix.b) )

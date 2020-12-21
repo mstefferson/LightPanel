@@ -13,7 +13,7 @@ class PanelPattern():
         # # of seconds to pause between fame updates.
         # this is the refresh speed of our panel.
         # Much faster than 0. 1 seems to piss off my computer
-        self.frame_sleep_time = 0.1
+        self.frame_sleep_time = 0.05
         # pattern array
         self.pixel_arr = [ [Pixel(0,0,0) for i in range( self.n ) ]
             for j in range(self.m) ]
@@ -56,7 +56,7 @@ class WormPattern(PanelPattern):
         self.multr = 1
         self.multb = .5
         self.multg = .75
-        self.MAX_VAL = 150
+        self.MAX_VAL = 255
         self.MIN_VAL = 20
 
     #fills in a rectangle of a color into the pixel array given
@@ -96,7 +96,7 @@ class WormPattern(PanelPattern):
             self.fill_rect_edge( i)
 
 class TestPattern(PanelPattern):
-    MAX_VAL = 236
+    MAX_VAL = 255
     MIN_VAL = 20
     def __init__(self , m , n):
         PanelPattern.__init__( self, m, n )
@@ -131,7 +131,7 @@ class RandwalkPattern(PanelPattern):
 
     #This takes a value, alters it by a random amt and then returns taht alterd value
     def permute_val(self, value):
-        MAX_VAL = 150
+        MAX_VAL = 255
         value = value + random.randint(-5,5)
         if(value < 0):
             value =0
@@ -153,17 +153,18 @@ class RandwalkPattern(PanelPattern):
 class SpreadingColumn(PanelPattern):
     def __init__(self , m, n):
         PanelPattern.__init__( self, m, n )
-        self.call_name = 'worm';
+        self.call_name = 'spreadingcolumn';
         self.increment = 6
         self.MAX_VAL = 255
-        self.MIN_VAL = 20
-        self.tr = 50
-        self.tg = self.MAX_VAL
-        self.tb = self.MIN_VAL
+        self.MIN_VAL = 0
+        self.tr = random.randint(0,255)
+        self.tg = random.randint(0,255)
+        self.tb = random.randint(0,255)
 
     #This takes a value, alters it by a random amt and then returns taht alterd value
     def permute_val(self, value):
-        value = value + random.randint(-5,5)
+        range = random.randint(0,10)
+        value = value + random.randint(-1*range,range)
         if(value < self.MIN_VAL):
             value =self.MIN_VAL
         elif value>self.MAX_VAL:
