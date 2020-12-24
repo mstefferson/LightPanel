@@ -45,16 +45,16 @@ class AudioReactiveBassPattern(PanelPattern):
             self.pix_np[2,0,:] = np.max([bassPower,10])*self.colorWheel[2, frameNumEff]
             midIndex = self.n//2
             temp = 10 + np.sqrt(bassPower)
-            print(temp) 
+            print(temp)
             self.pix_np[0,0,midIndex-temp:midIndex+temp] = np.max([bassPower,10]) * self.colorWheel[0, frameNumEff-1000]
             self.pix_np[1,0,midIndex-temp:midIndex+temp] = np.max([bassPower,10]) * self.colorWheel[1, frameNumEff-1000]
-            self.pix_np[2,0,midIndex-temp:midIndex+temp] = np.max([bassPower,10]) * self.colorWheel[2, frameNumEff-1000]            
+            self.pix_np[2,0,midIndex-temp:midIndex+temp] = np.max([bassPower,10]) * self.colorWheel[2, frameNumEff-1000]
             #self.pix_np = np.clip(self.pix_np, 0, 255)
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
-        
-        
-    
+
+
+
 # audioReactive spectrum
 class AudioReactiveSpectrumPattern(PanelPattern):
     def __init__(self, m, n):
@@ -78,14 +78,14 @@ class AudioReactiveSpectrumPattern(PanelPattern):
             if self.volumeFilter.value > self.volThresh:
                 self.pix_np[0,0,:] = 1.0 * self.spectrumFilter.value / self.volumeFilter.value
             else:
-                self.pix_np[0,0,:] = 0.0 
+                self.pix_np[0,0,:] = 0.0
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
         if self.frameCount%10==0:
             print(self.volumeFilter.value)
             print(np.amax(5.0 * self.spectrumFilter.value / self.volumeFilter.value ))
             print(' ')
-		
+
 # audioReactive spectrum
 class AudioReactiveScrollingPattern(PanelPattern):
     def __init__(self, m, n):
@@ -118,11 +118,11 @@ class AudioReactiveScrollingPattern(PanelPattern):
             self.pix_np[2,0,0] = bassPower*self.colorWheel[2, frameNumEff]
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
-		
-        
-            
-            
-            
+
+
+
+
+
 class AudioReactiveTheoryDemo(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
@@ -158,7 +158,7 @@ class AudioReactiveTheoryDemo(PanelPattern):
             self.pix_np[2, 0, 42+np.argmax(self.noteSumsObj.newNoteSums)] = 100
             self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
             self.frameCount+=1
- 
+
 
 class AudioReactiveBeat(PanelPattern):
     def __init__(self, m, n):
@@ -187,10 +187,10 @@ class HoodBounce(PanelPattern):
         self.call_name = 'hoodBounce';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.05, alpha_decay=0.05)
+        self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.05, alpha_decay=0.05)
         self.runnerList = []
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=2), np.random.rand()*0.1+0.05, 'r', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=2), np.random.rand()*0.1+0.05, 'p', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=2), np.random.rand()*0.1+0.05, 'r', 30, self.n))
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=2), np.random.rand()*0.1+0.05, 'p', 30, self.n))
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=2), np.random.rand()*0.1+0.05, 'b', 30, self.n))
     def update_pixel_arr(self):
         for runner in self.runnerList: runner.update()
@@ -208,10 +208,10 @@ class StripBounce(PanelPattern):
         self.call_name = 'stripBounce';
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-	self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.05, alpha_decay=0.05)
+        self.filter = music.ExpFilter(np.zeros(self.n), alpha_rise=0.05, alpha_decay=0.05)
         self.runnerList = []
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'r', 30, self.n)) 
-        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'p', 30, self.n)) 
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'r', 30, self.n))
+        self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'p', 30, self.n))
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'b', 30, self.n))
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'g', 30, self.n))
         self.runnerList.append(patternHelpers.Runner(np.random.randint(1,high=8), np.random.rand()*0.3+0.05, 'r', 30, self.n))
@@ -223,8 +223,8 @@ class StripBounce(PanelPattern):
         self.filter.update(self.pix_np[:,0,:])
         self.pix_np[:,0,:] = self.filter.value
         self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-        
-        
+
+
 class HoodFlash(PanelPattern):
     def __init__(self, m, n):
         PanelPattern.__init__(self, m, n)
@@ -252,34 +252,3 @@ class HoodFlash(PanelPattern):
         self.pix_np[:, 0, 40:70 ] = self.head
         self.pix_np[:, 0, 70:110] = self.sleeveR
         self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

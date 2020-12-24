@@ -13,7 +13,7 @@ class Runner:
         self.speed = speed
         self.color = color
         self.locInt = startLoc
-	self.nPixels = nPixels
+        self.nPixels = nPixels
         self.locFloat = float(self.locInt)
         self.outArray = np.zeros(nPixels)
         self.outZeros = np.zeros_like(self.outArray)
@@ -28,7 +28,7 @@ class Runner:
             self.locInt = int(self.locFloat)
             self.outArray = np.roll(self.outArray, int(np.sign(self.speed)))
         if self.locInt == self.n or self.locInt == self.nPixels-1-self.n:
-            self.speed = -self.speed            
+            self.speed = -self.speed
     def getFullOutArray(self):
         if self.color=='r':
             r = self.outArray
@@ -46,7 +46,7 @@ class Runner:
             r = self.outArray
             g = self.outZeros
             b = self.outArray
-	returnArray = np.array([r,g,b])*255
+        returnArray = np.array([r,g,b])*255
         return returnArray.astype(int)
 
 def getColorWheel(nTot):
@@ -66,14 +66,3 @@ def getColorWheel(nTot):
             colorWheel[1,n] = 0.0
             colorWheel[2,n] = 1.0 - float(n-2*nTot3)/float(nTot3)
     return colorWheel
-
-        
-    
-	
-
-
-
-
-
-
-
