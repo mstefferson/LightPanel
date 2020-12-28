@@ -1,8 +1,10 @@
 import time
 import numpy as np
 import pyaudio
+import wave
 
 MIC_RATE = 48000 #changed to match mac sample rate 44100
+WAVE_OUTPUT_FILENAME = "voice.wav"
 
 ###############################################################################
 # convert frequencies to notes
@@ -65,7 +67,7 @@ calculate pixel values
 '''
 
 class Stream:
-    def __init__(self, fps=40, nBuffers=4, nMels=60):
+    def __init__(self, fps=40, nBuffers=4):
         '''
         The mic samples at MIC_RATE,  Usually 44100hz.
         The amount of samples each time we read data from the mic is then
@@ -99,7 +101,7 @@ class Stream:
         # Define an array to hold the current spectrum in freq space
         self.freqSpectrum = np.zeros_like(self.freqs)
         # Define matrix to convert freq spectrum to note spectrum.
-        self.notes, self.freqsToMelMatrix = getFreqsToMelMatrix(self.freqs, 1, melMin=37, melMax = 37+34-1)
+        self.notes, self.freqsToMelMatrix = getFreqsToMelMatrix(self.freqs)
         # Define an array to hold the current spectrum in note space
         self.noteSpectrum = np.zeros(self.freqsToMelMatrix.shape[0])
         print('stream object initiated')
@@ -114,12 +116,14 @@ class Stream:
         try:
             # print(self.framesPerBuffer)
             #Added exception_on_overflow = False to avoid throwing errors and crashing things on my mac. This is not clearly a great idea tho
-            self.newMicData = np.fromstring(self.stream.read(self.framesPerBuffer,exception_on_overflow = False), dtype=np.int16)
+            # self.newMicData = self.stream.read(self.framesPerBuffer,exception_on_overflow = False)
+            self.newMicData = np.frombuffer(self.stream.read(self.framesPerBuffer, exception_on_overflow=True),
+                                            dtype=np.int16)
             # print("B")
             self.newMicData = self.newMicData.astype(np.float32)
             self.micData = np.roll(self.micData, -self.framesPerBuffer)
             self.micData[(self.nBuffers-1)*self.framesPerBuffer:(self.nBuffers)*self.framesPerBuffer] = self.newMicData
-            # print('successfully got data from audio stream')
+            print('successfully got data from audio stream')
             self.frameCount += 1
             returnVal=True
         except IOError:
@@ -153,3 +157,27 @@ class Stream:
             self.calcFreqSpectrum()
             self.calcNoteSpectrum()
         return success
+
+
+p = pyaudio.PyAudio()
+info = p.get_host_api_info_by_index(0)
+numdevices = info.get('deviceCount')
+for i in range(0, numdevices):
+        if (p.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+            print ("Input Device id ", i, " - ", p.get_device_info_by_host_api_device_index(0, i).get('name'))
+
+nbuffers=4
+stream = Stream(40,nbuffers)
+for i in range(nbuffers * 30):
+    stream.readNewData()
+    # print(stream.newMicData)
+
+print(stream.micData.tobytes())
+stream.stopStream()
+# wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+# wf.setnchannels(1)
+# p = pyaudio.PyAudio()
+# wf.setsampwidth(32)
+# wf.setframerate(MIC_RATE)
+# wf.writeframes(stream.micData.tobytes())
+# wf.close()

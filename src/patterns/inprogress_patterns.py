@@ -86,6 +86,54 @@ class AudioReactiveSpectrumPattern(PanelPattern):
             print(np.amax(5.0 * self.spectrumFilter.value / self.volumeFilter.value ))
             print(' ')
 
+
+# audioReactive spectrum
+#steve's pattern to play with, designed to do a bar chart spectrum
+class AudioReactiveSpectrumPatternGrid(PanelPattern):
+    def __init__(self, m, n):
+        PanelPattern.__init__(self, m, n)
+        self.call_name = 'arSpectrumGrid';
+        self.frameCount = 0
+        self.frame_sleep_time = 0.0
+        self.pix_np = np.zeros([3,self.m,self.n])
+        self.heights = np.zeros([self.n])#m is num rows
+        self.volThresh = 0.1
+        self.stream = micStream.Stream(fps=40,nBuffers=8, nMels=self.n) #Maps our number of rows to number of taps
+        self.volumeFilter   = music.ExpFilter(0.01, alpha_rise=0.1, alpha_decay=0.1)
+        self.spectrumFilter = music.ExpFilter(np.zeros_like(self.stream.notes), alpha_rise=0.3, alpha_decay=0.3)
+        #print(self.stream.freqs[0:10])
+        #print(self.stream.freqs[-10:])
+    def update_pixel_arr(self):
+        # update and change the pixel array
+        success = self.stream.readAndCalc()
+        if success:
+            self.volumeFilter.update(np.mean(self.stream.noteSpectrum))
+            self.spectrumFilter.update(self.stream.noteSpectrum)
+            # if self.volumeFilter.value > self.volThresh:
+            #     self.pix_np[0,0,0:self.n] = 1.0 * self.spectrumFilter.value / self.volumeFilter.value
+            # else:
+            #     self.pix_np[0,0,:] = 0.0
+            # self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+            heights = self.m * self.spectrumFilter.value / self.volumeFilter.value #scale amt to fill with our num of rows
+            # print(heights)
+            # print(self.volumeFilter.value)
+            #go through each column and fill in the rows
+            for i in range(self.n):
+                if heights[i] > self.m:#set a rail
+                    heights[i] = self.m
+                self.pix_np[0:2, :, i] = 0.0#zero it out before we fill it in
+                self.pix_np[2, :, i] = 50.0  # zero it out before we fill it in
+                for j in range(int(heights[i])):#fill in the rows
+                    self.pix_np[0,j,i] = i*255.0/self.n#reds
+                    self.pix_np[1, j, i] = (self.n-i) * 255.0 / self.n#greens
+                    self.pix_np[2, j, i] = 255.0*self.m/heights[i]  #blues - scale with height
+            self.pixel_arr = [[Pixel(self.pix_np[0, j, i], self.pix_np[1, j, i], self.pix_np[2, j, i]) for i in range(self.n)] for j in range(self.m)]
+            self.frameCount+=1
+        if self.frameCount%10==0:
+            print(self.volumeFilter.value)
+            print(np.amax(5.0 * self.spectrumFilter.value / self.volumeFilter.value ))
+            print(' ')
+
 # audioReactive spectrum
 class AudioReactiveScrollingPattern(PanelPattern):
     def __init__(self, m, n):
@@ -167,7 +215,7 @@ class AudioReactiveBeat(PanelPattern):
         self.frameCount = 0
         self.frame_sleep_time = 0.0
         self.pix_np = np.zeros([3,self.m,self.n])
-        self.stream = micStream.Stream(fps=60,nBuffers=6)
+        self.stream = micStream.Stream(fps=30,nBuffers=6)
         self.beat = music.Beat(self.stream.freqs)
     def update_pixel_arr(self):
         success = self.stream.readAndCalc()
@@ -236,6 +284,7 @@ class HoodFlash(PanelPattern):
         self.head    = np.zeros([3, 30])
         self.colorWheel = patternHelpers.getColorWheel(300)
         self.frameNum=0
+        print("pix")
     def update_pixel_arr(self):
         frameNumEff = self.frameNum%300
         self.sleeveL[0,:] = 255.0 * self.colorWheel[0, frameNumEff - 0  ]
