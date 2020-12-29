@@ -5,7 +5,7 @@ sys.path.insert(0, './src/patterns')
 sys.path.insert(0, './src/audioReactive')
 from functioning_patterns import *
 from inprogress_patterns import *
-import microphone
+import micStream
 from classes import Panel
 import time
 
@@ -16,7 +16,7 @@ LED_COUNT      = 150      # Number of LED pixels.
 LED_PIN        = 12      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
-LED_BRIGHTNESS = 10     # Set to 0 for darkest and 255 for brightest
+LED_BRIGHTNESS = 100     # Set to 0 for darkest and 255 for brightest
 LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         #need to perform the import in here since we only do it if using the pi hardware
         from neopixel import *
         LED_STRIP      = ws.WS2811_STRIP_GRB   # Strip type and colour ordering
-        strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ,
+        strip = Adafruit_NeoPixel(NUM_ROWS*NUM_COLUMNS, LED_PIN, LED_FREQ_HZ,
             LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL, LED_STRIP)
         strip.begin()
     print('run_typ is: ', run_type)
