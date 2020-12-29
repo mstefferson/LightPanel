@@ -5,7 +5,7 @@ sys.path.insert(0, './src/patterns')
 sys.path.insert(0, './src/audioReactive')
 from functioning_patterns import *
 from inprogress_patterns import *
-import microphone
+import micStream
 from classes import Panel
 import time
 

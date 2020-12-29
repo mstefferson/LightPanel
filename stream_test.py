@@ -3,7 +3,7 @@ import numpy as np
 import pyaudio
 import wave
 
-MIC_RATE = 48000 #changed to match mac sample rate 44100
+MIC_RATE = 44100 #changed to match mac sample rate 44100
 WAVE_OUTPUT_FILENAME = "voice.wav"
 
 ###############################################################################
@@ -89,7 +89,7 @@ class Stream:
                                   channels=1,
                                   rate=MIC_RATE,
                                   input=True,
-                                  input_device_index=3,#3 is BT headset on mac, 1 is built-in mic, which does not work
+                                  input_device_index=0,#3 is BT headset on mac, 1 is built-in mic, which does not work
                                   frames_per_buffer=self.framesPerBuffer)
         # set parameters for taking spectra later
         # Pad the sample with zeros until n = 2^i where i is an integer
