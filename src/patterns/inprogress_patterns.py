@@ -114,6 +114,8 @@ class AudioReactiveSpectrumPatternGrid(PanelPattern):
             # else:
             #     self.pix_np[0,0,:] = 0.0
             # self.pixel_arr = [ [Pixel(self.pix_np[0,j,i],self.pix_np[1,j,i],self.pix_np[2,j,i]) for i in range(self.n) ] for j in range(self.m) ]
+            if self.volumeFilter.value < 1:#set a floor to how sensitive we're willing to be
+                self.volumeFilter.value = 1
             heights = self.m * self.spectrumFilter.value / self.volumeFilter.value #scale amt to fill with our num of rows
             # print(heights)
             # print(self.volumeFilter.value)
